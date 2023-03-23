@@ -7,15 +7,15 @@ function Main () {
   function requester (e) {
     fetch('http://bandurama.ddns.net/test')
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then(resp => { console.log(resp)})
   }
 
   return (
-    <>
+    <div>
       Main Page
       <a href="/other">Other?</a>
       <a href="#" onClick={requester}>Fetch</a>
-    </>
+    </div>
   )
 }
 
