@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.util.UUID;
 
-@CrossOrigin(allowCredentials = "true", origins = "http://bandurama.ddns.net:3000")
+@CrossOrigin(allowCredentials = "true", origins = "http://bandurama.ddns.net")
 @RestController
 public class WebUserMapping
 {

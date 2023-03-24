@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+
+    </head>
+    <body>
+				<div id="g_id_onload"
+						 data-client_id="199514086811-eh85hqdf762op679htdlect9qnh3njtp.apps.googleusercontent.com"
+						 data-context="signin"
+						 data-ux_mode="popup"
+						 data-callback="googleLogin"
+						 data-auto_prompt="false">
+				</div>
+
+				<div class="g_id_signin"
+						 data-type="standard"
+						 data-shape="rectangular"
+						 data-theme="outline"
+						 data-text="signin_with"
+						 data-size="large"
+						 data-logo_alignment="left">
+				</div>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <script>
+            function googleLogin (e)
+            {
+                console.log(e);
+            }
+        </script>
+    </body>
+</html>

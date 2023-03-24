@@ -1,9 +1,12 @@
 package pl.fryciarnia.webuser;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 public class WebUserController
 {
@@ -16,7 +19,7 @@ public class WebUserController
         );
     }
 
-    public static WebUser fetchUser (JdbcTemplate jdbcTemplate, String uuid)
+    public static WebUser getWebUserByUUID (JdbcTemplate jdbcTemplate, String uuid)
     {
         List<WebUser> all = WebUserController.fetchAll(jdbcTemplate);
         for (WebUser user : all)
