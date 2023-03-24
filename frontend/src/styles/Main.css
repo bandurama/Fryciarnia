@@ -1,0 +1,29 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+
+.top-nav {
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	padding: 10px;
+	box-sizing: border-box;
+	display: flex;
+	align-content: center;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.top-nav > .logo > .plain {
+	background-image: url("../../public/logo.png");
+	width: 80px;
+	height: 80px;
+	background-size: contain;
+	margin-left: 20px;
+}
+
+.top-nav > .nav > a
+{
+	text-decoration: none;
+	font-family: 'Prompt';
+}

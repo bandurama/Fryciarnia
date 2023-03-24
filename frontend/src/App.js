@@ -1,50 +1,26 @@
-import './App.css';
-import { Routes, Route } from 'react-router-dom';
-import GLogin from "./components/glogin";
-import {useEffect} from "react";
+import {Route, Routes} from "react-router-dom";
+import Main from "./components/Main";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
+import GAuth from "./components/GAuth";
+import Login from "./components/Login";
 
 
-function Main () {
 
-  function requester (e) {
-    fetch(
-    'http://bandurama.ddns.net/api/webuser/register', {
-      method: 'POST',
-      body: JSON.stringify({mail: 'maciek-aciek.pl.32323', password: "Kupa", type: "Web", isGoogleAccount: false}),
-      credentials: 'include'
-    })
-      .then((response) => response.json())
-      .then(resp => { console.log(resp)})
-  }
-
-  return (
-    <div>
-      <GLogin/>
-      Main Page
-      <a href="/other">Other?</a>
-      <a href="#" onClick={requester}>Fetch</a>
-    </div>
-  )
-}
-
-function Other () {
-  return (
-    <>
-      Other Page
-      <a href="/">Main?</a>
-    </>
-  )
-}
 
 function App() {
-  return (
-    <div className="App">
-      <Routes>
-        <Route exact path="/" Component={Main} />
-        <Route path="/other" Component={Other} />
-      </Routes>
-    </div>
-  );
+	return (
+		<div className="App">
+			<Routes>
+				<Route exact path="/" Component={Main} />
+				<Route  path="/register" Component={Register} />
+				<Route path="/login" Component={Login} />
+				<Route path="/dashboard" Component={Dashboard} />
+				{/*<Route path="/menu" Component={Menu} />*/}
+				<Route path="/gauth" Component={GAuth} />
+			</Routes>
+		</div>
+	);
 }
 
 export default App;
