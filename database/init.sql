@@ -12,7 +12,8 @@ CREATE TABLE WebUser (
     isGoogleAccount NUMBER,
     mail NVARCHAR2(128) NOT NULL,
     password NVARCHAR2(256) NOT NULL,
-    type NUMBER NOT NULL
+    type NUMBER NOT NULL,
+    CONSTRAINT WebUser_pk PRIMARY KEY(uuid)
 );
 
 CREATE TABLE WebSession (

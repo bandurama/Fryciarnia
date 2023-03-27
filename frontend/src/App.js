@@ -1,9 +1,9 @@
 import {Route, Routes} from "react-router-dom";
-import Main from "./components/Main";
-import Register from "./components/Register";
-import Dashboard from "./components/Dashboard";
-import GAuth from "./components/GAuth";
-import Login from "./components/Login";
+import Main from "./pages/Main";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import GAuth from "./pages/GAuth";
+import Login from "./pages/Login";
 
 
 

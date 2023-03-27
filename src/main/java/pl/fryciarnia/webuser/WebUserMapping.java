@@ -43,8 +43,8 @@ public class WebUserMapping
 
         if (wu.getPassword() == null)
         {
-            wu.setSuccess(false);
-            wu.setMsg("Błędne hasło");
+            apiDatagram.setOk(false);
+            apiDatagram.setMsg("Błędne hasło");
         }
 
         if (wu.getType() == null)
@@ -58,8 +58,8 @@ public class WebUserMapping
         {
             if (!WebUserController.insertUser(jdbcTemplate, wu))
             { /* insert failed */
-                wu.setSuccess(false);
-                wu.setMsg("db insert fail");
+                apiDatagram.setOk(false);
+                apiDatagram.setMsg("Połączenie z bazą danych się nie powiodło");
             }
         }
 

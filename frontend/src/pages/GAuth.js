@@ -21,7 +21,6 @@ export default function  GAuth () {
 		/* if is, tell backend */
 		console.log('My token is', token);
 
-
 		/* tell server to proceed */
 		fetch(
 			'http://bandurama.ddns.net:2023/api/websession/google/login', {
@@ -31,9 +30,9 @@ export default function  GAuth () {
 			})
 			.then((response) => response.json())
 			.then(resp => {
-				window.location.href = 'http://bandurama.ddns.net/';
+				// window.location.href = 'http://bandurama.ddns.net/';
+				console.log(resp);
 			})
-
 	}, []);
 
 	return (
