@@ -20,9 +20,6 @@ public class WebUser
     private String password;
     private WebUserType type;
 
-    private Boolean success;
-    private String msg;
-
     @SneakyThrows
     public static WebUser fromJSON (String json)
     {

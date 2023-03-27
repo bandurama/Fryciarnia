@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import pl.fryciarnia.utils.APIDatagram;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -24,13 +25,20 @@ public class WebSessionMapping
   @ResponseBody
   public String mappingApi (@RequestBody String body, HttpServletResponse httpServletResponse)
   {
+    /* formal response */
+    APIDatagram apiDatagram = new APIDatagram();
+
     /* do the google magic */
     WebSession reqBody = WebSession.fromJSON(body);
     WebSession newSession = WebSessionController.newFromGoogleAccessToken(jdbcTemplate, reqBody.getToken());
 
     /* bail if failed */
     if (newSession == null)
-      return "{}";
+    {
+      apiDatagram.setOk(false);
+      apiDatagram.setMsg("Tworzenie sesji z Google OAuth nie powidoło się");
+      return apiDatagram.toString();
+    }
 
     /* create session cookie */
     Long currentTimeStamp = System.currentTimeMillis();
@@ -46,7 +54,9 @@ public class WebSessionMapping
     httpServletResponse.setHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
 
     /* return info to client */
-    return (new Gson()).toJson(newSession);
+    apiDatagram.setOk(true);
+    apiDatagram.setData(newSession);
+    return apiDatagram.toString();
   }
 
 }
