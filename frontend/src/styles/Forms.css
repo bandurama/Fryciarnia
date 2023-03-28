@@ -1,0 +1,89 @@
+
+body
+{
+	padding: 0px;
+	margin: 0px;
+	/*overflow: hidden;*/
+}
+
+.wrapper
+{
+	width: 100vw;
+	height: calc(97vh - 105px);
+	margin-top: 105px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.formbox
+{
+	width: 440px;
+	/*background-color: red;*/
+	height: 550px;
+	border-radius: 25px;
+	box-shadow: 0 0 20px 0 rgba(0,0,0,.1);
+	text-align: center;
+	font-family: 'Arial';
+}
+
+.formtitle
+{
+	font-weight: bold;
+	font-size: 24px;
+	margin-top: 60px;
+	margin-bottom: 50px;
+}
+
+.formrow
+{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+	box-sizing: border-box;
+	margin-top: 10px;
+}
+
+.formrow > input
+{
+	width: 250px;
+	outline: none;
+	padding: 5px;
+	box-sizing: border-box;
+	font-family: 'Arial';
+	font-size: 18px;
+	border: 0px;
+	border-bottom: 4px solid #f74539;
+}
+
+.formrow > img
+{
+	width: 200px;
+	margin-top: 40px;
+	cursor: pointer;
+}
+
+.formrow > button
+{
+	margin-top: 10px;
+	background-color: #fc5246;
+	outline: none;
+	border: 0px;
+	padding: 10px 50px;
+	box-sizing: border-box;
+	border-radius: 25px;
+	font-weight: bold;
+	font-family: 'Open Sans';
+	font-size: 16px;
+	color: white;
+	cursor: pointer;
+}
+
+.formrow > a
+{
+	text-decoration: none;
+	color: #1476ff;
+	margin-left: 5px;
+}
