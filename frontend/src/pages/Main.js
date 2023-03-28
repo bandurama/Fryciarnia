@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import "../styles/Main.css";
+import TopNav from "../components/TopNav";
 
 export default function Main() {
 	useEffect(() => {
@@ -21,22 +22,26 @@ export default function Main() {
 		setActiveSlide((activeSlide + 1) % (__slide_count + 1));
 		console.log('forw', e);
 	}
+
 	return (
 		<>
-			<div className="top-nav">
-				<div className="soc">
-					<a href="#"><img src="./icons/fb-icon.png"/></a>
-					<a href="#"><img src="./icons/in-icon.png"/></a>
-					<a href="#"><img src="./icons/yt-icon.png"/></a>
-					<a href="#"><img src="./icons/tok-icon.png"/></a>
-				</div>
-				<div className="logo">
-					<img src="./logo.png" />
-				</div>
-				<div className="acc">
-					<button>DOŁĄCZ DO NAS</button>
-				</div>
-			</div>
+			{/*<div className="top-nav">*/}
+			{/*	<div className="soc">*/}
+			{/*		<a href="#"><img src="./icons/fb-icon.png"/></a>*/}
+			{/*		<a href="#"><img src="./icons/in-icon.png"/></a>*/}
+			{/*		<a href="#"><img src="./icons/yt-icon.png"/></a>*/}
+			{/*		<a href="#"><img src="./icons/tok-icon.png"/></a>*/}
+			{/*	</div>*/}
+			{/*	<div className="logo">*/}
+			{/*		<img src="./logo.png" />*/}
+			{/*	</div>*/}
+			{/*	<div className="acc">*/}
+			{/*		<button>DOŁĄCZ DO NAS</button>*/}
+			{/*	</div>*/}
+			{/*</div>*/}
+
+			<TopNav useAccountButton={true} />
+
 			<div className="slides">
 				<img src={`./slides/slide${activeSlide}.png`}/>
 				<button>POKAŻ WIĘCEJ</button>
