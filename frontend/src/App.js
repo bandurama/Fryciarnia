@@ -4,9 +4,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import GAuth from "./pages/GAuth";
 import Login from "./pages/Login";
-
-
-
+import Profile from "./pages/Profile";
 
 function App() {
 	return (
@@ -18,6 +16,7 @@ function App() {
 				<Route path="/dashboard" Component={Dashboard} />
 				{/*<Route path="/menu" Component={Menu} />*/}
 				<Route path="/gauth" Component={GAuth} />
+				<Route path="/profile" Component={Profile} />
 			</Routes>
 		</div>
 	);

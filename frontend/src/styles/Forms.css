@@ -93,3 +93,32 @@ body
 	color: #1476ff;
 	margin-left: 5px;
 }
+
+.test
+{
+	width: 100%;
+	background-color: #f74539;
+	border-radius: 25px 25px 0 0;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	/*padding: 15px;*/
+	/*box-sizing: border-box;*/
+}
+
+.test > .button
+{
+	width: 150px;
+	padding: 20px;
+	box-sizing: border-box;
+	font-family: 'Arial';
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.test > .button:nth-child(2)
+{
+	border-right: 4px solid white;
+	border-left: 4px solid white;
+}
