@@ -38,6 +38,7 @@ body
 	margin-right: 20px;
 	color: white;
 	cursor: pointer;
+	transition: background-color 1s;
 }
 
 .slides-controller
@@ -129,7 +130,17 @@ body
 	margin-right: 20px;
 	color: white;
 	cursor: pointer;
+	transition: background-color 1s;
 }
+
+.slides > button:hover,
+#card-search > .search-box > button:hover,
+.wrapper > .card > button:hover
+{
+	background-color: #ff7171;
+}
+
+
 
 .wrapper > .card > .downloads > a > img
 {
@@ -142,15 +153,27 @@ body
 #card-menu
 {
 	background-image: url("../../public/main3.jpg");
-	background-size: cover;
+	background-size: 100%;
 	background-position: center center;
+	transition: background-size 0.5s ease;
+}
+
+#card-menu:hover
+{
+	background-size: 110%;
 }
 
 #card-team
 {
 	background-image: url("../../public/main2.jpg");
-	background-size: cover;
+	background-size: 100%;
 	background-position: center center;
+	transition: background-size 0.5s ease;
+}
+
+#card-team:hover
+{
+	background-size: 110%;
 }
 
 #card-apps
@@ -215,6 +238,7 @@ body
 	margin-right: 20px;
 	color: white;
 	cursor: pointer;
+	transition: background-color 1s;
 }
 
 .bottom-nav
