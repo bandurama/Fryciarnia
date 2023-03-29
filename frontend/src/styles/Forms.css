@@ -122,3 +122,13 @@ body
 	border-right: 4px solid white;
 	border-left: 4px solid white;
 }
+
+/* universal: */
+.bounding-box
+{
+	border-radius: 25px;
+	box-shadow: 0 0 20px 0 rgba(0,0,0,.1);
+	text-align: center;
+	font-family: 'Arial';
+}
+

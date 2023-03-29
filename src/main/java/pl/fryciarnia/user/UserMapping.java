@@ -20,11 +20,11 @@ public class UserMapping
 
     @PostMapping("/api/user/register")
     @ResponseBody
-    public String APIWebUserRegister (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "testCookie", defaultValue = "") String testCookieRed)
+    public String APIDbUserRegister (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "testCookie", defaultValue = "") String testCookieRed)
     {
 //        System.out.println("RED COOKIE " + testCookieRed);
         APIDatagram apiDatagram = new APIDatagram();
-        WebUser wu = WebUser.fromJSON(body);
+        DbUser wu = DbUser.fromJSON(body);
 
         /* create new uuid */
         wu.setUuid(String.valueOf(UUID.randomUUID()));
@@ -50,7 +50,7 @@ public class UserMapping
             apiDatagram.setMsg("Błędny typ konta");
         }
 
-        /* if all checks succeed, create new instance of WebUser in DB */
+        /* if all checks succeed, create new instance of DbUser in DB */
         if (apiDatagram.isOk())
         {
             if (!UserController.insertUser(jdbcTemplate, wu))

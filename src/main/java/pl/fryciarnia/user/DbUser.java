@@ -1,10 +1,8 @@
-package pl.fryciarnia.webuser;
+package pl.fryciarnia.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.SneakyThrows;
-import org.springframework.jdbc.core.JdbcTemplate;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,25 +10,25 @@ import java.util.Map;
  * na stronie serwisu.
  */
 @Data
-public class WebUser
+public class DbUser
 {
     private String uuid;
     private Boolean isGoogleAccount;
     private String mail;
     private String password;
-    private WebUserType type;
+    private UserType type;
 
     @SneakyThrows
-    public static WebUser fromJSON (String json)
+    public static DbUser fromJSON (String json)
     {
-        WebUser u = new WebUser();
+        DbUser u = new DbUser();
         Map<String, Object> m = (new ObjectMapper()).readValue(json, Map.class);
 
         u.setUuid((String) m.get("uuid"));
         u.setIsGoogleAccount((Boolean) m.get("isGoogleAccount"));
         u.setMail((String) m.get("mail"));
         u.setPassword((String) m.get("password"));
-        u.setType(WebUserType.valueOf((String) m.get("type")));
+        u.setType(UserType.valueOf((String) m.get("type")));
 
         return u;
     }

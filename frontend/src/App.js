@@ -15,9 +15,9 @@ function App() {
 				<Route  path="/register" Component={Register} />
 				<Route path="/login" Component={Login} />
 				<Route path="/dashboard" Component={Dashboard} />
-				{/*<Route path="/menu" Component={Menu} />*/}
 				<Route path="/gauth" Component={GAuth} />
 				<Route path="/profile" Component={Profile} />
+				<Route path="/profile/history" Component={History} />
 			</Routes>
 		</div>
 	);

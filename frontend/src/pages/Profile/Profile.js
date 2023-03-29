@@ -4,6 +4,11 @@ import {useEffect, useState} from "react";
 
 export default function Profile ()
 {
+
+	useEffect(() => {
+		document.title = 'Mój Profil - Fryciarnia'
+	}, []);
+
 	const [tbxMail, setTbxMail] = useState('');
 	const [tbxName, setTbxName] = useState('');
 	const [tbxSurname, setTbxSurname] = useState('');
@@ -54,7 +59,12 @@ export default function Profile ()
 			</div>
 		</>
 	)
-	const [mainDisplay, setMainDisplay] = useState(dispMyProfile);
+	const [mainDisplay, setMainDisplay] = useState('profile');
+	const displayOptions =
+	{
+		profile: dispMyProfile,
+		settings: dispSettings
+	}
 
 	return (
 		<>
@@ -62,17 +72,17 @@ export default function Profile ()
 			<div className="formwrapper">
 				<div className="formbox">
 					<div className="test">
-						<div className="button" onClick={(e) => setMainDisplay(dispMyProfile())}>
+						<div className="button" style={{backgroundColor: mainDisplay == 'profile' ? '#ffbf53' : "inherit", borderStartStartRadius: 25}} onClick={(e) => setMainDisplay('profile')}>
 							Mój Profil
 						</div>
-						<div className="button">
+						<div className="button" onClick={(e) => window.location.href = './profile/history'}>
 							Historia
 						</div>
-						<div className="button" onClick={(e) => setMainDisplay(dispSettings())}>
+						<div className="button" style={{backgroundColor: mainDisplay == 'settings' ? '#ffbf53' : "inherit", borderTopRightRadius: 25}} onClick={(e) => setMainDisplay('settings')}>
 							Ustawienia
 						</div>
 					</div>
-					{mainDisplay}
+					{displayOptions[mainDisplay]()}
 				</div>
 			</div>
 		</>

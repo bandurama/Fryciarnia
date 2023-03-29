@@ -7,16 +7,16 @@ import java.util.List;
 
 public class UserController
 {
-    public static List<WebUser> fetchAll (JdbcTemplate jdbcTemplate)
+    public static List<DbUser> fetchAll (JdbcTemplate jdbcTemplate)
     {
         return jdbcTemplate.query
         (
 					"SELECT * FROM WEBUSER",
-					BeanPropertyRowMapper.newInstance(WebUser.class)
+					BeanPropertyRowMapper.newInstance(DbUser.class)
         );
     }
 
-    public static WebUser getWebUserByUUID (JdbcTemplate jdbcTemplate, String uuid)
+    public static DbUser getDbUserByUUID (JdbcTemplate jdbcTemplate, String uuid)
     {
         List<DbUser> all = UserController.fetchAll(jdbcTemplate);
         for (DbUser user : all)
@@ -27,13 +27,13 @@ public class UserController
     }
 
 
-    public static boolean updateUser (JdbcTemplate jdbcTemplate, WebUser webUser)
+    public static boolean updateUser (JdbcTemplate jdbcTemplate, DbUser webUser)
     {
         try
         {
             jdbcTemplate.update
             (
-							"UPDATE WebUser SET isGoogleAccount = ?, mail = ?, password = ?, type = ? WHERE uuid = ?",
+							"UPDATE DbUser SET isGoogleAccount = ?, mail = ?, password = ?, type = ? WHERE uuid = ?",
 							webUser.getIsGoogleAccount(),
 							webUser.getMail(),
 							webUser.getPassword(),
@@ -49,13 +49,13 @@ public class UserController
         return true;
     }
 
-		public static boolean insertUser (JdbcTemplate jdbcTemplate, WebUser webUser)
+		public static boolean insertUser (JdbcTemplate jdbcTemplate, DbUser webUser)
 		{
 			try
 			{
 				jdbcTemplate.update
 						(
-								"INSERT INTO WebUser VALUES(?, ?, ?, ?, ?)",
+								"INSERT INTO DbUser VALUES(?, ?, ?, ?, ?)",
 								webUser.getUuid(),
 								webUser.getIsGoogleAccount() ? 1 : 0,
 								webUser.getMail(),
