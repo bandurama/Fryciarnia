@@ -1,10 +1,9 @@
-package pl.fryciarnia.websession;
+package pl.fryciarnia.session;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.SneakyThrows;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Map;
 
@@ -15,16 +14,16 @@ import java.util.Map;
  * automatycznie na podstawie informacji z google
  */
 @Data
-public class WebSession
+public class DbSession
 {
   private String uuid;          /* User uuid */
   private Timestamp expiration; /* Time to live */
   private String token;         /* Stored in cookies */
 
   @SneakyThrows
-  public static WebSession fromJSON (String json)
+  public static DbSession fromJSON (String json)
   {
-    WebSession s = new WebSession();
+    DbSession s = new DbSession();
     Map<String, Object> m = (new ObjectMapper()).readValue(json, Map.class);
     s.setUuid((String) m.get("uuid"));
     s.setExpiration((Timestamp) m.get("expiration"));

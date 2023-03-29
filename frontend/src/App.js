@@ -4,7 +4,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import GAuth from "./pages/GAuth";
 import Login from "./pages/Login";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
+import History from "./pages/Profile/History";
 
 function App() {
 	return (

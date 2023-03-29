@@ -1,6 +1,6 @@
-import TopNav from "../components/TopNav";
-import '../styles/Forms.css'
-import {useState} from "react";
+import TopNav from "../../components/TopNav";
+import '../../styles/Forms.css'
+import {useEffect, useState} from "react";
 
 export default function Profile ()
 {
@@ -47,7 +47,7 @@ export default function Profile ()
 			</div>
 			<div className="formrow">
 				Możesz też
-				<a href="./register">
+				<a href="../Register">
 					usunąć
 				</a>
 				&nbsp;swoje konto

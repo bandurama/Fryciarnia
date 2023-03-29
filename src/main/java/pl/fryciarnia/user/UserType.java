@@ -1,6 +1,9 @@
-package pl.fryciarnia.webuser;
+package pl.fryciarnia.user;
 
-public enum WebUserType
+/**
+ * Rodzaj użytkownika
+ */
+public enum UserType
 {
     Admin,      /* Zarządza całym systemem z góry */
     Manager,    /* Właściciel lokalu */

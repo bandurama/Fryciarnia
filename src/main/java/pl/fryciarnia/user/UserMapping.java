@@ -1,14 +1,9 @@
-package pl.fryciarnia.webuser;
+package pl.fryciarnia.user;
 
-import com.google.gson.Gson;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import pl.fryciarnia.utils.APIDatagram;
@@ -18,12 +13,12 @@ import java.util.UUID;
 
 @CrossOrigin(allowCredentials = "true", origins = "http://bandurama.ddns.net")
 @RestController
-public class WebUserMapping
+public class UserMapping
 {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @PostMapping("/api/webuser/register")
+    @PostMapping("/api/user/register")
     @ResponseBody
     public String APIWebUserRegister (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "testCookie", defaultValue = "") String testCookieRed)
     {
@@ -58,7 +53,7 @@ public class WebUserMapping
         /* if all checks succeed, create new instance of WebUser in DB */
         if (apiDatagram.isOk())
         {
-            if (!WebUserController.insertUser(jdbcTemplate, wu))
+            if (!UserController.insertUser(jdbcTemplate, wu))
             { /* insert failed */
                 apiDatagram.setOk(false);
                 apiDatagram.setMsg("Połączenie z bazą danych się nie powiodło");
