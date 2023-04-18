@@ -23,14 +23,14 @@ export default function  GAuth () {
 
 		/* tell server to proceed */
 		fetch(
-			'http://bandurama.ddns.net:2023/api/websession/google/login', {
+			'http://bandurama.ddns.net:2023/api/session/google/login', {
 				method: 'POST',
 				body: JSON.stringify({token: token}),
 				credentials: 'include'
 			})
 			.then((response) => response.json())
 			.then(resp => {
-				// window.location.href = 'http://bandurama.ddns.net/';
+				window.location.href = 'http://bandurama.ddns.net/';
 				console.log(resp);
 			})
 	}, []);

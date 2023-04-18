@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import "../styles/Main.css";
 import TopNav from "../components/TopNav";
+import Footer from "../components/Footer";
 
 export default function Main() {
 	useEffect(() => {

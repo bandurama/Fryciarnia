@@ -27,19 +27,21 @@ public class UserController
     }
 
 
-    public static boolean updateUser (JdbcTemplate jdbcTemplate, DbUser webUser)
+    public static boolean updateUser (JdbcTemplate jdbcTemplate, DbUser dbUser)
     {
         try
         {
             jdbcTemplate.update
             (
-							"UPDATE DbUser SET isGoogleAccount = ?, mail = ?, password = ?, type = ? WHERE uuid = ?",
-							webUser.getIsGoogleAccount(),
-							webUser.getMail(),
-							webUser.getPassword(),
-							webUser.getType(),
-							webUser.getUuid()
-            );
+							"UPDATE DbUser SET isGoogleAccount = ?, mail = ?, password = ?, type = ?, name = ?, surname = ? WHERE uuid = ?",
+							dbUser.getIsGoogleAccount(),
+							dbUser.getMail(),
+							dbUser.getPassword(),
+							dbUser.getType(),
+							dbUser.getName(),
+							dbUser.getSurname(),
+							dbUser.getUuid()
+						);
         }
         catch (Exception e)
         {
@@ -55,10 +57,12 @@ public class UserController
 			{
 				jdbcTemplate.update
 						(
-								"INSERT INTO DbUser VALUES(?, ?, ?, ?, ?)",
+								"INSERT INTO DbUser VALUES(?, ?, ?, ?, ?, ?, ?)",
 								webUser.getUuid(),
 								webUser.getIsGoogleAccount() ? 1 : 0,
 								webUser.getMail(),
+								webUser.getName(),
+								webUser.getSurname(),
 								webUser.getPassword(),
 								webUser.getType().ordinal()
 						);

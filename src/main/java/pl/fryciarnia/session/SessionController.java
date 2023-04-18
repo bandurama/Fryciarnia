@@ -20,7 +20,7 @@ public class SessionController
 
   public static List<DbSession> fetchAll (JdbcTemplate jdbcTemplate)
   {
-    return jdbcTemplate.query("SELECT * FROM WEBSSESION", BeanPropertyRowMapper.newInstance(DbSession.class));
+    return jdbcTemplate.query("SELECT * FROM DBSSESION", BeanPropertyRowMapper.newInstance(DbSession.class));
   }
 
   public static DbSession getWebSessionByToken (JdbcTemplate jdbcTemplate, String token)

@@ -43,6 +43,7 @@ public class SessionMapping
 			.httpOnly(true)
 			.sameSite("Strict")
 			.secure(false)
+      .path("/")
 			.maxAge(expiration - currentTimeStamp)
 			.build();
 

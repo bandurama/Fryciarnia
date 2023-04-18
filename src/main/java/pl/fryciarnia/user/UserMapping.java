@@ -18,9 +18,25 @@ public class UserMapping
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
+    @GetMapping("/api/user/ping")
+    public String APIDbUserPing (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    {
+//        ResponseCookie responseCookie = ResponseCookie.from("fry_sess", "HelloWorld")
+//            .httpOnly(true)
+//            .sameSite("Strict")
+//            .secure(false)
+//            .maxAge(Duration.ofHours(2))
+//            .path("/")
+//            .build();
+//        httpServletResponse.setHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+        return "SESSION KEY IS: " + frySess;
+    }
+
+
     @PostMapping("/api/user/register")
     @ResponseBody
-    public String APIDbUserRegister (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "testCookie", defaultValue = "") String testCookieRed)
+    public String APIDbUserRegister (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
 //        System.out.println("RED COOKIE " + testCookieRed);
         APIDatagram apiDatagram = new APIDatagram();

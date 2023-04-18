@@ -99,6 +99,14 @@ body
 	text-shadow: 1px 1px #3d3d3d;
 }
 
+.wrapper > .card > .alt-subtitle
+{
+	font-weight: bold;
+	color: black;
+	font-size: 2vw;
+	text-shadow: 1px 1px #3d3d3d;
+}
+
 .wrapper > .card > .title
 {
 	font-weight: bold;
@@ -280,4 +288,32 @@ body
 	text-decoration: none;
 	margin-left: 10px;
 	color: white;
+}
+
+.sub-menu
+{
+	position: fixed;
+	top: 105px;
+	left: 0px;
+	padding: 20px;
+	box-sizing: border-box;
+	font-family: 'Arial';
+	color: black;
+	font-size: 14px;
+	background-color: white;
+	border-radius: 0 0 25px 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 99999999999;
+	cursor: pointer;
+	box-shadow: 5px 3px 6px 1px rgba(0, 0, 0, 0.3);
+}
+
+.sub-menu > img
+{
+	filter: invert(100%);
+	width: 15px;
+	height: 15px;
+	margin-right: 10px;
 }
