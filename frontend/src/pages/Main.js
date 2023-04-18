@@ -73,26 +73,7 @@ export default function Main() {
 					<button>ROBOTA WE FRYCIARNI</button>
 				</div>
 			</div>
-			<div className="bottom-nav">
-				<a href="#">NASZE MENU</a>
-				<a href="#">WSZYSTKIE LOKALE</a>
-				<a href="#">ALERGENY</a>
-				<a href="#">HISTORIA FRYCIARNI</a>
-				<a href="#">PŚK</a>
-				<a href="#">FRANCZYZA</a>
-			</div>
-			<div className="footer">
-				<div>
-					&copy; 2023 Projekt ISI+PAI - Ślusarczyk, Bandura - Koordynator mgr inż. Mateusz Pawełkiewicz.
-				</div>
-				<div>
-					<a href="#">GitHub</a>
-					<a href="#">Achilles</a>
-					<a href="#">Ślusarczyk</a>
-					<a href="#">Bandura</a>
-					<a href="#">WEAiI</a>
-				</div>
-			</div>
+			<Footer/>
 		</>
 	)
 }

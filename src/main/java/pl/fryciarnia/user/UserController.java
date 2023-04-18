@@ -11,7 +11,7 @@ public class UserController
     {
         return jdbcTemplate.query
         (
-					"SELECT * FROM WEBUSER",
+					"SELECT * FROM DbUser",
 					BeanPropertyRowMapper.newInstance(DbUser.class)
         );
     }

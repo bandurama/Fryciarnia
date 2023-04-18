@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.client.RestTemplate;
-//import pl.fryciarnia.user.WebUser;
+import pl.fryciarnia.user.DbUser;
 import pl.fryciarnia.user.UserController;
 import pl.fryciarnia.user.UserType;
 
@@ -43,7 +43,7 @@ public class SessionController
     /* insert websession to database */
     jdbcTemplate.update
 		(
-				"INSERT INTO WEBSESSION VALUES (?, ?, ?)",
+				"INSERT INTO DBSESSION VALUES (?, ?, ?)",
 				dbSession.getToken(),
 				dbSession.getExpiration(),
 				dbSession.getUuid()
@@ -78,13 +78,13 @@ public class SessionController
 
       /* Either register or login user */
       String googleUserId = (String) responseMap.get("user_id");
-      WebUser testUser = UserController.getWebUserByUUID(jdbcTemplate, googleUserId);
+      DbUser testUser = UserController.getDbUserByUUID(jdbcTemplate, googleUserId);
 
       /* If user DOES NOT exists */
       if (testUser == null)
       {
         /* Register 'em using either mail or google id */
-        WebUser webUser = new WebUser();
+        DbUser webUser = new DbUser();
         webUser.setType(UserType.Web);
         webUser.setPassword("NONE");
         webUser.setIsGoogleAccount(true);

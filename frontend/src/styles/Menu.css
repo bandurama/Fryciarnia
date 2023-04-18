@@ -1,0 +1,38 @@
+
+.menu-item
+{
+	width: 25vw;
+	cursor: pointer;
+}
+
+.menu-item:hover
+{
+	background-color: #fc5246;
+}
+
+.menu-item-image
+{
+	width: 25vw;
+	height: 25vw;
+	background-size: 100%;
+	background-position: center center;
+	transition: background-size 0.5s ease;
+}
+
+.menu-item-image:hover
+{
+	background-size: 110%;
+}
+
+.menu-item-title
+{
+	font-family: 'Arial';
+	font-weight: bold;
+	font-size: 22px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 30px 20px;
+	box-sizing: border-box;
+	border-right: 1px solid #b3b3b3;
+}

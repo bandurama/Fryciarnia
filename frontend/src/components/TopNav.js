@@ -27,7 +27,7 @@ export default function ({useAccountButton = false})
 					<a href="#"><img src="/icons/tok-icon.png"/></a>
 				</div>
 				<div className="logo">
-					<img src="/logo.png" />
+					<img onClick={(e) => window.location = "/" } src="/logo.png" />
 				</div>
 				<div className="acc">
 					{buttonify()}

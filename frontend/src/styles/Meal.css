@@ -1,0 +1,51 @@
+
+.meal-title
+{
+	font-size: 2.0vw;
+	font-family: 'Arial';
+	margin-left: 7vw;
+	font-weight: bold;
+}
+
+.meal-ingridients
+{
+	margin-left: 7vw;
+	width: calc(100vw - 2 * 7vw);
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: 50px;
+}
+
+.meal-ingridient
+{
+	width: 250px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-right: 1px solid #d1d1d1;
+	margin-bottom: 150px;
+}
+
+.meal-ingridient:last-child
+{
+	border-right: 0px solid transparent !important;
+}
+
+.meal-ingridient > div > .icon > img
+{
+	width: 180px;
+	height: 180px;
+}
+
+.meal-ingridient > div > .title
+{
+	padding: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Arial';
+	font-weight: bold;
+	font-size: 18px;
+}

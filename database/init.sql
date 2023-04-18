@@ -9,16 +9,15 @@ DELETE FROM DbOrders;
 DELETE FROM DbOrder;
 
 
-DROP TABLE DbUser;
 DROP TABLE DbSession;
-DROP TABLE DbHolding;
-DROP TABLE DbMeal;
-DROP TABLE DbIngridient;
 DROP TABLE DbIngridients;
 DROP TABLE DbRecipe;
-DROP TABLE DbOrders;
 DROP TABLE DbOrder;
-
+DROP TABLE DbOrders;
+DROP TABLE DbMeal;
+DROP TABLE DbIngridient;
+DROP TABLE DbHolding;
+DROP TABLE DbUser;
 
 
 
@@ -26,8 +25,8 @@ CREATE TABLE DbUser (
     uuid NVARCHAR2(128) NOT NULL,
     isGoogleAccount NUMBER,
     mail NVARCHAR2(128) NOT NULL,
-    name NVARCHAR2(128) NOT NULL,
-    surname NVARCHAR2(128) NOT NULL,
+    name NVARCHAR2(128),
+    surname NVARCHAR2(128),
     password NVARCHAR2(256) NOT NULL,
     type NUMBER NOT NULL,
     CONSTRAINT DbUser_pk PRIMARY KEY(uuid)
@@ -89,6 +88,7 @@ CREATE TABLE DbOrders (
     isOut NUMBER,
     isTakeout NUMBER,
     isCanceled NUMBER,
+    isReady NUMBER,
     CONSTRAINT DbOrders_pk PRIMARY KEY(uuid),
     CONSTRAINT DbOrders_DbHolding_fk FOREIGN KEY (holding) REFERENCES DbHolding(uuid),
     CONSTRAINT DbOrders_DbUser_fk FOREIGN KEY (owner) REFERENCES DbUser(uuid)
@@ -97,7 +97,6 @@ CREATE TABLE DbOrders (
 CREATE TABLE DbOrder (
     origin NVARCHAR2(128) NOT NULL,
     meal NVARCHAR2(128) NOT NULL,
-    isReady NUMBER,
     CONSTRAINT DbOrder_DbOrders_fk FOREIGN KEY (origin) REFERENCES DbOrders(uuid),
     CONSTRAINT DbOrder_DbMeal_fk FOREIGN KEY (meal) REFERENCES DbMeal(uuid)
 );

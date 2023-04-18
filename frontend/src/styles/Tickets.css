@@ -1,0 +1,77 @@
+body
+{
+	/*overflow: hidden;*/
+}
+.ticket-wrapper
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+}
+
+.ticket-left-pane
+{
+	width: 64vw;
+	height: 100vh;
+	/*border-right: 2px solid black;*/
+}
+
+.ticket-right-pane
+{
+	width: 36vw;
+	height: 100vh;
+}
+
+.ticket-banner
+{
+	width: 100%;
+	padding: 1.5vw;
+	box-sizing: border-box;
+	font-family: 'Arial';
+	font-size: 4vw;
+	color: white;
+	font-weight: bold;
+}
+
+.ticket-pending-pane
+{
+	background-color: #f74539;
+}
+
+.ticket-ready-pane
+{
+	background-color: #ffbc00;
+}
+
+.ticket-area
+{
+	display: flex;
+	padding: 3.5vw;
+	box-sizing: border-box;
+	flex-wrap: wrap;
+	align-items: flex-start;
+}
+
+.ticket
+{
+	width: 10vw;
+	height: 10vw;
+	border-radius: 25px;
+	border: 0.5vw solid #cbcbcb;
+	margin: 1.5vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Arial';
+	font-size: 4vw;
+	font-weight: bold;
+	box-shadow: 7px 13px 20px 8px rgba(0,0,0,0.1);
+}
+
+.ticket-ready
+{
+	background-color: #fc5246;
+	border: 0.5vw solid #f74539;
+	color: white;
+}
