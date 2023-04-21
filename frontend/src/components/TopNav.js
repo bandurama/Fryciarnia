@@ -1,20 +1,21 @@
 
 import '../styles/TopNav.css'
+import AccountButton from "./AccountButton";
+import LogOutButton from "./LogOutButton";
 
 export default function ({useAccountButton = false})
 {
 
-	const btnClick = function ( e )
-	{
-		console.log(e);
-		window.location.href = '/login'
-	}
+	const __profile_alt = `http://bandurama.ddns.net/profile`;
 
 	const buttonify = function ()
 	{
+		if (window.location.href == __profile_alt)
+			return <LogOutButton/>
+
 		return !useAccountButton
 			? <></>
-			: <button onClick={btnClick}>DOŁĄCZ DO NAS</button>
+			: <AccountButton/>
 	}
 
 	return (

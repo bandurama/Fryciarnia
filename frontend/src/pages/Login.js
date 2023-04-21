@@ -14,6 +14,34 @@ export default function Login() {
 		window.location.href = __google_api_endpoint;
 	}
 
+	const eventLoginUser = function (e)
+	{
+			const _datagram =
+			{
+				uuid: '',
+				isGoogleAccount: false,
+				mail: document.querySelector('#tbx-mail').value,
+				name: '',
+				surname: '',
+				password: document.querySelector('#tbx-passwd').value,
+				type: 'Web'
+			}
+
+		fetch('http://bandurama.ddns.net:2023/api/user/login', {
+			method: 'POST',
+			body: JSON.stringify(_datagram),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp => {
+				console.log(resp);
+				if (resp.ok)
+				{ /* udało się zqalogować użytkownika */
+					window.location.href = '/';
+				}
+			})
+	}
+
 	return (
 		<>
 			<TopNav />
@@ -23,13 +51,13 @@ export default function Login() {
 						Zaloguj się
 					</div>
 					<div className="formrow">
-						<input type="text" placeholder="E-Mail"/>
+						<input type="text" placeholder="E-Mail" id="tbx-mail"/>
 					</div>
 					<div className="formrow">
-						<input type="password" placeholder="Hasło"/>
+						<input type="password" placeholder="Hasło" id="tbx-passwd"/>
 					</div>
 					<div className="formrow">
-						<button>ZALOGUJ</button>
+						<button onClick={eventLoginUser}>ZALOGUJ</button>
 					</div>
 					<div className="formrow">
 						<img src="./icons/google.png" onClick={googleLoginTrigger}/>

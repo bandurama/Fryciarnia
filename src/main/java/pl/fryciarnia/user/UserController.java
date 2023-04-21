@@ -2,6 +2,8 @@ package pl.fryciarnia.user;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.fryciarnia.session.DbSession;
+import pl.fryciarnia.session.SessionController;
 
 import java.util.List;
 
@@ -16,15 +18,35 @@ public class UserController
         );
     }
 
-    public static DbUser getDbUserByUUID (JdbcTemplate jdbcTemplate, String uuid)
-    {
-        List<DbUser> all = UserController.fetchAll(jdbcTemplate);
-        for (DbUser user : all)
-            if (user.getUuid().equals(uuid))
-                return user;
 
-        return null;
-    }
+		public static DbUser getDbUserByMail (JdbcTemplate jdbcTemplate, String mail)
+		{
+			List<DbUser> all = UserController.fetchAll(jdbcTemplate);
+			for (DbUser user : all)
+				if (user.getMail().equals(mail))
+					return user;
+
+			return null;
+		}
+
+		public static DbUser getDbUserByUUID (JdbcTemplate jdbcTemplate, String uuid)
+		{
+				List<DbUser> all = UserController.fetchAll(jdbcTemplate);
+				for (DbUser user : all)
+						if (user.getUuid().equals(uuid))
+								return user;
+
+				return null;
+		}
+
+		public static DbUser getDbUserBySessionToken (JdbcTemplate jdbcTemplate, String token)
+		{
+			DbSession dbSession = SessionController.getSessionByToken(jdbcTemplate, token);
+			if (dbSession == null)
+					return null;
+
+			return getDbUserByUUID(jdbcTemplate, dbSession.getUuid());
+		}
 
 
     public static boolean updateUser (JdbcTemplate jdbcTemplate, DbUser dbUser)
@@ -34,10 +56,10 @@ public class UserController
             jdbcTemplate.update
             (
 							"UPDATE DbUser SET isGoogleAccount = ?, mail = ?, password = ?, type = ?, name = ?, surname = ? WHERE uuid = ?",
-							dbUser.getIsGoogleAccount(),
+							dbUser.getIsGoogleAccount() ? 1 : 0,
 							dbUser.getMail(),
 							dbUser.getPassword(),
-							dbUser.getType(),
+							dbUser.getType().ordinal(),
 							dbUser.getName(),
 							dbUser.getSurname(),
 							dbUser.getUuid()
@@ -54,24 +76,24 @@ public class UserController
 		public static boolean insertUser (JdbcTemplate jdbcTemplate, DbUser webUser)
 		{
 			try
-			{
-				jdbcTemplate.update
-						(
-								"INSERT INTO DbUser VALUES(?, ?, ?, ?, ?, ?, ?)",
-								webUser.getUuid(),
-								webUser.getIsGoogleAccount() ? 1 : 0,
-								webUser.getMail(),
-								webUser.getName(),
-								webUser.getSurname(),
-								webUser.getPassword(),
-								webUser.getType().ordinal()
-						);
-			}
-			catch (Exception e)
-			{
-				System.out.println(e);
-				return false;
-			}
-			return true;
+				{
+					jdbcTemplate.update
+							(
+									"INSERT INTO DbUser VALUES(?, ?, ?, ?, ?, ?, ?)",
+									webUser.getUuid(),
+									webUser.getIsGoogleAccount() ? 1 : 0,
+									webUser.getMail(),
+									webUser.getName(),
+									webUser.getSurname(),
+									webUser.getPassword(),
+									webUser.getType().ordinal()
+							);
+				}
+				catch (Exception e)
+				{
+					System.out.println(e);
+					return false;
+				}
+				return true;
 		}
 }

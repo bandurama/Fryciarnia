@@ -20,4 +20,17 @@ public class APIDatagram
   {
     return (new Gson()).toJson(this);
   }
+
+  public String fail (String cause)
+  {
+    setOk(false);
+    setMsg(cause);
+    return toString();
+  }
+
+  public String success ()
+  {
+    setOk(true);
+    return toString();
+  }
 }

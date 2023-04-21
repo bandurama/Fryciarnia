@@ -7,12 +7,94 @@ export default function Profile ()
 
 	useEffect(() => {
 		document.title = 'Mój Profil - Fryciarnia'
+
+
+		fetch('http://bandurama.ddns.net:2023/api/user/info', {
+			method: 'POST',
+			body: JSON.stringify({}),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp => {
+				console.log(resp);
+				if (!resp.ok)
+					return;
+				setTbxMail(resp.data.mail ?? "Impossible");
+				setTbxName(resp.data.name ?? "");
+				setTbxSurname(resp.data.surname ?? "");
+			})
+
 	}, []);
 
 	const [tbxMail, setTbxMail] = useState('');
 	const [tbxName, setTbxName] = useState('');
 	const [tbxSurname, setTbxSurname] = useState('');
 
+	const [tbxOldPassword, setTbxOldPassword] = useState('');
+	const [tbxOldPassword2, setTbxOldPassword2] = useState('');
+	const [tbxNewPassword, setTbxNewPassword] = useState('');
+
+	const eventUpdateUserInfo = function (e)
+	{
+		const _datagram =
+		{
+			uuid: '',
+			isGoogleAccount: false,
+			mail: '',
+			name: tbxName,
+			surname: tbxSurname,
+			password: '',
+			type: 'Web'
+		}
+
+		fetch('http://bandurama.ddns.net:2023/api/user/edit', {
+			method: 'POST',
+			body: JSON.stringify(_datagram),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp => {
+				if (resp.ok)
+				{ /* udało się utworzyć użytkownika */
+						console.log('SUCCESS');
+				}
+			})
+	}
+
+
+	const eventUpdateUserPassword = function (e)
+	{
+		if (tbxOldPassword != tbxOldPassword2)
+		{
+			alert("Passwordy sie nie pokraywaja");
+			return;
+		}
+
+		const _datagram =
+		{
+			uuid: '',
+			isGoogleAccount: false,
+			mail: tbxOldPassword,
+			name: '',
+			surname: '',
+			password: tbxNewPassword,
+			type: 'Web'
+		}
+
+		fetch('http://bandurama.ddns.net:2023/api/user/password/set', {
+			method: 'POST',
+			body: JSON.stringify(_datagram),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp => {
+				console.log(resp);
+				if (resp.ok)
+				{ /* udało się utworzyć użytkownika */
+					window.location.href = '/';
+				}
+			})
+	}
 	const dispMyProfile = () => (
 		<>
 			<div className="formtitle">
@@ -28,7 +110,7 @@ export default function Profile ()
 				<input type="text" placeholder="Nazwisko"  onChange={(e) => setTbxSurname(e.target.value)} value={tbxSurname}/>
 			</div>
 			<div className="formrow">
-				<button>ZAPISZ</button>
+				<button onClick={eventUpdateUserInfo}>ZAPISZ</button>
 			</div>
 		</>
 	)
@@ -39,16 +121,16 @@ export default function Profile ()
 				Ustawienia
 			</div>
 			<div className="formrow">
-				<input type="password" placeholder="Stare hasło" />
+				<input type="password" placeholder="Stare hasło" value={tbxOldPassword} onChange={(e) => setTbxOldPassword(e.target.value)} />
 			</div>
 			<div className="formrow">
-				<input type="password" placeholder="Nowe hasło" />
+				<input type="password" placeholder="Nowe hasło" value={tbxOldPassword2} onChange={(e) => setTbxOldPassword2(e.target.value)} />
 			</div>
 			<div className="formrow">
-				<input type="password" placeholder="Powtórz nowe hasło" />
+				<input type="password" placeholder="Powtórz nowe hasło" value={tbxNewPassword} onChange={(e) => setTbxNewPassword(e.target.value)} />
 			</div>
 			<div className="formrow">
-				<button>ZMIEŃ HASŁO</button>
+				<button onClick={eventUpdateUserPassword}>ZMIEŃ HASŁO</button>
 			</div>
 			<div className="formrow">
 				Możesz też

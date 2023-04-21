@@ -32,6 +32,16 @@ public class SessionController
     return null;
   }
 
+
+  public static void deleteByToken (JdbcTemplate jdbcTemplate, String token)
+  {
+    jdbcTemplate.update
+    (
+        "DELETE FROM DBSESSION WHERE TOKEN = ?",
+        token
+    );
+  }
+
   public static DbSession newFromUserUUID (JdbcTemplate jdbcTemplate, String uuid, Timestamp expiration)
   {
     /* create new session */
