@@ -10,5 +10,5 @@ public enum UserType
     Kitchen,    /* Pracownik */
     Display,    /* Wyświetlacz w lokalu */
     Terminal,   /* Terminal do zamawiania */
-    Web         /* Dowolny zewnętrzny urzytkownik */
+    Web         /* Dowolny zewnętrzny uzytkownik */
 }
