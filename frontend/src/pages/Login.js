@@ -16,6 +16,11 @@ export default function Login() {
 
 	const eventLoginUser = function (e)
 	{
+			const _router = {};
+			_router['Admin'] = '/admin/dashboard';
+			_router['Web'] = '/';
+
+
 			const _datagram =
 			{
 				uuid: '',
@@ -37,7 +42,10 @@ export default function Login() {
 				console.log(resp);
 				if (resp.ok)
 				{ /* udało się zqalogować użytkownika */
-					window.location.href = '/';
+					if (Object.keys(_router).includes(resp.data.type))
+						window.location.href = _router[resp.data.type];
+					else
+						throw new Error("Login router not implemented for user type: " + resp.data.type);
 				}
 			})
 	}

@@ -34,6 +34,7 @@ public class DbUser
         u.setPassword((String) m.get("password"));
         u.setType(UserType.valueOf((String) m.get("type")));
 
+
         return u;
     }
 }

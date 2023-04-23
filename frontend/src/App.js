@@ -9,6 +9,7 @@ import History from "./pages/Profile/History";
 import Tickets from "./pages/Tickets";
 import Menu from "./pages/Menu";
 import Meal from "./pages/Meal";
+import Admin from "./pages/Admin/Admin";
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 				<Route path="/tickets" Component={Tickets} />
 				<Route path="/menu" Component={Menu} />
 				<Route path="/menu/:meal" Component={Meal} />
+				<Route path="/admin/:option" Component={Admin} />
 				<Route path="/profile/history" Component={History} />
 			</Routes>
 		</div>

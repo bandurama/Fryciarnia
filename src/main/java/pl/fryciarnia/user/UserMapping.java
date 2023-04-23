@@ -1,6 +1,9 @@
 package pl.fryciarnia.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.SneakyThrows;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -12,6 +15,8 @@ import pl.fryciarnia.utils.APIDatagram;
 
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static pl.fryciarnia.session.SessionController.newFromUserUUID;
@@ -82,36 +87,52 @@ public class UserMapping
             }
         }
 
-        /* if all checked, create new session for this user */
-        Timestamp expiration = new Timestamp(System.currentTimeMillis() + 1000L * 3600);
-        DbSession dbSession = newFromUserUUID(jdbcTemplate, wu.getUuid(), expiration);
-        ResponseCookie responseCookie = ResponseCookie.from("fry_sess", dbSession.getToken())
-            .httpOnly(true)
-            .sameSite("Strict")
-            .secure(false)
-            .path("/")
-            .maxAge(Duration.ofHours(1))
-            .build();
-        httpServletResponse.setHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+        /* if all checked, create new session for this user UNLESS a session allready exists  */
+        DbUser currentSessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+        if (currentSessionUser == null || !currentSessionUser.getType().equals(UserType.Admin))
+        {
+            Timestamp expiration = new Timestamp(System.currentTimeMillis() + 1000L * 3600);
+            DbSession dbSession = newFromUserUUID(jdbcTemplate, wu.getUuid(), expiration);
+            ResponseCookie responseCookie = ResponseCookie.from("fry_sess", dbSession.getToken())
+                .httpOnly(true)
+                .sameSite("Strict")
+                .secure(false)
+                .path("/")
+                .maxAge(Duration.ofHours(1))
+                .build();
+            httpServletResponse.setHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+        }
 
         apiDatagram.setData(wu);
         return apiDatagram.toString();
     }
 
+    @SneakyThrows
     @PostMapping("/api/user/info")
     @ResponseBody
     public String APIDbUserInfo (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
         APIDatagram apiDatagram = new APIDatagram();
 
+        /* either by json or session */
+        String userToCheckUuid = null;
+        Map<String, Object> m = (new ObjectMapper()).readValue(body, Map.class);
+
+        if (m.containsKey("uuid"))
+            userToCheckUuid = (String) m.get("uuid");
+
         /* find user by session id unless its nil */
-        if (frySess.equals("nil"))
-            return apiDatagram.fail("No session");
+        if (userToCheckUuid == null)
+        {
+            if (frySess.equals("nil"))
+                return apiDatagram.fail("No session");
 
-        DbSession dbSession = SessionController.getSessionByToken(jdbcTemplate, frySess);
-        DbUser dbUser = UserController.getDbUserByUUID(jdbcTemplate, dbSession.getUuid());
+            DbSession dbSession = SessionController.getSessionByToken(jdbcTemplate, frySess);
+            userToCheckUuid = dbSession.getUuid();
+        }
 
-        /* too sensitive */
+        /* get and prep user data */
+        DbUser dbUser = UserController.getDbUserByUUID(jdbcTemplate, userToCheckUuid);
         dbUser.setPassword("SECRET");
         apiDatagram.setData(dbUser);
 
@@ -129,19 +150,25 @@ public class UserMapping
         if (frySess.equals("nil"))
             return apiDatagram.fail("No session");
 
-        DbSession dbSession = SessionController.getSessionByToken(jdbcTemplate, frySess);
-        DbUser dbUser = UserController.getDbUserByUUID(jdbcTemplate, dbSession.getUuid());
+        DbUser newUser = DbUser.fromJSON(body);
+        DbUser requestingUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
 
-        /* user info from website */
-        DbUser diffUser = DbUser.fromJSON(body);
-
-        /* update only certain field in final user and tell to update */
-        dbUser.setName(diffUser.getName());
-        dbUser.setSurname(diffUser.getSurname());
+        if (!requestingUser.getType().equals(UserType.Admin))
+        {   /* make sure edited user has valid fields */
+            newUser.setUuid(requestingUser.getUuid());
+            newUser.setIsGoogleAccount(requestingUser.getIsGoogleAccount());
+            newUser.setType(requestingUser.getType());
+            newUser.setMail(requestingUser.getMail());
+            newUser.setPassword(requestingUser.getPassword());
+        } /* otherwise its admin editing so don't care */
+        else
+        {   /* BUT HAVE TO copy over old password so it doesn't get lost */
+            DbUser oldUserState = UserController.getDbUserByUUID(jdbcTemplate, newUser.getUuid());
+            newUser.setPassword(oldUserState.getPassword());
+        }
 
         /* update in db */
-        UserController.updateUser(jdbcTemplate, dbUser);
-
+        UserController.updateUser(jdbcTemplate, newUser);
         return apiDatagram.success();
     }
 
@@ -172,6 +199,7 @@ public class UserMapping
             .build();
         httpServletResponse.setHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
 
+        wu.setType(realUser.getType());
         apiDatagram.setData(wu);
         return apiDatagram.success();
     }
@@ -226,6 +254,53 @@ public class UserMapping
             .build();
 
         httpServletResponse.setHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+        return apiDatagram.success();
+    }
+
+    @PostMapping("/api/user/list")
+    @ResponseBody
+    public String APIDbUserList (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    {
+        APIDatagram apiDatagram = new APIDatagram();
+
+        if (frySess.equals("nil"))
+            return apiDatagram.fail("No session");
+
+        DbUser user = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+        if (!user.getType().equals(UserType.Admin))
+            return apiDatagram.fail("No perms");
+
+        List<DbUser> users = UserController.fetchAll(jdbcTemplate);
+        users.forEach(u -> u.setPassword("")); /* securitas */
+
+        apiDatagram.setData(users);
+        return apiDatagram.success();
+    }
+
+    @SneakyThrows
+    @PostMapping("/api/user/remove")
+    @ResponseBody
+    public String APIDbUserRemove (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    {
+        APIDatagram apiDatagram = new APIDatagram();
+
+        Map<String, Object> m = (new ObjectMapper()).readValue(body, Map.class);
+        String uuid = (String) m.get("uuid");
+
+        if (frySess.equals("nil"))
+            return apiDatagram.fail("No session");
+
+        DbUser user = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+        if (!user.getType().equals(UserType.Admin))
+            return apiDatagram.fail("No perms");
+
+        DbUser userToRemove = UserController.getDbUserByUUID(jdbcTemplate, uuid);
+        if (userToRemove == null)
+            return apiDatagram.fail("No user");
+
+        if (!UserController.removeUser(jdbcTemplate, userToRemove))
+            return apiDatagram.fail("Internal server err");
+
         return apiDatagram.success();
     }
 
