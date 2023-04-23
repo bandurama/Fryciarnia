@@ -101,5 +101,7 @@ CREATE TABLE DbOrder (
     CONSTRAINT DbOrder_DbMeal_fk FOREIGN KEY (meal) REFERENCES DbMeal(uuid)
 );
 
+INSERT INTO DbUser VALUES('adm', 0, 'admin', 'Mateusz', 'Pawełkiewicz', '1234', 0);
+
 SELECT * FROM DbUser;
 SELECT * FROM DbSession;

@@ -96,4 +96,19 @@ public class UserController
 				}
 				return true;
 		}
+
+	public static boolean removeUser (JdbcTemplate jdbcTemplate, DbUser user)
+	{
+		try
+		{
+			jdbcTemplate.update ("DELETE FROM DBSESSION WHERE UUID = ?", new Object [] { user.getUuid() });
+			jdbcTemplate.update ("DELETE FROM DBUSER WHERE UUID = ?", new Object [] { user.getUuid() });
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+			return false;
+		}
+		return true;
+	}
 }

@@ -31,8 +31,8 @@ export default function Profile ()
 	const [tbxSurname, setTbxSurname] = useState('');
 
 	const [tbxOldPassword, setTbxOldPassword] = useState('');
-	const [tbxOldPassword2, setTbxOldPassword2] = useState('');
-	const [tbxNewPassword, setTbxNewPassword] = useState('');
+	const [tbxNewPassword1, setTbxNewPassword1] = useState('');
+	const [tbxNewPassword2, setTbxNewPassword2] = useState('');
 
 	const eventUpdateUserInfo = function (e)
 	{
@@ -57,6 +57,7 @@ export default function Profile ()
 				if (resp.ok)
 				{ /* udało się utworzyć użytkownika */
 						console.log('SUCCESS');
+						window.location.reload();
 				}
 			})
 	}
@@ -64,7 +65,7 @@ export default function Profile ()
 
 	const eventUpdateUserPassword = function (e)
 	{
-		if (tbxOldPassword != tbxOldPassword2)
+		if (tbxNewPassword1 != tbxNewPassword2)
 		{
 			alert("Passwordy sie nie pokraywaja");
 			return;
@@ -77,7 +78,7 @@ export default function Profile ()
 			mail: tbxOldPassword,
 			name: '',
 			surname: '',
-			password: tbxNewPassword,
+			password: tbxNewPassword2,
 			type: 'Web'
 		}
 
@@ -91,7 +92,7 @@ export default function Profile ()
 				console.log(resp);
 				if (resp.ok)
 				{ /* udało się utworzyć użytkownika */
-					window.location.href = '/';
+					window.location.reload();
 				}
 			})
 	}
@@ -124,10 +125,10 @@ export default function Profile ()
 				<input type="password" placeholder="Stare hasło" value={tbxOldPassword} onChange={(e) => setTbxOldPassword(e.target.value)} />
 			</div>
 			<div className="formrow">
-				<input type="password" placeholder="Nowe hasło" value={tbxOldPassword2} onChange={(e) => setTbxOldPassword2(e.target.value)} />
+				<input type="password" placeholder="Nowe hasło" value={tbxNewPassword1} onChange={(e) => setTbxNewPassword1(e.target.value)} />
 			</div>
 			<div className="formrow">
-				<input type="password" placeholder="Powtórz nowe hasło" value={tbxNewPassword} onChange={(e) => setTbxNewPassword(e.target.value)} />
+				<input type="password" placeholder="Powtórz nowe hasło" value={tbxNewPassword2} onChange={(e) => setTbxNewPassword2(e.target.value)} />
 			</div>
 			<div className="formrow">
 				<button onClick={eventUpdateUserPassword}>ZMIEŃ HASŁO</button>
