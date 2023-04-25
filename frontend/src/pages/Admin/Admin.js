@@ -29,10 +29,7 @@ export default function ()
 	views['ingridientsmgmt'] = (<IngridientMgmt/>);
 
 	views['orders'] = (<Orders/>);
-	views['ordersmgmt'] = (<OrderMgmt/>);
-
-	views['recipe'] = (<Recipe/>);
-	views['recipemgmt'] = (<RecipeMgmt/>);
+	views['ordersmgmt'] = (<OrderMgmt/>)
 
 	views['users'] = (<Users/>);
 	views['usersmgmt'] = (<UserMgmt/>);

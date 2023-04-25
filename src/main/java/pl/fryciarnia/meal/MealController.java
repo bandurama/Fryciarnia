@@ -2,6 +2,7 @@ package pl.fryciarnia.meal;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.fryciarnia.ingridient.DbIngridient;
 
 import java.util.List;
 
@@ -13,10 +14,12 @@ public class MealController
     {
       jdbcTemplate.update
           (
-              "INSERT INTO DbMeal VALUES(?, ?, ?)",
+              "INSERT INTO DbMeal VALUES(?, ?, ?, ?, ?)",
               dbMeal.getUuid(),
               dbMeal.getName(),
-              dbMeal.getPrice()
+              dbMeal.getPrice(),
+              dbMeal.getImage(),
+              dbMeal.getIsListed()
           );
     } catch (Exception e)
     {

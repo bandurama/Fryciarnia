@@ -2,6 +2,7 @@ package pl.fryciarnia.ingridient;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.fryciarnia.holding.DbHolding;
 
 import java.util.List;
 

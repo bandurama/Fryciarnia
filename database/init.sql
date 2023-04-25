@@ -1,4 +1,3 @@
-DELETE FROM DbUser;
 DELETE FROM DbSession;
 DELETE FROM DbHolding;
 DELETE FROM DbMeal;
@@ -7,6 +6,7 @@ DELETE FROM DbIngridients;
 DELETE FROM DbRecipe;
 DELETE FROM DbOrders;
 DELETE FROM DbOrder;
+DELETE FROM DbUser;
 
 
 DROP TABLE DbSession;
@@ -51,6 +51,8 @@ CREATE TABLE DbMeal (
     uuid NVARCHAR2(128) NOT NULL,
     name NVARCHAR2(64) NOT NULL,
     price NUMERIC(10,2) NOT NULL,
+    image NVARCHAR2(512),
+    isListed NUMBER,
     CONSTRAINT DbMeal_pk PRIMARY KEY(uuid)
 );
 
@@ -69,6 +71,7 @@ CREATE TABLE DbIngridients (
 );
 
 CREATE TABLE DbRecipe (
+    uuid NVARCHAR2(128) NOT NULL,
     meal NVARCHAR2(128) NOT NULL,
     ingridient NVARCHAR2(128) NOT NULL,
     quantity NUMERIC(10,2),
@@ -103,5 +106,18 @@ CREATE TABLE DbOrder (
 
 INSERT INTO DbUser VALUES('adm', 0, 'admin', 'Mateusz', 'Pawełkiewicz', '1234', 0);
 
+/*INSERT INTO DbHolding VALUES ('hol1', 'Kielce, Galeria Echo', 'd3742e85-51a2-4abf-a9f0-7e1742ebf28f');*/
+
+INSERT INTO DbMeal VALUES ('pos1', 'Frytki1', 21.99, 'https://cdn.mcdonalds.pl/uploads/20230328133456/351024-mccrispy-na-www-540x450px-72dpi-3-mccrispy.jpg', 1);
+INSERT INTO DbMeal VALUES ('pos2', 'Kebab', 11.99, 'https://cdn.mcdonalds.pl/uploads/20230328133456/351024-mccrispy-na-www-540x450px-72dpi-3-mccrispy.jpg', 0);
+INSERT INTO DbIngridient VALUES('skl1', 'Ziemniaki');
+INSERT INTO DbRecipe VALUES ('prz1', 'pos1', 'skl1', 0.4, 'Pokroić', 1);
+INSERT INTO DbRecipe VALUES ('prz2', 'pos1', 'skl1', 0.4, 'Wpierdolić do starego oleju', 2);
+INSERT INTO DbRecipe VALUES ('prz3', 'pos1', 'e9f96656-6c3e-47fb-be81-10eb171a3a3c', 1, 'Sypnac tak, żeby rozjebalo nerki', 3);
+
 SELECT * FROM DbUser;
 SELECT * FROM DbSession;
+SELECT * FROM DbHolding;
+SELECT * FROM DbIngridient;
+SELECT * FROM DbMeal;
+SELECT * FROM DbRecipe;
