@@ -1,7 +1,56 @@
+import {useEffect, useState} from "react";
 
 
 export default function Holding ()
 {
+	const [list, setList] = useState([]);
+	const reloadList = function ()
+	{
+		fetch('http://bandurama.ddns.net:2023/api/holding/list', {
+			method: 'POST',
+			body: JSON.stringify({}),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp =>
+			{
+				if (resp.ok)
+				{
+					console.log(resp.data);
+					setList(resp.data);
+				}
+				else
+				{
+					throw new Error(resp.msg);
+				}
+			});
+	}
+
+	useEffect(() => {
+		reloadList();
+	}, []);
+
+	const eventRemove = function (uuid)
+	{
+		fetch('http://bandurama.ddns.net:2023/api/holding/remove', {
+			method: 'POST',
+			body: JSON.stringify({uuid: uuid}),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp =>
+			{
+				if (resp.ok)
+				{
+					reloadList();
+				}
+				else
+				{
+					alert("Błąd: " + resp.msg);
+				}
+			});
+	}
+
 	return (
 		<>
 			<div className="container-lg">

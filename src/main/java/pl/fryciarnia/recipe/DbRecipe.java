@@ -17,6 +17,7 @@ import java.util.Map;
 @Data
 public class DbRecipe
 {
+  private String uuid;
   private String meal;
   private String ingridient;
   private Float quantity;
@@ -29,6 +30,7 @@ public class DbRecipe
     DbRecipe self = new DbRecipe();
     Map<String, Object> m = (new ObjectMapper()).readValue(json, Map.class);
 
+    self.setMeal((String) m.get("uuid"));
     self.setMeal((String) m.get("meal"));
     self.setIngridient((String) m.get("ingridient"));
     self.setQuantity(Float.valueOf((String) m.get("quantity")));

@@ -17,6 +17,8 @@ public class DbMeal
   private String uuid;
   private String name;
   private float price;
+  private String image;
+  private Boolean isListed;
 
   @SneakyThrows
   public static DbMeal fromJSON (String json)
@@ -26,7 +28,9 @@ public class DbMeal
 
     self.setUuid((String) m.get("uuid"));
     self.setName((String) m.get("name"));
-    self.setPrice((float) m.get("price"));
+    self.setPrice(Float.parseFloat((String) m.get("price")));
+    self.setImage((String) m.get("image"));
+    self.setIsListed((Boolean) m.get("isListed"));
 
     return self;
   }

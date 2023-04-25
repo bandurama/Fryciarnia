@@ -7,8 +7,6 @@ import Ingridients from "./Ingridients/Ingridients";
 import IngridientMgmt from "./Ingridients/IngridientMgmt";
 import Orders from "./Orders/Orders";
 import OrderMgmt from "./Orders/OrderMgmt";
-import Recipe from "./Recipe/Recipe";
-import RecipeMgmt from "./Recipe/RecipeMgmt";
 import Users from "./Users/Users";
 import UserMgmt from "./Users/UserMgmt";
 import Meal from "./Meal/Meal";
