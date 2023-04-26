@@ -142,6 +142,18 @@ export default function UserMgmt ()
 									</select>
 								</div>
 
+								<div className="col-sm-6">
+									<label htmlFor="holding" className="form-label">Powiązana Franczyza</label>
+									<select className="form-select" name="holding" required disabled={!__symlinked_user_types.includes(userType)}>
+										<option value="" disabled selected>Wybierz</option>
+										{
+											listOfHoldings.map((holding) => (
+												<option key={holding.uuid} value={holding.uuid}>{holding.localization}</option>
+											))
+										}
+									</select>
+								</div>
+
 								<div className="form-check">
 									<input type="checkbox" className="form-check-input" name="isGoogleAccount"/>
 										<label className="form-check-label" htmlFor="isGoogleAccount">Autoryzacja google</label>

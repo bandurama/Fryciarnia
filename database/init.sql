@@ -1,25 +1,30 @@
 DELETE FROM DbSession;
 DELETE FROM DbHolding;
-DELETE FROM DbMeal;
-DELETE FROM DbIngridient;
-DELETE FROM DbIngridients;
 DELETE FROM DbRecipe;
+DELETE FROM DbIngridient;
+DELETE FROM DbStock;
+DELETE FROM DbMeal;
 DELETE FROM DbOrders;
 DELETE FROM DbOrder;
 DELETE FROM DbUser;
 
 
 DROP TABLE DbSession;
-DROP TABLE DbIngridients;
+DROP TABLE DbStock;
 DROP TABLE DbRecipe;
 DROP TABLE DbOrder;
 DROP TABLE DbOrders;
 DROP TABLE DbMeal;
 DROP TABLE DbIngridient;
-DROP TABLE DbHolding;
 DROP TABLE DbUser;
+DROP TABLE DbHolding;
 
-
+CREATE TABLE DbHolding (
+     uuid NVARCHAR2(128) NOT NULL,
+     localization NVARCHAR2(64) NOT NULL,
+     manager NVARCHAR2(128) NOT NULL,
+     CONSTRAINT DbHolding_pk PRIMARY KEY(uuid)
+);
 
 CREATE TABLE DbUser (
     uuid NVARCHAR2(128) NOT NULL,
@@ -29,7 +34,9 @@ CREATE TABLE DbUser (
     surname NVARCHAR2(128),
     password NVARCHAR2(256) NOT NULL,
     type NUMBER NOT NULL,
-    CONSTRAINT DbUser_pk PRIMARY KEY(uuid)
+    holding NVARCHAR2(128),
+    CONSTRAINT DbUser_pk PRIMARY KEY(uuid),
+    CONSTRAINT DbUser_DbHolding_fk FOREIGN KEY (holding) REFERENCES DbHolding(uuid)
 );
 
 CREATE TABLE DbSession (
@@ -37,14 +44,6 @@ CREATE TABLE DbSession (
   expiration TIMESTAMP NOT NULL,
   uuid NVARCHAR2(128) NOT NULL,
   CONSTRAINT DbSession_DbUser_fk FOREIGN KEY (uuid) REFERENCES DbUser(uuid)
-);
-
-CREATE TABLE DbHolding (
-     uuid NVARCHAR2(128) NOT NULL,
-     localization NVARCHAR2(64) NOT NULL,
-     manager NVARCHAR2(128) NOT NULL,
-     CONSTRAINT DbHolding_pk PRIMARY KEY(uuid),
-     CONSTRAINT DbHolding_DbUser_fk FOREIGN KEY (manager) REFERENCES DbUser(uuid)
 );
 
 CREATE TABLE DbMeal (
@@ -62,7 +61,8 @@ CREATE TABLE DbIngridient (
     CONSTRAINT DbIngridient_pk PRIMARY KEY(uuid)
 );
 
-CREATE TABLE DbIngridients (
+CREATE TABLE DbStock (
+    uuid NVARCHAR2(128) NOT NULL,
     holding NVARCHAR2(128) NOT NULL,
     ingridient NVARCHAR2(128) NOT NULL,
     quantity NUMERIC(10,2),
@@ -104,18 +104,18 @@ CREATE TABLE DbOrder (
     CONSTRAINT DbOrder_DbMeal_fk FOREIGN KEY (meal) REFERENCES DbMeal(uuid)
 );
 
-INSERT INTO DbUser VALUES('adm', 0, 'admin', 'Mateusz', 'Pawełkiewicz', '1234', 0);
+INSERT INTO DbUser VALUES('adm', 0, 'admin', 'Mateusz', 'Pawełkiewicz', '1234', 0, NULL);
 
 /*INSERT INTO DbHolding VALUES ('hol1', 'Kielce, Galeria Echo', 'd3742e85-51a2-4abf-a9f0-7e1742ebf28f');*/
 
-INSERT INTO DbMeal VALUES ('pos1', 'Frytki1', 21.99, 'https://cdn.mcdonalds.pl/uploads/20230328133456/351024-mccrispy-na-www-540x450px-72dpi-3-mccrispy.jpg', 1);
+/*INSERT INTO DbMeal VALUES ('pos1', 'Frytki1', 21.99, 'https://cdn.mcdonalds.pl/uploads/20230328133456/351024-mccrispy-na-www-540x450px-72dpi-3-mccrispy.jpg', 1);
 INSERT INTO DbMeal VALUES ('pos2', 'Kebab', 11.99, 'https://cdn.mcdonalds.pl/uploads/20230328133456/351024-mccrispy-na-www-540x450px-72dpi-3-mccrispy.jpg', 0);
 INSERT INTO DbIngridient VALUES('skl1', 'Ziemniaki');
 INSERT INTO DbRecipe VALUES ('prz1', 'pos1', 'skl1', 0.4, 'Pokroić', 1);
-INSERT INTO DbRecipe VALUES ('prz2', 'pos1', 'skl1', 0.4, 'Wpierdolić do starego oleju', 2);
-INSERT INTO DbRecipe VALUES ('prz3', 'pos1', 'e9f96656-6c3e-47fb-be81-10eb171a3a3c', 1, 'Sypnac tak, żeby rozjebalo nerki', 3);
+INSERT INTO DbRecipe VALUES ('prz2', 'pos1', 'skl1', 0.4, 'Wpierdolić do starego oleju', 2);*/
 
 SELECT * FROM DbUser;
+SELECT * FROM DbStock;
 SELECT * FROM DbSession;
 SELECT * FROM DbHolding;
 SELECT * FROM DbIngridient;

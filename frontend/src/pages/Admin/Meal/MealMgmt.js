@@ -6,6 +6,10 @@ export default function MealMgmt ()
 {
 	const [editting, setEditting] = useState(null);
 
+	const [tbxQuantity, setTbxQuantity] = useState("");
+	const [tbxInstruction, setTbxInstruction] = useState("");
+	const [tbxStep, setTbxStep] = useState(null);
+
 	const [recipeList, setRecipeList] = useState([]);
 
 	const [ingridientList, setIngridientList] = useState([]);
@@ -34,6 +38,15 @@ export default function MealMgmt ()
 
 	const reloadRecipeList = function (uuid)
 	{
+		/**
+		 * First clear out bottom textboxes
+		 */
+		setTbxQuantity("");
+		setTbxInstruction("");
+		setTbxStep(null);
+		/**
+		 * then fetch recipe data
+		 */
 		fetch('http://bandurama.ddns.net:2023/api/recipe/list', {
 			method: 'POST',
 			body: JSON.stringify({uuid: uuid}),
@@ -234,7 +247,7 @@ export default function MealMgmt ()
 							))
 						}
 						<tr id="newStepForm">
-							<td><input type="number" className="form-control" placeholder="Krok" name="step" /></td>
+							<td><input type="number" className="form-control" placeholder="Krok" name="step" value={tbxStep} onChange={(e) => setTbxStep(e.target.value) } /></td>
 							<td>
 								<select className="form-select" name="ingridient" required>
 									<option value="" disabled selected>Wybierz</option>
@@ -244,8 +257,8 @@ export default function MealMgmt ()
 									}
 								</select>
 							</td>
-							<td><input type="number" className="form-control" placeholder="Ilość" name="quantity"/></td>
-							<td><input type="text" className="form-control" placeholder="Instrukcja" name="instruction" /></td>
+							<td><input type="number" className="form-control" placeholder="Ilość" name="quantity" value={tbxQuantity} onChange={(e) => setTbxQuantity(e.target.value) }/></td>
+							<td><input type="text" className="form-control" placeholder="Instrukcja" name="instruction" value={tbxInstruction} onChange={(e) => setTbxInstruction(e.target.value) } /></td>
 							<td>
 								<a className="edit" title="Dodaj krok" data-toggle="tooltip" onClick={onInsertNewStep}>
 									<i className="material-icons">

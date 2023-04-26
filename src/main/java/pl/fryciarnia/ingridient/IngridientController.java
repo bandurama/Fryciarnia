@@ -49,7 +49,7 @@ public class IngridientController
   {
     try
     {
-      jdbcTemplate.update ("DELETE FROM DBINGRIDIENTS WHERE INGRIDIENT = ?", new Object [] { ingridient.getUuid() });
+      jdbcTemplate.update ("DELETE FROM DBSTOCK WHERE INGRIDIENT = ?", new Object [] { ingridient.getUuid() });
       jdbcTemplate.update ("DELETE FROM DBRECIPE WHERE INGRIDIENT = ?", new Object [] { ingridient.getUuid() });
       jdbcTemplate.update ("DELETE FROM DBINGRIDIENT WHERE UUID = ?", new Object [] { ingridient.getUuid() });
     }

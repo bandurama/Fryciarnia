@@ -65,83 +65,78 @@ export default function ()
 	}
 
 	return (
-		<>
-			<header className="bg-light">
-				<div className="container-fluid ">
-					<nav className="navbar navbar-light">
-						<a className="navbar-brand" href="#">PANEL ADMINISTRACYJNY</a>
-						<div className="navbar-nav">
-							<button className="btn btn-info btn-sm mx-4" id="wyloginator" onClick={logMeOut}>Wyloguj</button>
-						</div>
-					</nav>
-				</div>
-			</header>
-			<div className="container-fluid">
-				<div className="row">
-					<nav className="col bg-light">
-						<ul className="nav flex-column">
-
-
-							<h3>Franczyzy</h3>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/holding">Wyświetl franczyzy</a>
-							</li>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/holdingmgmt">Zarządzanie</a>
-							</li>
-
-							<h3>Posiłki</h3>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/meals">Wyświetl posiłki</a>
-							</li>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/mealsmgmt">Zarządzanie</a>
-							</li>
-
-							<h3>Przepisy</h3>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/recipe">Wyświetl przepisy</a>
-							</li>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/recipemgmt">Zarządzanie</a>
-							</li>
-
-
-							<h3>Składniki</h3>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/ingridients">Wyświetl składniki</a>
-							</li>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/ingridientsmgmt">Zarządzanie</a>
-							</li>
-
-
-							<h3>Zamówienia</h3>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/orders">Wyświetl zamówienia</a>
-							</li>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/ordersmgmt">Zarządzanie</a>
-							</li>
-
-
-							<h3>Użytkownicy</h3>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/users">Wyświetl użytkowników</a>
-							</li>
-							<li className="nav-item px-1">
-								<a className="nav-link" href="/admin/usersmgmt">Zarządzanie</a>
-							</li>
-
-						</ul>
-					</nav>
-					<main className="col-10 h-100 px-1 py-5 mb-5">
-						{displayView()}
-					</main>
-				</div>
-			</div>
-			<footer>
-			</footer>
-		</>
+		<Management title="PANEL ADMINISTRACYJNY" onLogout={logMeOut} views={views} nav={navTree}/>
 	)
+	//
+	// return (
+	// 	<>
+	// 		<header className="bg-light">
+	// 			<div className="container-fluid ">
+	// 				<nav className="navbar navbar-light">
+	// 					<a className="navbar-brand" href="#">PANEL ADMINISTRACYJNY</a>
+	// 					<div className="navbar-nav">
+	// 						<button className="btn btn-info btn-sm mx-4" id="wyloginator" onClick={logMeOut}>Wyloguj</button>
+	// 					</div>
+	// 				</nav>
+	// 			</div>
+	// 		</header>
+	// 		<div className="container-fluid">
+	// 			<div className="row">
+	// 				<nav className="col bg-light">
+	// 					<ul className="nav flex-column">
+	//
+	//
+	// 						<h3>Franczyzy</h3>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/holding">Wyświetl franczyzy</a>
+	// 						</li>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/holdingmgmt">Zarządzanie</a>
+	// 						</li>
+	//
+	// 						<h3>Posiłki</h3>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/meals">Wyświetl posiłki</a>
+	// 						</li>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/mealsmgmt">Zarządzanie</a>
+	// 						</li>
+	//
+	// 						<h3>Składniki</h3>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/ingridients">Wyświetl składniki</a>
+	// 						</li>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/ingridientsmgmt">Zarządzanie</a>
+	// 						</li>
+	//
+	//
+	// 						<h3>Zamówienia</h3>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/orders">Wyświetl zamówienia</a>
+	// 						</li>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/ordersmgmt">Zarządzanie</a>
+	// 						</li>
+	//
+	//
+	// 						<h3>Użytkownicy</h3>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/users">Wyświetl użytkowników</a>
+	// 						</li>
+	// 						<li className="nav-item px-1">
+	// 							<a className="nav-link" href="/admin/usersmgmt">Zarządzanie</a>
+	// 						</li>
+	//
+	// 					</ul>
+	// 				</nav>
+	// 				<main className="col-10 h-100 px-1 py-5 mb-5">
+	// 					{displayView()}
+	// 				</main>
+	// 			</div>
+	// 		</div>
+	// 		<footer>
+	// 		</footer>
+	// 	</>
+	// )
 }

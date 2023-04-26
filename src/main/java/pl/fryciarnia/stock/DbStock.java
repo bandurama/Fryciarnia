@@ -1,4 +1,4 @@
-package pl.fryciarnia.ingridients;
+package pl.fryciarnia.stock;
 
 import lombok.Data;
 import lombok.SneakyThrows;
@@ -11,16 +11,16 @@ import java.util.Map;
  * system pilnuje zużytej ilości.
  */
 @Data
-public class DbIngridients
+public class DbStock
 {
   private String holding;
   private String ingridient;
   private Float quantity;
 
   @SneakyThrows
-  public static DbIngridients fromJSON (String json)
+  public static DbStock fromJSON (String json)
   {
-    DbIngridients self = new DbIngridients();
+    DbStock self = new DbStock();
     Map<String, Object> m = (new ObjectMapper()).readValue(json, Map.class);
     self.setIngridient((String) m.get("ingridient"));
     self.setHolding((String) m.get("holding"));
