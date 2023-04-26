@@ -11,13 +11,13 @@ import Users from "./Users/Users";
 import UserMgmt from "./Users/UserMgmt";
 import Meal from "./Meal/Meal";
 import MealMgmt from "./Meal/MealMgmt";
+import Manager from "../Manager/Manager";
+import Management from "../../utils/Management";
 
 
 
 export default function ()
 {
-	const { option } = useParams();
-
 	const views = {};
 
 	views['holding'] = (<Holding/>);
@@ -35,20 +35,6 @@ export default function ()
 	views['meals'] = (<Meal/>);
 	views['mealsmgmt'] = (<MealMgmt/>);
 
-	const displayView = function ()
-	{
-		return Object.keys(views).includes(option)
-			? views[option]
-			: (<>error!</>)
-	}
-
-	useEffect(() => {
-		console.log(option);
-		const x = <Meal style={{width: 100}} field="imie"/>;
-		console.log('type', x.type.name, x.props);
-		usingBootstrap();
-	}, [])
-
 	const logMeOut = function (e)
 	{
 		fetch('http://bandurama.ddns.net:2023/api/user/logout', {
@@ -63,6 +49,50 @@ export default function ()
 				}
 			)
 	}
+
+	const navTree =
+	[
+		{
+			title: "Franczyzy",
+			routes:
+			[
+				{ name: "Wyświetl franczyzy", href: "/admin/holding" },
+				{ name: "Zarządzanie", href: "/admin/holdingmgmt" }
+			]
+		},
+		{
+			title: "Posiłki",
+			routes:
+			[
+				{ name: "Wyświetl posiłki", href: "/admin/meals" },
+				{ name: "Zarządzanie", href: "/admin/mealsmgmt" }
+			]
+		},
+		{
+			title: "Składniki",
+			routes:
+			[
+				{ name: "Wyświetl składniki", href: "/admin/ingridients" },
+				{ name: "Zarządzanie", href: "/admin/ingridientsmgmt" }
+			]
+		},
+		{
+			title: "Zamówienia",
+			routes:
+			[
+				{ name: "Wyświetl zamówienia", href: "/admin/orders" },
+				{ name: "Zarządzanie", href: "/admin/ordersmgmt" }
+			]
+		},
+		{
+			title: "Użytkownicy",
+			routes:
+				[
+					{ name: "Wyświetl użytkowników", href: "/admin/users" },
+					{ name: "Zarządzanie", href: "/admin/usersmgmt" }
+				]
+		}
+	];
 
 	return (
 		<Management title="PANEL ADMINISTRACYJNY" onLogout={logMeOut} views={views} nav={navTree}/>

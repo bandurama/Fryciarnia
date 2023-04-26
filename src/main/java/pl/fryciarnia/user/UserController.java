@@ -55,14 +55,16 @@ public class UserController
         {
             jdbcTemplate.update
             (
-							"UPDATE DbUser SET isGoogleAccount = ?, mail = ?, password = ?, type = ?, name = ?, surname = ? WHERE uuid = ?",
+							"UPDATE DbUser SET isGoogleAccount = ?, mail = ?, password = ?, type = ?, name = ?, surname = ?, holding = ? WHERE uuid = ?",
 							dbUser.getIsGoogleAccount() ? 1 : 0,
 							dbUser.getMail(),
 							dbUser.getPassword(),
 							dbUser.getType().ordinal(),
 							dbUser.getName(),
 							dbUser.getSurname(),
+							dbUser.getHolding(),
 							dbUser.getUuid()
+
 						);
         }
         catch (Exception e)
@@ -79,14 +81,15 @@ public class UserController
 				{
 					jdbcTemplate.update
 							(
-									"INSERT INTO DbUser VALUES(?, ?, ?, ?, ?, ?, ?)",
+									"INSERT INTO DbUser VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
 									webUser.getUuid(),
 									webUser.getIsGoogleAccount() ? 1 : 0,
 									webUser.getMail(),
 									webUser.getName(),
 									webUser.getSurname(),
 									webUser.getPassword(),
-									webUser.getType().ordinal()
+									webUser.getType().ordinal(),
+									webUser.getHolding()
 							);
 				}
 				catch (Exception e)
@@ -101,6 +104,11 @@ public class UserController
 	{
 		try
 		{
+			/**
+			 * TODO: DO WHATEVER IS BELOW THIS LINE!
+			 * HACK: Set all dbUsers with current holding to NULL so
+			 * 			 nothing breaks down
+			 */
 			jdbcTemplate.update ("DELETE FROM DBSESSION WHERE UUID = ?", new Object [] { user.getUuid() });
 			jdbcTemplate.update ("DELETE FROM DBUSER WHERE UUID = ?", new Object [] { user.getUuid() });
 		}

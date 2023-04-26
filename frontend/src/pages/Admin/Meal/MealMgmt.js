@@ -59,6 +59,8 @@ export default function MealMgmt ()
 				{
 					console.log(resp.data);
 					setRecipeList(resp.data);
+					setTbxStep(resp.data.sort((a, b) => a.dbRecipe.step - b.dbRecipe.step).at(-1).dbRecipe.step + 10);
+					// setTbxStep(resp.data.)
 				}
 				else
 				{

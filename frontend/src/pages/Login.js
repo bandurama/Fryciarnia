@@ -16,9 +16,12 @@ export default function Login() {
 
 	const eventLoginUser = function (e)
 	{
-			const _router = {};
-			_router['Admin'] = '/admin/dashboard';
-			_router['Web'] = '/';
+			const _router =
+			{
+				Admin: '/admin/holding',
+				Web: '/',
+				Manager: '/manager/stock'
+			};
 
 
 			const _datagram =

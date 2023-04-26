@@ -6,6 +6,36 @@ import {acquireGetParams} from "../../../utils/Gets";
 export default function UserMgmt ()
 {
 	const [editting, setEditting] = useState(null);
+	const [userType, setUserType] = useState(null);
+
+	const [listOfHoldings, setListOfHoldings] = useState([]);
+
+
+	const __symlinked_user_types = ["Kitchen", "Display", "Terminal"];
+
+	const reloadHoldingsList = function (callback)
+	{
+
+		fetch('http://bandurama.ddns.net:2023/api/holding/list', {
+			method: 'POST',
+			body: JSON.stringify({}),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp =>
+			{
+				if (resp.ok)
+				{
+					console.log(resp.data);
+					setListOfHoldings(resp.data);
+					callback();
+				}
+				else
+				{
+					throw new Error(resp.msg);
+				}
+			});
+	}
 
 	useEffect(() => {
 		const _get = acquireGetParams();
@@ -14,8 +44,13 @@ export default function UserMgmt ()
 			if (Object.keys(_get).includes('uuid'))
 			{ /* also fetch */
 				setEditting(_get.uuid);
-				fillInUserInfo(_get.uuid);
+				// fillInUserInfo(_get.uuid);
+				reloadHoldingsList(() => fillInUserInfo(_get.uuid))
 			}
+
+		if (_get == null)
+			reloadHoldingsList(() => {});
+
 
 	}, []);
 
@@ -34,6 +69,7 @@ export default function UserMgmt ()
 				{
 					console.log(resp.data);
 					fillInForm('user', resp.data);
+					setUserType(resp.data.type);
 				}
 				else
 				{
@@ -132,7 +168,7 @@ export default function UserMgmt ()
 
 								<div className="col-sm-6">
 									<label htmlFor="lastName" className="form-label">Typ konta</label>
-									<select className="form-select" name="type" required>
+									<select className="form-select" name="type" required value={userType} onChange={(e) => setUserType(e.target.value)}>
 										<option value="" disabled selected>Wybierz</option>
 										<option value="Manager">Menedżer</option>
 										<option value="Kitchen">Kucharz</option>

@@ -3,13 +3,22 @@ package pl.fryciarnia.ingridient;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.fryciarnia.holding.DbHolding;
+import pl.fryciarnia.holding.HoldingController;
+import pl.fryciarnia.stock.DbStock;
+import pl.fryciarnia.stock.StockController;
 
 import java.util.List;
+import java.util.UUID;
 
 public class IngridientController
 {
   public static boolean insertIngridient (JdbcTemplate jdbcTemplate, DbIngridient dbIngridient)
   {
+    /**
+     * WARN: Each instance of holding has its own DbStock
+     *       that 1:1 mirrors stocking quantities of
+     *       current ingridient!
+     */
     try
     {
       jdbcTemplate.update
@@ -24,6 +33,21 @@ public class IngridientController
       System.out.println(e);
       return false;
     }
+
+    /* NOW: for each instance of DbHolding create repr of stock item */
+    List<DbHolding> dbHoldingList = HoldingController.fetchAll(jdbcTemplate);
+    DbStock bluePrint = new DbStock();
+    bluePrint.setIngridient(dbIngridient.getUuid());
+    bluePrint.setQuantity(0.0f);
+
+    for (DbHolding dbHolding : dbHoldingList)
+    {
+      bluePrint.setHolding(dbHolding.getUuid());
+      bluePrint.setUuid(UUID.randomUUID().toString());
+      if (!StockController.insertStock(jdbcTemplate, bluePrint))
+        return false; /* THIS CANNOT HAPPEN */
+    }
+
     return true;
   }
 

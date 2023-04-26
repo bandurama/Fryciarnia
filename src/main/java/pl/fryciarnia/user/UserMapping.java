@@ -9,12 +9,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import pl.fryciarnia.holding.DbHolding;
+import pl.fryciarnia.holding.HoldingController;
 import pl.fryciarnia.session.DbSession;
 import pl.fryciarnia.session.SessionController;
 import pl.fryciarnia.utils.APIDatagram;
 
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -31,7 +34,7 @@ public class UserMapping
 
     @PostMapping("/api/user/ping")
     @ResponseBody
-    public String APIDbUserPing (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    public String APIDbUserPing(HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
         APIDatagram apiDatagram = new APIDatagram();
         DbUser dbUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
@@ -47,7 +50,7 @@ public class UserMapping
 
     @PostMapping("/api/user/register")
     @ResponseBody
-    public String APIDbUserRegister (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    public String APIDbUserRegister(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
 //        System.out.println("RED COOKIE " + testCookieRed);
         APIDatagram apiDatagram = new APIDatagram();
@@ -110,7 +113,7 @@ public class UserMapping
     @SneakyThrows
     @PostMapping("/api/user/info")
     @ResponseBody
-    public String APIDbUserInfo (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    public String APIDbUserInfo(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
         APIDatagram apiDatagram = new APIDatagram();
 
@@ -142,7 +145,7 @@ public class UserMapping
 
     @PostMapping("/api/user/edit")
     @ResponseBody
-    public String APIDbUserEdit (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    public String APIDbUserEdit(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
         APIDatagram apiDatagram = new APIDatagram();
 
@@ -160,8 +163,7 @@ public class UserMapping
             newUser.setType(requestingUser.getType());
             newUser.setMail(requestingUser.getMail());
             newUser.setPassword(requestingUser.getPassword());
-        } /* otherwise its admin editing so don't care */
-        else
+        } /* otherwise its admin editing so don't care */ else
         {   /* BUT HAVE TO copy over old password so it doesn't get lost */
             DbUser oldUserState = UserController.getDbUserByUUID(jdbcTemplate, newUser.getUuid());
             newUser.setPassword(oldUserState.getPassword());
@@ -174,7 +176,7 @@ public class UserMapping
 
     @PostMapping("/api/user/login")
     @ResponseBody
-    public String APIDbUserLogin (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    public String APIDbUserLogin(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
         APIDatagram apiDatagram = new APIDatagram();
         DbUser wu = DbUser.fromJSON(body);
@@ -206,7 +208,7 @@ public class UserMapping
 
     @PostMapping("/api/user/password/set")
     @ResponseBody
-    public String APIDbUserPasswordSet (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    public String APIDbUserPasswordSet(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
         APIDatagram apiDatagram = new APIDatagram();
         /**
@@ -238,7 +240,7 @@ public class UserMapping
 
     @PostMapping("/api/user/logout")
     @ResponseBody
-    public String APIDbUserLogout (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    public String APIDbUserLogout(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
         APIDatagram apiDatagram = new APIDatagram();
 
@@ -259,7 +261,7 @@ public class UserMapping
 
     @PostMapping("/api/user/list")
     @ResponseBody
-    public String APIDbUserList (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    public String APIDbUserList(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
         APIDatagram apiDatagram = new APIDatagram();
 
@@ -280,23 +282,30 @@ public class UserMapping
     @SneakyThrows
     @PostMapping("/api/user/remove")
     @ResponseBody
-    public String APIDbUserRemove (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    public String APIDbUserRemove(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
     {
         APIDatagram apiDatagram = new APIDatagram();
 
         Map<String, Object> m = (new ObjectMapper()).readValue(body, Map.class);
         String uuid = (String) m.get("uuid");
 
-        if (frySess.equals("nil"))
+        DbUser user = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+        if (user == null)
             return apiDatagram.fail("No session");
 
-        DbUser user = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
-        if (!user.getType().equals(UserType.Admin))
-            return apiDatagram.fail("No perms");
-
         DbUser userToRemove = UserController.getDbUserByUUID(jdbcTemplate, uuid);
+
         if (userToRemove == null)
             return apiDatagram.fail("No user");
+
+        if (!userToRemove.getUuid().equals(uuid))
+        {   /* one user tries to delete other one */
+            if (!(user.getType().equals(UserType.Manager) && (userToRemove.getType().equals(UserType.Kitchen) || userToRemove.getType().equals(UserType.Display) || userToRemove.getType().equals(UserType.Terminal))))
+            {    /* it's not manager trying to remove one of its deps */
+                if (!user.getType().equals(UserType.Admin))
+                    return apiDatagram.fail("No perms!");
+            }
+        }
 
         if (!UserController.removeUser(jdbcTemplate, userToRemove))
             return apiDatagram.fail("Internal server err");
@@ -304,4 +313,93 @@ public class UserMapping
         return apiDatagram.success();
     }
 
+
+    @PostMapping("/api/user/kitchen/list")
+    @ResponseBody
+    public String APIDbUserKitchenList(HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    {
+        APIDatagram apiDatagram = new APIDatagram();
+
+        DbUser sessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+        if (sessionUser == null || !sessionUser.getType().equals(UserType.Manager))
+            return apiDatagram.fail("Session error");
+
+        DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, sessionUser);
+        if (dbHolding == null)
+            return apiDatagram.fail("This manager doesn't have any holdings assigned to 'em");
+
+        List<DbUser> dbUserList = HoldingController
+            .getFamiliarUsersByHolding(jdbcTemplate, dbHolding)
+            .stream()
+            .filter(user -> user.getType().equals(UserType.Kitchen))
+            .toList();
+
+        /* cover passwords */
+        dbUserList.forEach(user -> user.setPassword(""));
+
+        apiDatagram.setData(dbUserList);
+        return apiDatagram.success();
+    }
+
+    @PostMapping("/api/user/hardware/list")
+    @ResponseBody
+    public String APIDbUserHardwareList(HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    {
+        APIDatagram apiDatagram = new APIDatagram();
+
+        DbUser sessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+        if (sessionUser == null || !sessionUser.getType().equals(UserType.Manager))
+            return apiDatagram.fail("Session error");
+
+        DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, sessionUser);
+        if (dbHolding == null)
+            return apiDatagram.fail("This manager doesn't have any holdings assigned to 'em");
+
+        List<DbUser> dbUserList = HoldingController
+            .getFamiliarUsersByHolding(jdbcTemplate, dbHolding)
+            .stream()
+            .filter(user -> user.getType().equals(UserType.Terminal) || user.getType().equals(UserType.Display))
+            .toList();
+
+        apiDatagram.setData(dbUserList);
+        return apiDatagram.success();
+    }
+
+    @SneakyThrows
+    @PostMapping("/api/user/hardware/register")
+    @ResponseBody
+    public String APIDbUserHardwareRegister(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+    {
+        APIDatagram apiDatagram = new APIDatagram();
+
+        Map<String, Object> m = (new ObjectMapper()).readValue(body, Map.class);
+        if (!m.containsKey("type"))
+            return apiDatagram.fail("Missing type");
+
+        DbUser sessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+        if (sessionUser == null || !sessionUser.getType().equals(UserType.Manager))
+            return apiDatagram.fail("Session error");
+
+        DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, sessionUser);
+        if (dbHolding == null)
+            return apiDatagram.fail("Manager has no holdings");
+
+        String type = (String) m.get("type");
+
+        DbUser repr = new DbUser();
+        repr.setUuid(UUID.randomUUID().toString());
+        String key = (String) Arrays.stream(repr.getUuid().split("-")).toArray()[0];
+        repr.setPassword(key);
+        repr.setMail(key);
+        repr.setType(type.equals("Terminal") ? UserType.Terminal : UserType.Display);
+        repr.setIsGoogleAccount(false);
+        repr.setName(type.equals("Terminal") ? "Terminal" : "Wyświetlacz");
+        repr.setHolding(dbHolding.getUuid());
+
+        if (!UserController.insertUser(jdbcTemplate, repr))
+            return apiDatagram.fail("Internal server error");
+
+        apiDatagram.setData(repr);
+        return apiDatagram.success();
+    }
 }

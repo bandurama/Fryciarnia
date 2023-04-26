@@ -3,6 +3,7 @@ package pl.fryciarnia.holding;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.fryciarnia.user.DbUser;
+import pl.fryciarnia.user.UserController;
 
 import java.util.List;
 import java.util.UUID;
@@ -47,6 +48,15 @@ public class HoldingController
     return null;
   }
 
+  public static DbHolding getHoldingByManager (JdbcTemplate jdbcTemplate, DbUser manager)
+  {
+    List<DbHolding> holdings = fetchAll(jdbcTemplate);
+    for (DbHolding h : holdings)
+      if (h.getManager().equals(manager.getUuid()))
+        return h;
+    return null;
+  }
+
   public static boolean removeHolding (JdbcTemplate jdbcTemplate, DbHolding holding)
   {
     try
@@ -81,5 +91,15 @@ public class HoldingController
       return false;
     }
     return true;
+  }
+
+  public static List<DbUser> getFamiliarUsersByHolding (JdbcTemplate jdbcTemplate, DbHolding dbHolding)
+  {
+    return UserController
+        .fetchAll(jdbcTemplate)
+        .stream()
+        .filter(user ->
+            user.getHolding() != null && user.getHolding().equals(dbHolding.getUuid()))
+        .toList();
   }
 }

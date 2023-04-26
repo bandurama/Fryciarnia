@@ -13,6 +13,7 @@ import java.util.Map;
 @Data
 public class DbStock
 {
+  private String uuid;
   private String holding;
   private String ingridient;
   private Float quantity;
@@ -22,6 +23,7 @@ public class DbStock
   {
     DbStock self = new DbStock();
     Map<String, Object> m = (new ObjectMapper()).readValue(json, Map.class);
+    self.setUuid((String) m.get("uuid"));
     self.setIngridient((String) m.get("ingridient"));
     self.setHolding((String) m.get("holding"));
     self.setQuantity(Float.valueOf((String) m.get("quantity")));
