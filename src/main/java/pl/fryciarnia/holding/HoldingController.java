@@ -93,14 +93,4 @@ public class HoldingController
     }
     return true;
   }
-
-  public static List<DbUser> getFamiliarUsersByHolding (JdbcTemplate jdbcTemplate, DbHolding dbHolding)
-  {
-    return UserController
-        .fetchAll(jdbcTemplate)
-        .stream()
-        .filter(user ->
-            user.getHolding() != null && user.getHolding().equals(dbHolding.getUuid()))
-        .toList();
-  }
 }

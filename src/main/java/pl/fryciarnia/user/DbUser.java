@@ -19,7 +19,6 @@ public class DbUser
     private String surname;
     private String password;
     private UserType type;
-    private String holding;
 
     @SneakyThrows
     public static DbUser fromJSON (String json)
@@ -34,8 +33,6 @@ public class DbUser
         u.setSurname((String) m.get("surname"));
         u.setPassword((String) m.get("password"));
         u.setType(UserType.valueOf((String) m.get("type")));
-        u.setHolding((String) m.get("holding"));
-
 
         return u;
     }

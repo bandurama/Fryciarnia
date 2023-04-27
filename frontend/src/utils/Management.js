@@ -20,6 +20,11 @@ export default function Management ({ nav, views, onLogout, title })
 
 	console.log(nav);
 
+	/**
+	 * What a usefull and joyfull framewor
+	 * it really saves developer time
+	 * -- says nobody
+	 */
 	return (
 		<>
 			<header className="bg-light">
@@ -35,24 +40,24 @@ export default function Management ({ nav, views, onLogout, title })
 			<div className="container-fluid">
 				<div className="row">
 					<nav className="col bg-light">
-						<ul className="nav flex-column">
 							{
 								nav.map((section) => (
-									<>
-										<h3 key={section.title}>{section.title}</h3>
+									<div key={section.title}>
+										<h3 key={`H3${section.title}`}>{section.title}</h3>
+										<ul className="nav flex-column" key={`UL${section.title}`}>
 										{
 											section.routes.map((route) => (
-												<>
-													<li className="nav-item px-1" key={route.name}>
-														<a className="nav-link" href={route.href}>{route.name}</a>
+												<div key={`DIV${route.href}`}>
+													<li className="nav-item px-1" key={`LI${route.href}`}>
+														<a className="nav-link" href={route.href} key={`A${route.href}`}>{route.name}</a>
 													</li>
-												</>
+												</div>
 											))
 										}
-									</>
+										</ul>
+									</div>
 								))
 							}
-						</ul>
 					</nav>
 					<main className="col-10 h-100 px-1 py-5 mb-5">
 						{displayView()}

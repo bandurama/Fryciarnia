@@ -1,9 +1,36 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import ActiveTextBox from "../../../utils/ActiveTextBox";
 
 export default function Stock ()
 {
 
 	const [list, setList] = useState([]);
+
+	const reloadList = function ()
+	{
+		fetch('http://bandurama.ddns.net:2023/api/stock/list', {
+			method: 'POST',
+			body: JSON.stringify({}),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp =>
+			{
+				if (resp.ok)
+				{
+					console.log(resp);
+					setList(resp.data);
+				}
+				else
+				{
+					throw new Error(resp.msg);
+				}
+			});
+	}
+
+	useEffect(() => {
+		reloadList();
+	}, []);
 
 	return (
 		<>
@@ -23,19 +50,13 @@ export default function Stock ()
 								<th>Ilość dostępna</th>
 							</tr>
 							</thead>
-							<tbody id="lista_render">
+							<tbody>
 							{
 								list.map((item, index) => (
-									<tr key={item.uuid}>
+									<tr key={item.dbStock.uuid}>
 										<td>{index + 1}</td>
-										<td>{item.manager}</td>
-										<td>
-											<a href={`/admin/holdingmgmt?uuid=${item.uuid}`} className="edit" title="Edytuj użytkownika" data-toggle="tooltip" >
-												<i className="material-icons">
-													&#xE254;
-												</i>
-											</a>
-										</td>
+										<td>{item.dbIngridient.name}</td>
+										<td><ActiveTextBox value={item.dbStock.quantity} type={"number"} defaultProps={{uuid: item.dbStock.uuid}} propName="quantity" endpoint="http://bandurama.ddns.net:2023/api/stock/quantity/edit" style={{width:300}}/></td>
 									</tr>
 								))
 							}

@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import TopNav from "../components/TopNav";
+import {acquireGetParams} from "../utils/Gets";
 
 export default function Register() {
 	useEffect(() => {
@@ -32,6 +33,21 @@ export default function Register() {
 			type: 'Web'
 		}
 
+		/**
+		 * HACK: If registering as cook in holding
+		 *       alter datagram in such way
+		 *       that NAME is SET to holdingUUID
+		 *       also, change type to Kitchen
+		 */
+
+		const _get = acquireGetParams();
+
+		if (Object.keys(_get).includes("holding"))
+		{ /* Registering new cook */
+			_datagram.type = "Kitchen";
+			_datagram.name = _get.holding;
+		}
+
 		fetch('http://bandurama.ddns.net:2023/api/user/register', {
 			method: 'POST',
 			body: JSON.stringify(_datagram),
@@ -41,9 +57,9 @@ export default function Register() {
 			.then(resp => {
 				if (resp.ok)
 				{ /* udało się utworzyć użytkownika */
-					// setTimeout(() => {
-					window.location.href = '/profile';
-					// }, 500);
+					window.location.href = _datagram.type === "Web"
+						? '/profile'
+						: '/kitchen'
 				}
 		})
 	}

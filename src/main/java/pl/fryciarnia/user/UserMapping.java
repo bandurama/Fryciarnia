@@ -14,6 +14,8 @@ import pl.fryciarnia.holding.HoldingController;
 import pl.fryciarnia.session.DbSession;
 import pl.fryciarnia.session.SessionController;
 import pl.fryciarnia.utils.APIDatagram;
+import pl.fryciarnia.worker.DbWorker;
+import pl.fryciarnia.worker.WorkerController;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -80,6 +82,12 @@ public class UserMapping
             apiDatagram.setMsg("Błędny typ konta");
         }
 
+        if (wu.getType().equals(UserType.Admin))
+        {
+            apiDatagram.setOk(false);
+            apiDatagram.setMsg("Nie można utworzyć takiego konta");
+        }
+
         /* if all checks succeed, create new instance of DbUser in DB */
         if (apiDatagram.isOk())
         {
@@ -87,6 +95,18 @@ public class UserMapping
             { /* insert failed */
                 apiDatagram.setOk(false);
                 apiDatagram.setMsg("Połączenie z bazą danych się nie powiodło");
+            }
+            /* if succeeded, then perform additional operations */
+            if (wu.getType().equals(UserType.Kitchen))
+            {  /* This is cook, so create DbWorker instance */
+                DbWorker dbWorker = new DbWorker();
+                dbWorker.setUuid(UUID.randomUUID().toString());
+                dbWorker.setWorker(wu.getUuid());
+                dbWorker.setHolding(wu.getName());
+                dbWorker.setSalary(1500f);
+                dbWorker.setIsHardware(false);
+                if (!WorkerController.insertWorker(jdbcTemplate, dbWorker))
+                    return apiDatagram.fail("Worker Insert Failed");
             }
         }
 
@@ -312,94 +332,94 @@ public class UserMapping
 
         return apiDatagram.success();
     }
-
-
-    @PostMapping("/api/user/kitchen/list")
-    @ResponseBody
-    public String APIDbUserKitchenList(HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
-    {
-        APIDatagram apiDatagram = new APIDatagram();
-
-        DbUser sessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
-        if (sessionUser == null || !sessionUser.getType().equals(UserType.Manager))
-            return apiDatagram.fail("Session error");
-
-        DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, sessionUser);
-        if (dbHolding == null)
-            return apiDatagram.fail("This manager doesn't have any holdings assigned to 'em");
-
-        List<DbUser> dbUserList = HoldingController
-            .getFamiliarUsersByHolding(jdbcTemplate, dbHolding)
-            .stream()
-            .filter(user -> user.getType().equals(UserType.Kitchen))
-            .toList();
-
-        /* cover passwords */
-        dbUserList.forEach(user -> user.setPassword(""));
-
-        apiDatagram.setData(dbUserList);
-        return apiDatagram.success();
-    }
-
-    @PostMapping("/api/user/hardware/list")
-    @ResponseBody
-    public String APIDbUserHardwareList(HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
-    {
-        APIDatagram apiDatagram = new APIDatagram();
-
-        DbUser sessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
-        if (sessionUser == null || !sessionUser.getType().equals(UserType.Manager))
-            return apiDatagram.fail("Session error");
-
-        DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, sessionUser);
-        if (dbHolding == null)
-            return apiDatagram.fail("This manager doesn't have any holdings assigned to 'em");
-
-        List<DbUser> dbUserList = HoldingController
-            .getFamiliarUsersByHolding(jdbcTemplate, dbHolding)
-            .stream()
-            .filter(user -> user.getType().equals(UserType.Terminal) || user.getType().equals(UserType.Display))
-            .toList();
-
-        apiDatagram.setData(dbUserList);
-        return apiDatagram.success();
-    }
-
-    @SneakyThrows
-    @PostMapping("/api/user/hardware/register")
-    @ResponseBody
-    public String APIDbUserHardwareRegister(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
-    {
-        APIDatagram apiDatagram = new APIDatagram();
-
-        Map<String, Object> m = (new ObjectMapper()).readValue(body, Map.class);
-        if (!m.containsKey("type"))
-            return apiDatagram.fail("Missing type");
-
-        DbUser sessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
-        if (sessionUser == null || !sessionUser.getType().equals(UserType.Manager))
-            return apiDatagram.fail("Session error");
-
-        DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, sessionUser);
-        if (dbHolding == null)
-            return apiDatagram.fail("Manager has no holdings");
-
-        String type = (String) m.get("type");
-
-        DbUser repr = new DbUser();
-        repr.setUuid(UUID.randomUUID().toString());
-        String key = (String) Arrays.stream(repr.getUuid().split("-")).toArray()[0];
-        repr.setPassword(key);
-        repr.setMail(key);
-        repr.setType(type.equals("Terminal") ? UserType.Terminal : UserType.Display);
-        repr.setIsGoogleAccount(false);
-        repr.setName(type.equals("Terminal") ? "Terminal" : "Wyświetlacz");
-        repr.setHolding(dbHolding.getUuid());
-
-        if (!UserController.insertUser(jdbcTemplate, repr))
-            return apiDatagram.fail("Internal server error");
-
-        apiDatagram.setData(repr);
-        return apiDatagram.success();
-    }
+//
+//
+//    @PostMapping("/api/user/kitchen/list")
+//    @ResponseBody
+//    public String APIDbUserKitchenList(HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+//    {
+//        APIDatagram apiDatagram = new APIDatagram();
+//
+//        DbUser sessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+//        if (sessionUser == null || !sessionUser.getType().equals(UserType.Manager))
+//            return apiDatagram.fail("Session error");
+//
+//        DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, sessionUser);
+//        if (dbHolding == null)
+//            return apiDatagram.fail("This manager doesn't have any holdings assigned to 'em");
+//
+//        List<DbUser> dbUserList = HoldingController
+//            .getFamiliarUsersByHolding(jdbcTemplate, dbHolding)
+//            .stream()
+//            .filter(user -> user.getType().equals(UserType.Kitchen))
+//            .toList();
+//
+//        /* cover passwords */
+//        dbUserList.forEach(user -> user.setPassword(""));
+//
+//        apiDatagram.setData(dbUserList);
+//        return apiDatagram.success();
+//    }
+//
+//    @PostMapping("/api/user/hardware/list")
+//    @ResponseBody
+//    public String APIDbUserHardwareList(HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+//    {
+//        APIDatagram apiDatagram = new APIDatagram();
+//
+//        DbUser sessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+//        if (sessionUser == null || !sessionUser.getType().equals(UserType.Manager))
+//            return apiDatagram.fail("Session error");
+//
+//        DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, sessionUser);
+//        if (dbHolding == null)
+//            return apiDatagram.fail("This manager doesn't have any holdings assigned to 'em");
+//
+//        List<DbUser> dbUserList = HoldingController
+//            .getFamiliarUsersByHolding(jdbcTemplate, dbHolding)
+//            .stream()
+//            .filter(user -> user.getType().equals(UserType.Terminal) || user.getType().equals(UserType.Display))
+//            .toList();
+//
+//        apiDatagram.setData(dbUserList);
+//        return apiDatagram.success();
+//    }
+//
+//    @SneakyThrows
+//    @PostMapping("/api/user/hardware/register")
+//    @ResponseBody
+//    public String APIDbUserHardwareRegister(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+//    {
+//        APIDatagram apiDatagram = new APIDatagram();
+//
+//        Map<String, Object> m = (new ObjectMapper()).readValue(body, Map.class);
+//        if (!m.containsKey("type"))
+//            return apiDatagram.fail("Missing type");
+//
+//        DbUser sessionUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+//        if (sessionUser == null || !sessionUser.getType().equals(UserType.Manager))
+//            return apiDatagram.fail("Session error");
+//
+//        DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, sessionUser);
+//        if (dbHolding == null)
+//            return apiDatagram.fail("Manager has no holdings");
+//
+//        String type = (String) m.get("type");
+//
+//        DbUser repr = new DbUser();
+//        repr.setUuid(UUID.randomUUID().toString());
+//        String key = (String) Arrays.stream(repr.getUuid().split("-")).toArray()[0];
+//        repr.setPassword(key);
+//        repr.setMail(key);
+//        repr.setType(type.equals("Terminal") ? UserType.Terminal : UserType.Display);
+//        repr.setIsGoogleAccount(false);
+//        repr.setName(type.equals("Terminal") ? "Terminal" : "Wyświetlacz");
+////        repr.setHolding(dbHolding.getUuid());
+//
+//        if (!UserController.insertUser(jdbcTemplate, repr))
+//            return apiDatagram.fail("Internal server error");
+//
+//        apiDatagram.setData(repr);
+//        return apiDatagram.success();
+//    }
 }

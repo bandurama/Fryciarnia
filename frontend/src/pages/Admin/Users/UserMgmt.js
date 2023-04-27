@@ -8,35 +8,6 @@ export default function UserMgmt ()
 	const [editting, setEditting] = useState(null);
 	const [userType, setUserType] = useState(null);
 
-	const [listOfHoldings, setListOfHoldings] = useState([]);
-
-
-	const __symlinked_user_types = ["Kitchen", "Display", "Terminal"];
-
-	const reloadHoldingsList = function (callback)
-	{
-
-		fetch('http://bandurama.ddns.net:2023/api/holding/list', {
-			method: 'POST',
-			body: JSON.stringify({}),
-			credentials: 'include'
-		})
-			.then((response) => response.json())
-			.then(resp =>
-			{
-				if (resp.ok)
-				{
-					console.log(resp.data);
-					setListOfHoldings(resp.data);
-					callback();
-				}
-				else
-				{
-					throw new Error(resp.msg);
-				}
-			});
-	}
-
 	useEffect(() => {
 		const _get = acquireGetParams();
 
@@ -45,13 +16,8 @@ export default function UserMgmt ()
 			{ /* also fetch */
 				setEditting(_get.uuid);
 				// fillInUserInfo(_get.uuid);
-				reloadHoldingsList(() => fillInUserInfo(_get.uuid))
+				fillInUserInfo(_get.uuid);
 			}
-
-		if (_get == null)
-			reloadHoldingsList(() => {});
-
-
 	}, []);
 
 
@@ -138,7 +104,6 @@ export default function UserMgmt ()
 
 	}
 
-
 	return (
 		<>
 			<div className="container">
@@ -177,19 +142,6 @@ export default function UserMgmt ()
 										<option value="Web">Zwykły użytkownik</option>
 									</select>
 								</div>
-
-								<div className="col-sm-6">
-									<label htmlFor="holding" className="form-label">Powiązana Franczyza</label>
-									<select className="form-select" name="holding" required disabled={!__symlinked_user_types.includes(userType)}>
-										<option value="" disabled selected>Wybierz</option>
-										{
-											listOfHoldings.map((holding) => (
-												<option key={holding.uuid} value={holding.uuid}>{holding.localization}</option>
-											))
-										}
-									</select>
-								</div>
-
 								<div className="form-check">
 									<input type="checkbox" className="form-check-input" name="isGoogleAccount"/>
 										<label className="form-check-label" htmlFor="isGoogleAccount">Autoryzacja google</label>

@@ -12,6 +12,7 @@ import pl.fryciarnia.user.DbUser;
 import pl.fryciarnia.user.UserController;
 import pl.fryciarnia.user.UserType;
 import pl.fryciarnia.utils.APIDatagram;
+import pl.fryciarnia.worker.WorkerController;
 
 import java.util.List;
 import java.util.Map;
