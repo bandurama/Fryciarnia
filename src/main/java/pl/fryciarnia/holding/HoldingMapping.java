@@ -150,6 +150,14 @@ public class HoldingMapping
     if (!HoldingController.insertHolding(jdbcTemplate, dbHolding))
       return apiDatagram.fail("Internal server error");
 
+    /* create hardware accounts */
+    boolean errorLevel = true;
+    errorLevel &= WorkerController.newHardware(jdbcTemplate, dbHolding, UserType.Display);
+    errorLevel &= WorkerController.newHardware(jdbcTemplate, dbHolding, UserType.Terminal);
+
+    if (!errorLevel)
+      return apiDatagram.fail("Internal server error regarding workers registration");
+
     apiDatagram.setData(dbHolding);
     return apiDatagram.success();
   }

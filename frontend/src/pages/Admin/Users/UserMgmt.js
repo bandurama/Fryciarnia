@@ -168,7 +168,7 @@ export default function UserMgmt ()
 
 								<div className="col-sm-6">
 									<label htmlFor="lastName" className="form-label">Typ konta</label>
-									<select className="form-select" name="type" required value={userType} onChange={(e) => setUserType(e.target.value)}>
+									<select className="form-select" name="type" required value={userType} onChange={(e) => setUserType(e.target.value)} disabled={editting != null}>
 										<option value="" disabled selected>Wybierz</option>
 										<option value="Manager">Menedżer</option>
 										<option value="Kitchen">Kucharz</option>

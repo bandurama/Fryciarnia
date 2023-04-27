@@ -27,6 +27,7 @@ public class HoldingController
       System.out.println(e);
       return false;
     }
+
     return true;
   }
 
@@ -62,7 +63,7 @@ public class HoldingController
     try
     {
       jdbcTemplate.update ("DELETE FROM DBORDERS WHERE HOLDING = ?", new Object [] { holding.getUuid() });
-      jdbcTemplate.update ("DELETE FROM DBINGRIDIENTS WHERE HOLDING = ?", new Object [] { holding.getUuid() });
+      jdbcTemplate.update ("DELETE FROM DBSTOCK WHERE HOLDING = ?", new Object [] { holding.getUuid() });
       jdbcTemplate.update ("DELETE FROM DBHOLDING WHERE UUID = ?", new Object [] { holding.getUuid() });
     }
     catch (Exception e)

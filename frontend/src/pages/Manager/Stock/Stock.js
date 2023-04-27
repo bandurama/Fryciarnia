@@ -21,7 +21,6 @@ export default function Stock ()
 								<th>#</th>
 								<th>Nazwa składnika</th>
 								<th>Ilość dostępna</th>
-								<th>Operacje</th>
 							</tr>
 							</thead>
 							<tbody id="lista_render">

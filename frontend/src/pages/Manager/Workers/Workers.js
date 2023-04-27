@@ -127,6 +127,7 @@ export default function Workers ()
 								<th>Imie</th>
 								<th>Nazwisko</th>
 								<th>Mail</th>
+								<th>Pensja</th>
 								<th>Operacje</th>
 							</tr>
 							</thead>

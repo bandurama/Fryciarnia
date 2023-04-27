@@ -81,15 +81,14 @@ public class UserController
 				{
 					jdbcTemplate.update
 							(
-									"INSERT INTO DbUser VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+									"INSERT INTO DbUser VALUES(?, ?, ?, ?, ?, ?, ?)",
 									webUser.getUuid(),
 									webUser.getIsGoogleAccount() ? 1 : 0,
 									webUser.getMail(),
 									webUser.getName(),
 									webUser.getSurname(),
 									webUser.getPassword(),
-									webUser.getType().ordinal(),
-									webUser.getHolding()
+									webUser.getType().ordinal()
 							);
 				}
 				catch (Exception e)
