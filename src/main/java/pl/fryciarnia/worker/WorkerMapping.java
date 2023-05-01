@@ -107,5 +107,22 @@ public class WorkerMapping
     apiDatagram.setData(dbWorker);
     return apiDatagram.success();
   }
+  @PostMapping("/api/worker/hire")
+  @ResponseBody
+  public String APIDbWorkerHire (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+  {
+    APIDatagram apiDatagram = new APIDatagram();
+
+    DbUser dbUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+    if (dbUser == null || !dbUser.getType().equals(UserType.Manager))
+      return apiDatagram.fail("No perms");
+
+    DbHolding dbHolding = HoldingController.getHoldingByManager(jdbcTemplate, dbUser);
+    if (dbHolding == null)
+      return apiDatagram.fail("Manager has no holdings");
+
+    apiDatagram.setData(String.format("http://bandurama.ddns.net/register?holding=%s", dbHolding.getUuid()));
+    return apiDatagram.success();
+  }
 
 }

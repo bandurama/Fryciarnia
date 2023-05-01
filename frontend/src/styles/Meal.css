@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
 
 .meal-title
 {
@@ -48,4 +49,15 @@
 	font-family: 'Arial';
 	font-weight: bold;
 	font-size: 18px;
+}
+
+.card > .price
+{
+	background-color: #f74539;
+	font-family: 'Alfa Slab One', cursive;
+	padding: 25px 75px;
+	box-sizing: border-box;
+	font-size: 70px;
+	color: white;
+	margin-top: 330px;
 }

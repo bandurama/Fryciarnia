@@ -64,6 +64,7 @@ export default function Ingridients ()
 							<thead>
 							<tr>
 								<th>#</th>
+								<th>Ikonka</th>
 								<th>uuid</th>
 								<th>Nazwa składniku</th>
 								<th>Operacje</th>
@@ -74,6 +75,7 @@ export default function Ingridients ()
 								list.map((item, index) => (
 									<tr key={item.uuid}>
 										<td>{index + 1}</td>
+										<td><img src={item.icon} style={{width: 75, height: 75}}/></td>
 										<td>{item.uuid}</td>
 										<td>{item.name}</td>
 										<td>

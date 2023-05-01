@@ -47,22 +47,7 @@ public class RecipeMapping
 
     String uuid = (String) m.get("uuid");
     DbMeal dbMeal = MealController.getMealByUUID(jdbcTemplate, uuid);
-
-    List<DbRecipe> dbRecipeList = RecipeController.getRecipesByMeal(jdbcTemplate, dbMeal);
-    List<AdpRecipeIngridient> adpRecipeIngridients = new ArrayList<>();
-
-    for (DbRecipe dbRecipe : dbRecipeList)
-    {
-      DbIngridient dbIngridient = IngridientController.getIngridientByUUID(jdbcTemplate, dbRecipe.getIngridient());
-      if (dbIngridient == null)
-        return apiDatagram.fail("Weird error, cannot create AdpRecipeIngridient cause DbIngridient is NULL");
-      AdpRecipeIngridient adpRecipeIngridient = new AdpRecipeIngridient();
-      adpRecipeIngridient.setDbRecipe(dbRecipe);
-      adpRecipeIngridient.setDbIngridient(dbIngridient);
-      adpRecipeIngridients.add(adpRecipeIngridient);
-    }
-
-    apiDatagram.setData(adpRecipeIngridients);
+    apiDatagram.setData(RecipeController.getRecipeIngridientByDbMeal(jdbcTemplate, dbMeal));
     return apiDatagram.success();
   }
 

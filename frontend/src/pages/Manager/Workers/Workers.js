@@ -1,10 +1,35 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import ActiveTextBox from "../../../utils/ActiveTextBox";
 
 export default function Workers ()
 {
 	const [cooksList, setCooksList] = useState([]);
 	const [hardwareList, setHardwareList] = useState([]);
+
+	const [hireUrl, setHireUrl] = useState('');
+	const hireBox = useRef();
+
+	const fetchHireUrl = function ()
+	{
+
+		fetch('http://bandurama.ddns.net:2023/api/worker/hire', {
+			method: 'POST',
+			body: JSON.stringify({}),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp =>
+			{
+				if (resp.ok)
+				{
+					setHireUrl(resp.data);
+				}
+				else
+				{
+					throw new Error(resp.msg);
+				}
+			});
+	}
 
 	const reloadData = function ()
 	{
@@ -29,31 +54,9 @@ export default function Workers ()
 			});
 	}
 
-
-	// const fetchHardwareData = function ()
-	// {
-	// 	fetch('http://bandurama.ddns.net:2023/api/user/hardware/list', {
-	// 		method: 'POST',
-	// 		body: JSON.stringify({}),
-	// 		credentials: 'include'
-	// 	})
-	// 		.then((response) => response.json())
-	// 		.then(resp =>
-	// 		{
-	// 			if (resp.ok)
-	// 			{
-	// 				console.log(resp.data);
-	// 				setHardwareList(resp.data);
-	// 			}
-	// 			else
-	// 			{
-	// 				throw new Error(resp.msg);
-	// 			}
-	// 		});
-	// }
-
 	useEffect(() => {
 		reloadData();
+		fetchHireUrl();
 	}, []);
 
 	const eventRemove = function (uuid)
@@ -77,39 +80,6 @@ export default function Workers ()
 			});
 	}
 
-	// const onAddDisplay = function (e)
-	// {
-	// 	apiAddHardware("Display");
-	// }
-	//
-	// const onAddTerminal = function (e)
-	// {
-	// 	apiAddHardware("Terminal");
-	// }
-
-	// const apiAddHardware = function (type)
-	// {
-	//
-	// 	fetch('http://bandurama.ddns.net:2023/api/user/hardware/register', {
-	// 		method: 'POST',
-	// 		body: JSON.stringify({type: type}),
-	// 		credentials: 'include'
-	// 	})
-	// 		.then((response) => response.json())
-	// 		.then(resp =>
-	// 		{
-	// 			if (resp.ok)
-	// 			{
-	// 				console.log(resp.data);
-	// 				// fetchHardwareData();
-	// 			}
-	// 			else
-	// 			{
-	// 				alert("Nie udało się dodać osprzetu: " + resp.msg);
-	// 				throw new Error(resp.msg);
-	// 			}
-	// 		});
-	// }
 
 	return (
 		<>
@@ -179,18 +149,10 @@ export default function Workers ()
 										<td>{index + 1}</td>
 										<td>{item.user.name}</td>
 										<td>{item.user.mail}</td>
-										{/*<td>*/}
-										{/*	<a href="#" className="delete" title="Zwolnij pracownika" data-toggle="tooltip" onClick={(e) => eventRemove(item.worker.uuid)}>*/}
-										{/*		<i className="material-icons">*/}
-										{/*			&#xE872;*/}
-										{/*		</i>*/}
-										{/*	</a>*/}
-										{/*</td>*/}
 									</tr>
 								))
 							}
 							</tbody>
-
 						</table>
 					</div>
 				</div>

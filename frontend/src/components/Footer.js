@@ -5,7 +5,7 @@ export default function Footer ()
 	return (
 		<>
 			<div className="bottom-nav">
-				<a href="/menu">NASZE MENU</a>
+				<a href="/menu/all">NASZE MENU</a>
 				<a href="#">WSZYSTKIE LOKALE</a>
 				<a href="#">ALERGENY</a>
 				<a href="#">HISTORIA FRYCIARNI</a>

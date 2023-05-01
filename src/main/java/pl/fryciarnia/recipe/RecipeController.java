@@ -3,8 +3,11 @@ package pl.fryciarnia.recipe;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.fryciarnia.ingridient.DbIngridient;
+import pl.fryciarnia.ingridient.IngridientController;
 import pl.fryciarnia.meal.DbMeal;
+import pl.fryciarnia.meal.MealController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeController
@@ -70,5 +73,25 @@ public class RecipeController
       return false;
     }
     return true;
+  }
+
+  public static List<AdpRecipeIngridient> getRecipeIngridientByDbMeal (JdbcTemplate jdbcTemplate, DbMeal dbMeal)
+  {
+    List<DbRecipe> dbRecipeList = RecipeController.getRecipesByMeal(jdbcTemplate, dbMeal);
+    List<AdpRecipeIngridient> adpRecipeIngridients = new ArrayList<>();
+
+    for (DbRecipe dbRecipe : dbRecipeList)
+    {
+      DbIngridient dbIngridient = IngridientController.getIngridientByUUID(jdbcTemplate, dbRecipe.getIngridient());
+      if (dbIngridient == null)
+        return null;
+
+      AdpRecipeIngridient adpRecipeIngridient = new AdpRecipeIngridient();
+      adpRecipeIngridient.setDbRecipe(dbRecipe);
+      adpRecipeIngridient.setDbIngridient(dbIngridient);
+      adpRecipeIngridients.add(adpRecipeIngridient);
+    }
+
+    return adpRecipeIngridients;
   }
 }

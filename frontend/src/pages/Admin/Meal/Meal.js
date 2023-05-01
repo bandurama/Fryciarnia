@@ -67,7 +67,8 @@ export default function Meal ()
 								<th>uuid</th>
 								<th>Nazwa posiłku</th>
 								<th>Cena</th>
-								<th>Zdjęcie</th>
+								<th>Ikona</th>
+								<th>Baner</th>
 								<th>Czy Dostępne</th>
 								<th>Operacje</th>
 							</tr>
@@ -80,7 +81,8 @@ export default function Meal ()
 										<td>{item.uuid}</td>
 										<td>{item.name}</td>
 										<td>{item.price}</td>
-										<td><img src={item.image} style={{width: 75, height: 75}}/></td>
+										<td><img src={item.icon} style={{width: 75, height: 75}}/></td>
+										<td><img src={item.image} style={{width: 150, height: 75}}/></td>
 										<td>{item.isListed ? "TAK" : "NIE"}</td>
 										<td>
 											<a href={`/admin/mealsmgmt?uuid=${item.uuid}`} className="edit" title="Edytuj posiłek" data-toggle="tooltip" >

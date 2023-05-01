@@ -18,6 +18,7 @@ public class DbMeal
   private String name;
   private float price;
   private String image;
+  private String icon;
   private Boolean isListed;
 
   @SneakyThrows
@@ -30,6 +31,7 @@ public class DbMeal
     self.setName((String) m.get("name"));
     self.setPrice(Float.parseFloat((String) m.get("price")));
     self.setImage((String) m.get("image"));
+    self.setIcon((String) m.get("icon"));
     self.setIsListed((Boolean) m.get("isListed"));
 
     return self;

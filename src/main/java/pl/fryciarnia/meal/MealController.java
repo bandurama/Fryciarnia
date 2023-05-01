@@ -14,11 +14,12 @@ public class MealController
     {
       jdbcTemplate.update
           (
-              "INSERT INTO DbMeal VALUES(?, ?, ?, ?, ?)",
+              "INSERT INTO DbMeal VALUES(?, ?, ?, ?, ?, ?)",
               dbMeal.getUuid(),
               dbMeal.getName(),
               dbMeal.getPrice(),
               dbMeal.getImage(),
+              dbMeal.getIcon(),
               dbMeal.getIsListed()
           );
     } catch (Exception e)
@@ -67,10 +68,12 @@ public class MealController
     {
       jdbcTemplate.update
           (
-              "UPDATE DBMEAL SET NAME = ?, PRICE = ?, IMAGE = ? WHERE UUID = ?",
+              "UPDATE DBMEAL SET NAME = ?, PRICE = ?, IMAGE = ?, ICON = ?, ISLISTED = ? WHERE UUID = ?",
               dbMeal.getName(),
               dbMeal.getPrice(),
               dbMeal.getImage(),
+              dbMeal.getIcon(),
+              dbMeal.getIsListed(),
               dbMeal.getUuid()
           );
     }

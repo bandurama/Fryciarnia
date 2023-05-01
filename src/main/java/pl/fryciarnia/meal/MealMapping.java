@@ -100,4 +100,20 @@ public class MealMapping
     return apiDatagram.success();
   }
 
+  @SneakyThrows
+  @PostMapping("/api/meal/edit")
+  @ResponseBody
+  public String APIDbMealEdit (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+  {
+    APIDatagram apiDatagram = new APIDatagram();
+    DbMeal newMeal = DbMeal.fromJSON(body);
+//    System.out.println(newMeal);
+
+    if (!MealController.updateMeal(jdbcTemplate, newMeal))
+      return apiDatagram.fail("Internal server error");
+
+    apiDatagram.setData(newMeal);
+    return apiDatagram.success();
+  }
+
 }

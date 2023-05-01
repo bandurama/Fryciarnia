@@ -1,14 +1,17 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import "../styles/Main.css";
 import TopNav from "../components/TopNav";
 import Footer from "../components/Footer";
 
 export default function Main() {
 	useEffect(() => {
-		document.title = 'Strona Główna - Fryciarnia'
+		document.title = 'Strona Główna - Fryciarnia';
+		fetchHoldings();
 	}, []);
 
 	const [activeSlide, setActiveSlide] = useState(0);
+	const [holdingList, setHoldingList] = useState([]);
+	const holdingSelectBox = useRef();
 	const __slide_count = 5;
 
 	const slideBack = function (e)
@@ -22,6 +25,27 @@ export default function Main() {
 	{
 		setActiveSlide((activeSlide + 1) % (__slide_count + 1));
 		console.log('forw', e);
+	}
+
+	const fetchHoldings = function ()
+	{
+		fetch('http://bandurama.ddns.net:2023/api/holding/list', {
+			method: 'POST',
+			body: JSON.stringify({}),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp => {
+					if (resp.ok)
+						setHoldingList(resp.data);
+				}
+			)
+	}
+
+	const evtIdz = function (e)
+	{
+		const selectedHoldingUUID = holdingSelectBox.current.value;
+		window.location.href = `http://bandurama.ddns.net/menu/${selectedHoldingUUID}`;
 	}
 
 	return (
@@ -62,11 +86,11 @@ export default function Main() {
 							<div className="pict">
 								<img src="./icons/gps.png"/>
 							</div>
-							<select>
-								<option value="">Kielce, Aleja 100-lecia</option>
+							<select ref={holdingSelectBox}>
+								{holdingList.map((holding) => <option value={holding.uuid} key={holding.uuid}>{holding.localization}</option>)}
 							</select>
 						</div>
-						<button>IDŹ</button>
+						<button onClick={evtIdz}>IDŹ</button>
 					</div>
 				</div>
 				<div className="card" id="card-team">

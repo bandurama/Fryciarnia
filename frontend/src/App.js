@@ -23,8 +23,8 @@ function App() {
 				<Route path="/gauth" Component={GAuth} />
 				<Route path="/profile" Component={Profile} />
 				<Route path="/tickets" Component={Tickets} />
-				<Route path="/menu" Component={Menu} />
-				<Route path="/menu/:meal" Component={Meal} />
+				<Route path="/menu/:holding" Component={Menu} />
+				<Route path="/meal/:holding/:meal" Component={Meal} />
 				<Route path="/admin/:option" Component={Admin} />
 				<Route path="/manager/:option" Component={Manager} />
 				<Route path="/profile/history" Component={History} />
