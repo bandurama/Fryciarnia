@@ -112,6 +112,10 @@ export default function IngridientMgmt ()
 									<label htmlFor="name" className="form-label">Nazwa</label>
 									<input type="text" className="form-control" name="name" placeholder="" required/>
 								</div>
+								<div className="col-sm-6">
+									<label htmlFor="icon" className="form-label">Zdjęcie</label>
+									<input type="text" className="form-control" name="icon" placeholder="" required/>
+								</div>
 							</form>
 							<hr className="mt-5" />
 

@@ -194,6 +194,14 @@ export default function Workers ()
 						</table>
 					</div>
 				</div>
+				<hr className="mt-5" />
+				<div>Link do rejestracji konta dla pracownika kuchni:</div>
+				<div className="input-group mb-3" style={{width: 500}}>
+					<input type="text" className="form-control" id="betterthenreact" value={hireUrl} disabled={true}/>
+						<div className="input-group-append">
+							<button className="btn btn-outline-secondary" onClick={(e) => window.location.href = hireUrl}>Przejdź</button>
+						</div>
+				</div>
 			</div>
 		</>
 	)

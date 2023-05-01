@@ -16,6 +16,7 @@ public class DbIngridient
 {
   private String uuid;
   private String name;
+  private String icon;
 
   @SneakyThrows
   public static DbIngridient fromJSON (String json)
@@ -25,6 +26,7 @@ public class DbIngridient
 
     self.setUuid((String) m.get("uuid"));
     self.setName((String) m.get("name"));
+    self.setIcon((String) m.get("icon"));
 
     return self;
   }

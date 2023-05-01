@@ -23,9 +23,10 @@ public class IngridientController
     {
       jdbcTemplate.update
           (
-              "INSERT INTO DbIngridient VALUES(?, ?)",
+              "INSERT INTO DbIngridient VALUES(?, ?, ?)",
               dbIngridient.getUuid(),
-              dbIngridient.getName()
+              dbIngridient.getName(),
+              dbIngridient.getIcon()
           );
     }
     catch (Exception e)
@@ -91,8 +92,9 @@ public class IngridientController
     {
       jdbcTemplate.update
           (
-              "UPDATE DBINGRIDIENT SET NAME = ? WHERE UUID = ?",
+              "UPDATE DBINGRIDIENT SET NAME = ?, ICON = ? WHERE UUID = ?",
               dbIngridient.getName(),
+              dbIngridient.getIcon(),
               dbIngridient.getUuid()
           );
     }
