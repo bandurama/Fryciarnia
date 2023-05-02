@@ -84,7 +84,7 @@ export default function Workers ()
 	return (
 		<>
 			<div className="container-lg">
-				<div className="table-responsive">
+				<div className="table-responsive mb-5">
 					<div className="table-wrapper">
 						<div className="table-title">
 							<div className="row">
@@ -122,7 +122,7 @@ export default function Workers ()
 					</div>
 				</div>
 
-				<div className="table-responsive">
+				<div className="table-responsive mt-2">
 					<div className="table-wrapper">
 						<div className="table-title">
 							<div className="row">
@@ -156,7 +156,7 @@ export default function Workers ()
 						</table>
 					</div>
 				</div>
-				<hr className="mt-5" />
+				<hr className="my-5" />
 				<div>Link do rejestracji konta dla pracownika kuchni:</div>
 				<div className="input-group mb-3" style={{width: 500}}>
 					<input type="text" className="form-control" id="betterthenreact" value={hireUrl} disabled={true}/>

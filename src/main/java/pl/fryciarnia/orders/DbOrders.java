@@ -5,6 +5,8 @@ import lombok.SneakyThrows;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import pl.fryciarnia.order.OrderStatus;
+
 import java.util.Map;
 
 import java.sql.Timestamp;
@@ -21,11 +23,9 @@ public class DbOrders
   private Timestamp ctime;
   private String owner;
   private String holding;
-  private Boolean isCasched;
-  private Boolean isOut;
+  private OrderStatus orderStatus;
   private Boolean isTakeout;
-  private Boolean  isCancelled;
-  private Boolean isReady;
+
 
   @SneakyThrows
   public static DbOrders fromJSON (String json)
@@ -39,10 +39,8 @@ public class DbOrders
     self.setHolding((String) m.get("holding"));
     self.setOwner((String) m.get("owner"));
     self.setCtime(Timestamp.valueOf((String) m.get("ctime")));
-    self.setIsOut((Boolean) m.get("isOut"));
-    self.setIsCasched((Boolean) m.get("isCasched"));
-    self.setIsCancelled((Boolean) m.get("isCancelled"));
-    self.setIsReady((Boolean) m.get("isReady"));
+    //FIX
+    //self.setIsReady((Boolean) m.get("isReady"));
     self.setIsTakeout((Boolean) m.get("isTakeout"));
 		self.setTicket((Integer) m.get("ticket"));
 

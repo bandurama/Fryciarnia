@@ -89,11 +89,8 @@ CREATE TABLE DbOrders (
     ctime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     owner NVARCHAR2(128) NOT NULL,
     holding NVARCHAR2(128) NOT NULL,
-    isCashed NUMBER,
-    isOut NUMBER,
+    orderStatus NVARCHAR2(32),
     isTakeout NUMBER,
-    isCanceled NUMBER,
-    isReady NUMBER,
     CONSTRAINT DbOrders_pk PRIMARY KEY(uuid),
     CONSTRAINT DbOrders_DbHolding_fk FOREIGN KEY (holding) REFERENCES DbHolding(uuid),
     CONSTRAINT DbOrders_DbUser_fk FOREIGN KEY (owner) REFERENCES DbUser(uuid)

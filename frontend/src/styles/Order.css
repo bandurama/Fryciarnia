@@ -1,0 +1,108 @@
+
+.OrderWrapper
+{
+	/*position: absolute;*/
+	/*left: 5vw;*/
+	/*top: 200px;*/
+	margin-left: 5vw;
+	margin-top: 100px;
+	margin-bottom: 50px;
+	width: 90vw;
+	border-radius: 50px;
+	box-shadow: 4px 6px 14px 0px #969696;
+	/*display: flex;*/
+	/*flex-wrap: wrap;*/
+	/*flex-direction: row;*/
+	/*align-content: center;*/
+	/*align-items: center;*/
+	padding: 75px;
+	box-sizing: border-box;
+}
+
+.OrderWrapper > .meals
+{
+	display: grid;
+	grid-template-columns: repeat(auto-fill,minmax(300px, 1fr));
+}
+
+.OrderWrapper > .summary
+{
+	margin-top: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.OrderWrapper > .summary > button
+{
+	width: 400px;
+	padding: 20px;
+	box-sizing: border-box;
+	border: 0px;
+	outline: none;
+	background-color: #89D887;
+	border-radius: 20px;
+	font-family: Arial;
+	font-weight: bold;
+	color: white;
+	font-size: 20px;
+	box-shadow: 4px 6px 14px 0px #969696;
+	cursor: pointer;
+}
+
+.OrderWrapper > div > div
+{
+	margin: 30px;
+	padding: 30px;
+	box-shadow: 4px 6px 14px 0px #969696;
+	border-radius: 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.OrderWrapper > div > div > .icon > img
+{
+	width: 200px;
+	height: 160px;
+}
+
+.OrderWrapper > div > div > .name
+{
+	font-family: Arial;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.OrderWrapper > div > div > .ctl
+{
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+	width: 170px;
+	align-items: center;
+	font-family: Arial;
+	font-weight: bold;
+}
+
+.OrderWrapper > div > div > .ctl button
+{
+	border: 0px;
+	margin: 0px;
+	outline: none;
+	background-color: #fc5246;
+	width: 40px;
+	height: 40px;
+	border-radius: 10px;
+	font-size: 23px;
+	font-family: Arial;
+	font-weight: bold;
+	color: white;
+	cursor: pointer;
+}
+.OrderWrapper > div > div > .ctl .sub
+{
+	background-color: #ffbc00;
+}
