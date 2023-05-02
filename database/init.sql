@@ -51,6 +51,7 @@ CREATE TABLE DbMeal (
     name NVARCHAR2(64) NOT NULL,
     price NUMERIC(10,2) NOT NULL,
     image NVARCHAR2(512),
+    icon NVARCHAR2(512),
     isListed NUMBER,
     CONSTRAINT DbMeal_pk PRIMARY KEY(uuid)
 );
@@ -58,6 +59,7 @@ CREATE TABLE DbMeal (
 CREATE TABLE DbIngridient (
     uuid NVARCHAR2(128) NOT NULL,
     name NVARCHAR2(64) NOT NULL,
+    icon NVARCHAR2(512),
     CONSTRAINT DbIngridient_pk PRIMARY KEY(uuid)
 );
 

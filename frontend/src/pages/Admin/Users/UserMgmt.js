@@ -110,11 +110,11 @@ export default function UserMgmt ()
 				<div className="py-4 text-center">
 					<h2>Zarządzanie listą użytkowników</h2>
 				</div>
-				<div className="row g-4">
-					<div className="col-md-7 col-lg-8">
-						<h4 className="mb-3">Dodaj do listy użytkowników</h4>
-						<div className="row g-3">
-							<form id="user">
+				<form id="user">
+					<div className="row g-3">
+						<div className="col-sm-8">
+							<h4 className="mb-3">Dodaj do listy użytkowników</h4>
+							<div className="row g-4">
 								<div className="col-sm-6">
 									<label htmlFor="firstName" className="form-label">Imię</label>
 									<input type="text" className="form-control" name="name" placeholder="" required/>
@@ -146,23 +146,22 @@ export default function UserMgmt ()
 									<input type="checkbox" className="form-check-input" name="isGoogleAccount"/>
 										<label className="form-check-label" htmlFor="isGoogleAccount">Autoryzacja google</label>
 								</div>
-
-							</form>
 								<hr className="mt-5" />
 
-								<div className="row mt-5">
+								<div className="row mt-3">
 									<div className="col text-center">
 										{
 											editting != null
 												? <button className="w-20 btn btn-warning btn-lg mr-3" onClick={eventEdit}>Edycja</button>
 												: <button className="w-20 btn btn-success btn-lg mr-3" onClick={eventInsert}>Dodaj</button>
 										}
-										<button className="w-20 btn btn-danger btn-lg">Anuluj</button>
+										<button className="w-20 btn btn-danger btn-lg" style={{marginLeft: 15}}>Anuluj</button>
 									</div>
 								</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</>
 	)

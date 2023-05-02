@@ -13,6 +13,7 @@ import Meal from "./Meal/Meal";
 import MealMgmt from "./Meal/MealMgmt";
 import Manager from "../Manager/Manager";
 import Management from "../../utils/Management";
+import '../../styles/Tables.css'
 
 
 

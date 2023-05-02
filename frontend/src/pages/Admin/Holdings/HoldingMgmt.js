@@ -137,19 +137,19 @@ export default function HoldingMgmt ()
 		<>
 			<div className="container">
 				<div className="py-4 text-center">
-					<h2>Zarządzanie listą użytkowników</h2>
+					<h2>Zarządzanie listą franczyz</h2>
 				</div>
-				<div className="row g-4">
-					<div className="col-md-7 col-lg-8">
-						<h4 className="mb-3">Dodaj do listy użytkowników</h4>
-						<div className="row g-3">
-							<form id="holding">
-								<div className="col-sm-6">
+				<form id="holding">
+					<div className="row g-3">
+						<div className="col-sm-10">
+							<h4 className="mb-3">Dodaj do listy franczyz</h4>
+							<div className="row g-4">
+								<div className="col-sm-5">
 									<label htmlFor="localization" className="form-label">Lokalizacja</label>
 									<input type="text" className="form-control" name="localization" placeholder="" required/>
 								</div>
 
-								<div className="col-sm-6">
+								<div className="col-sm-4">
 									<label htmlFor="manager" className="form-label">Menedżer</label>
 									<select className="form-select" name="manager" required>
 										<option value="" disabled selected>Wybierz</option>
@@ -159,22 +159,23 @@ export default function HoldingMgmt ()
 										}
 									</select>
 								</div>
-							</form>
-							<hr className="mt-5" />
 
-							<div className="row mt-5">
-								<div className="col text-center">
-									{
-										editting != null
-											? <button className="w-20 btn btn-warning btn-lg mr-3" onClick={eventEdit}>Edycja</button>
-											: <button className="w-20 btn btn-success btn-lg mr-3" onClick={eventInsert}>Dodaj</button>
-									}
-									<button className="w-20 btn btn-danger btn-lg">Anuluj</button>
+								<hr className="mt-5" />
+
+								<div className="row mt-4">
+									<div className="col text-center">
+										{
+											editting != null
+												? <button className="w-20 btn btn-warning btn-lg" onClick={eventEdit}>Edycja</button>
+												: <button className="w-20 btn btn-success btn-lg" onClick={eventInsert}>Dodaj</button>
+										}
+										<button className="w-20 btn btn-danger btn-lg" style={{marginLeft: 15}}>Anuluj</button>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</>
 	)
