@@ -78,7 +78,7 @@ export default function Meal ({ props })
 						Zamów online i odbierz w restauracji
 					</div>
 					{ myInfo && !myInfo.dbMeal.isListed && <button>TOWAR NIEDOSTĘPNY</button> }
-					{ myInfo && myInfo.dbMeal.isListed && <button>ZAMÓW ONLINE</button> }
+					{ myInfo && myInfo.dbMeal.isListed && <button onClick={ (e) => window.location.href = `/order/${holding}?select=${myInfo.dbMeal.uuid}` }>ZAMÓW ONLINE</button> }
 				</div>
 				<div className="card">
 					<div className="price">
