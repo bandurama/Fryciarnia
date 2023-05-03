@@ -89,7 +89,7 @@ CREATE TABLE DbOrders (
     ctime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     owner NVARCHAR2(128) NOT NULL,
     holding NVARCHAR2(128) NOT NULL,
-    orderStatus NVARCHAR2(32),
+    orderStatus NUMBER,
     isTakeout NUMBER,
     CONSTRAINT DbOrders_pk PRIMARY KEY(uuid),
     CONSTRAINT DbOrders_DbHolding_fk FOREIGN KEY (holding) REFERENCES DbHolding(uuid),
@@ -99,6 +99,7 @@ CREATE TABLE DbOrders (
 CREATE TABLE DbOrder (
     origin NVARCHAR2(128) NOT NULL,
     meal NVARCHAR2(128) NOT NULL,
+    quantity NUMBER NOT NULL,
     CONSTRAINT DbOrder_DbOrders_fk FOREIGN KEY (origin) REFERENCES DbOrders(uuid),
     CONSTRAINT DbOrder_DbMeal_fk FOREIGN KEY (meal) REFERENCES DbMeal(uuid)
 );

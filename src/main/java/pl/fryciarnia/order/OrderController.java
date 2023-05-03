@@ -23,9 +23,10 @@ public class OrderController
     {
       jdbcTemplate.update
           (
-              "INSERT INTO DbOrder VALUES(?, ?)",
+              "INSERT INTO DbOrder VALUES(?, ?, ?)",
               dbOrder.getOrigin(),
-              dbOrder.getMeal()
+              dbOrder.getMeal(),
+              dbOrder.getQuantity()
           );
     }
     catch (Exception e)
@@ -43,6 +44,14 @@ public class OrderController
             "SELECT * FROM DbOrder",
             BeanPropertyRowMapper.newInstance(DbOrder.class)
         );
+  }
+
+  public static List<DbOrder> getOrderByOrders (JdbcTemplate jdbcTemplate, DbOrders dbOrders)
+  {
+    return fetchAll(jdbcTemplate)
+        .stream()
+        .filter(dbOrder -> dbOrder.getOrigin().equals(dbOrders.getUuid()))
+        .toList();
   }
 
   public static boolean canExecuteOrder (JdbcTemplate jdbcTemplate, APIOrder order)

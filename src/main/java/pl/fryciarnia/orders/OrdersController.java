@@ -15,16 +15,14 @@ public class OrdersController
     {
       jdbcTemplate.update
           (
-              "INSERT INTO DbOrders VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+              "INSERT INTO DbOrders VALUES(?, ?, ?, ?, ?, ?, ?)",
               dbOrders.getUuid(),
               dbOrders.getTicket(),
+              dbOrders.getCtime(),
               dbOrders.getOwner(),
               dbOrders.getHolding(),
-              dbOrders.getIsCasched(),
-              dbOrders.getIsOut(),
-              dbOrders.getIsTakeout(),
-              dbOrders.getIsCancelled(),
-              dbOrders.getIsReady()
+              dbOrders.getOrderStatus().ordinal(),
+              dbOrders.getIsTakeout()
           );
     }
     catch (Exception e)
