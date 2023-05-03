@@ -20,7 +20,7 @@ public class OrderMapping
 
   @PostMapping("/api/order")
   @ResponseBody
-  public String APIDbRecipeList(@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+  public String APIDbOrdersOrder (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
   {
     APIDatagram apiDatagram = new APIDatagram();
     DbUser dbUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
@@ -43,6 +43,13 @@ public class OrderMapping
 
     if (!OrderController.canExecuteOrder(jdbcTemplate, apiOrder))
       return apiDatagram.fail("NOEXE");
+
+    /**
+     * All clear, prepare order and begin
+     * awaiting the payment
+     */
+    if (!OrderController.beginNewOrderFromAPIOrder(jdbcTemplate, apiOrder, dbUser))
+      return apiDatagram.fail("ERR");
 
     return apiDatagram.success();
   }

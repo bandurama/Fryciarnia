@@ -1,6 +1,7 @@
 import Management from "../../utils/Management";
 import Stock from "./Stock/Stock";
 import Workers from "./Workers/Workers";
+import Orders from "../AdminManager/Orders";
 
 export default function Manager ()
 {
@@ -8,7 +9,8 @@ export default function Manager ()
 	const views =
 	{
 		stock: <Stock/>,
-		workers: <Workers/>
+		workers: <Workers/>,
+		orders: <Orders/>
 	}
 
 	const navTree =

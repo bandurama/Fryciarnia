@@ -5,8 +5,6 @@ import Holding from "./Holdings/Holdings";
 import HoldingMgmt from "./Holdings/HoldingMgmt";
 import Ingridients from "./Ingridients/Ingridients";
 import IngridientMgmt from "./Ingridients/IngridientMgmt";
-import Orders from "./Orders/Orders";
-import OrderMgmt from "./Orders/OrderMgmt";
 import Users from "./Users/Users";
 import UserMgmt from "./Users/UserMgmt";
 import Meal from "./Meal/Meal";
@@ -14,6 +12,7 @@ import MealMgmt from "./Meal/MealMgmt";
 import Manager from "../Manager/Manager";
 import Management from "../../utils/Management";
 import '../../styles/Tables.css'
+import Orders from "../AdminManager/Orders";
 
 
 
@@ -28,7 +27,7 @@ export default function ()
 	views['ingridientsmgmt'] = (<IngridientMgmt/>);
 
 	views['orders'] = (<Orders/>);
-	views['ordersmgmt'] = (<OrderMgmt/>)
+	// views['ordersmgmt'] = (<OrderMgmt/>)
 
 	views['users'] = (<Users/>);
 	views['usersmgmt'] = (<UserMgmt/>);

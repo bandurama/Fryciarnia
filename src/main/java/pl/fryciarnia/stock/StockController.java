@@ -3,12 +3,18 @@ package pl.fryciarnia.stock;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.fryciarnia.holding.DbHolding;
+import pl.fryciarnia.holding.HoldingController;
 import pl.fryciarnia.ingridient.DbIngridient;
 import pl.fryciarnia.ingridient.IngridientController;
 import pl.fryciarnia.meal.DbMeal;
+import pl.fryciarnia.meal.MealController;
+import pl.fryciarnia.order.APIOrder;
+import pl.fryciarnia.order.APIOrderedMeal;
 import pl.fryciarnia.recipe.DbRecipe;
+import pl.fryciarnia.recipe.RecipeController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -89,6 +95,35 @@ public class StockController
     {
       System.out.println(e);
       return false;
+    }
+    return true;
+  }
+
+
+  public static boolean updateStockWithAPIOrder (JdbcTemplate jdbcTemplate, APIOrder apiOrder)
+  {
+    DbHolding dbHolding = HoldingController.getHoldingByUUID(jdbcTemplate, apiOrder.getHoldingUUID());
+    if (dbHolding == null)
+      return false;
+
+    List<DbStock> dbStockList = StockController.getStockByHolding(jdbcTemplate, dbHolding);
+    /* HACK: convert to HashMap for faster look up times */
+    HashMap<String, DbStock> stock = new HashMap<>();
+    for (DbStock dbStock : dbStockList)
+      stock.put(dbStock.getIngridient(), dbStock);
+
+    for (APIOrderedMeal apiOrderedMeal : apiOrder.getOrderedMeals())
+    { /* for each meal update quantity in stock */
+      DbMeal dbMeal = MealController.getMealByUUID(jdbcTemplate, apiOrderedMeal.getMealUUID());
+      List<DbRecipe> dbRecipeList = RecipeController.getRecipesByMeal(jdbcTemplate, dbMeal);
+      for (DbRecipe recipe : dbRecipeList)
+      {
+        if (!stock.containsKey(recipe.getIngridient()))
+          return false;
+        DbStock dbStock = stock.get(recipe.getIngridient());
+        dbStock.setQuantity(dbStock.getQuantity() - recipe.getQuantity() * apiOrderedMeal.getQuantity());
+        StockController.updateStock(jdbcTemplate, dbStock);
+      }
     }
     return true;
   }

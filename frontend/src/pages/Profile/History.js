@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import TopNav from "../../components/TopNav";
 
 import '../../styles/History.css';
-import {usingBootstrap} from "../../utils/Bootstrap";
+import OrdersTable from "../../components/OrdersTable";
 
 export default function History()
 {

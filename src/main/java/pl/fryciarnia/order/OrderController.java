@@ -6,10 +6,13 @@ import pl.fryciarnia.holding.DbHolding;
 import pl.fryciarnia.holding.HoldingController;
 import pl.fryciarnia.meal.DbMeal;
 import pl.fryciarnia.meal.MealController;
+import pl.fryciarnia.orders.DbOrders;
+import pl.fryciarnia.orders.OrdersController;
 import pl.fryciarnia.recipe.DbRecipe;
 import pl.fryciarnia.recipe.RecipeController;
 import pl.fryciarnia.stock.DbStock;
 import pl.fryciarnia.stock.StockController;
+import pl.fryciarnia.user.DbUser;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -80,6 +83,42 @@ public class OrderController
         pos.setQuantity(pos.getQuantity() - step.getQuantity());
         /* temporarily update stock position */
       }
+    }
+    return true;
+  }
+
+  public static boolean beginNewOrderFromAPIOrder (JdbcTemplate jdbcTemplate, APIOrder apiOrder, DbUser dbUser)
+  {
+    /**
+     * FIRST: Remove quants from stock,
+     * THEN: Create order info
+     * FINALLY: Remember ordered meals
+     */
+
+    if (!StockController.updateStockWithAPIOrder(jdbcTemplate, apiOrder))
+      return false;
+
+    DbOrders dbOrders = OrdersController.newDbOrdersFromAPIOrder(jdbcTemplate, apiOrder, dbUser);
+    if (dbOrders == null)
+      return false;
+
+    if (!createDbOrderSetFromAPIOrder(jdbcTemplate, apiOrder, dbOrders))
+      return false; /* WARN: At this point this should prob delete dbOrders instance */
+
+    return true;
+  }
+
+
+  public static boolean createDbOrderSetFromAPIOrder (JdbcTemplate jdbcTemplate, APIOrder apiOrder, DbOrders dbOrders)
+  {
+    for (APIOrderedMeal apiOrderedMeal : apiOrder.getOrderedMeals())
+    {
+      DbOrder dbOrder = new DbOrder();
+      dbOrder.setOrigin(dbOrders.getUuid());
+      dbOrder.setMeal(apiOrderedMeal.getMealUUID());
+      dbOrder.setQuantity(apiOrderedMeal.getQuantity());
+      if (!insertOrder(jdbcTemplate, dbOrder))
+        return false;
     }
     return true;
   }
