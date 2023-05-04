@@ -3,6 +3,7 @@ package pl.fryciarnia.orders;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.fryciarnia.ingridient.DbIngridient;
+import pl.fryciarnia.meal.DbMeal;
 import pl.fryciarnia.order.APIOrder;
 import pl.fryciarnia.order.OrderStatus;
 import pl.fryciarnia.recipe.DbRecipe;
@@ -104,5 +105,14 @@ public class OrdersController
       return null;
 
     return dbOrders;
+  }
+
+  public static DbOrders getOrdersByUUID (JdbcTemplate jdbcTemplate, String uuid)
+  {
+    List<DbOrders> dbOrdersList = fetchAll(jdbcTemplate);
+    for (DbOrders dbOrders : dbOrdersList)
+      if (dbOrders.getUuid().equals(uuid))
+        return dbOrders;
+    return null;
   }
 }

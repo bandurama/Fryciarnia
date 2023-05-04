@@ -1,4 +1,3 @@
-import {useEffect, useState} from "react";
 import TopNav from "../../components/TopNav";
 
 import '../../styles/History.css';

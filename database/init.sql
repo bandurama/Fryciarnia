@@ -134,3 +134,5 @@ SELECT * FROM DbHolding;
 SELECT * FROM DbIngridient;
 SELECT * FROM DbMeal;
 SELECT * FROM DbRecipe;
+select * from DbOrders;
+select * from DbOrder;

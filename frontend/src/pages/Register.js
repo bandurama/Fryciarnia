@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import TopNav from "../components/TopNav";
 import {acquireGetParams} from "../utils/Gets";
 
