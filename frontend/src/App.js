@@ -12,6 +12,7 @@ import Meal from "./pages/Meal";
 import Admin from "./pages/Admin/Admin";
 import Manager from "./pages/Manager/Manager";
 import Order from "./pages/Order/Order";
+import Payment from "./pages/Payment";
 
 function App() {
 	return (
@@ -30,6 +31,7 @@ function App() {
 				<Route path="/manager/:option" Component={Manager} />
 				<Route path="/profile/history" Component={History} />
 				<Route path="/order/:holding" Component={Order} />
+				<Route path="/payment" Component={Payment} />
 			</Routes>
 		</div>
 	);
