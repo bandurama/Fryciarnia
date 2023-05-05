@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import pl.fryciarnia.orders.DbOrders;
 import pl.fryciarnia.user.DbUser;
 import pl.fryciarnia.user.UserController;
 import pl.fryciarnia.user.UserType;
@@ -51,9 +52,11 @@ public class OrderMapping
      * All clear, prepare order and begin
      * awaiting the payment
      */
-    if (!OrderController.beginNewOrderFromAPIOrder(jdbcTemplate, apiOrder, dbUser))
+    DbOrders dbOrders = OrderController.beginNewOrderFromAPIOrder(jdbcTemplate, apiOrder, dbUser);
+    if (dbOrders == null)
       return apiDatagram.fail("ERR");
 
+    apiDatagram.setData(dbOrders);
     return apiDatagram.success();
   }
 }

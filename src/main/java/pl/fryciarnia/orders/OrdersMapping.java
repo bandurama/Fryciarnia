@@ -1,5 +1,6 @@
 package pl.fryciarnia.orders;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +27,17 @@ public class OrdersMapping
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
+  @PostMapping("/api/orders/info/{uuid}")
+  @ResponseBody
+  public String APIDbOrdersList (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess, @PathVariable("uuid") String uuid)
+  {
+    APIDatagram apiDatagram = new APIDatagram();
+    ArrayList<DbOrders> myDbOrderInList = new ArrayList<>();
+    myDbOrderInList.add(OrdersController.getOrdersByUUID(jdbcTemplate, uuid));
+    List<AdpOrdersAdpOrderMealDbHolding> adpOrdersAdpOrderMealDbHoldings = OrdersController.getAdpOrdersAdpOrderMealDbHolding(jdbcTemplate, myDbOrderInList);
+    apiDatagram.setData(adpOrdersAdpOrderMealDbHoldings.get(0));
+    return apiDatagram.success();
+  }
 
   @PostMapping("/api/orders/list")
   @ResponseBody
@@ -56,23 +68,7 @@ public class OrdersMapping
      * orderList contains only valid positions,
      * now pack 'em into adapter
      */
-    ArrayList<AdpOrdersAdpOrderMealDbHolding> adpOrdersMeals = new ArrayList<>();
-
-    ordersList.forEach(orders -> {
-      AdpOrdersAdpOrderMealDbHolding adp = new AdpOrdersAdpOrderMealDbHolding();
-      adp.setDbHolding(HoldingController.getHoldingByUUID(jdbcTemplate, orders.getHolding()));
-      adp.setDbOrders(orders);
-      List<DbOrder> lst = OrderController.getOrderByOrders(jdbcTemplate, orders);
-      lst.forEach(order -> {
-        DbMeal dbMeal = MealController.getMealByUUID(jdbcTemplate, order.getMeal());
-        AdpOrderMeal adpOrderMeal = new AdpOrderMeal();
-        adpOrderMeal.setDbOrder(order);
-        adpOrderMeal.setDbMeal(dbMeal);
-        adp.getAdpOrderMeals().add(adpOrderMeal);
-      });
-      adpOrdersMeals.add(adp);
-    });
-
+    List<AdpOrdersAdpOrderMealDbHolding> adpOrdersMeals = OrdersController.getAdpOrdersAdpOrderMealDbHolding(jdbcTemplate, ordersList);
     apiDatagram.setData(adpOrdersMeals);
     return apiDatagram.success();
   }

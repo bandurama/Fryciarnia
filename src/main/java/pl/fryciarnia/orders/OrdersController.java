@@ -2,9 +2,13 @@ package pl.fryciarnia.orders;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.fryciarnia.holding.HoldingController;
 import pl.fryciarnia.ingridient.DbIngridient;
 import pl.fryciarnia.meal.DbMeal;
+import pl.fryciarnia.meal.MealController;
 import pl.fryciarnia.order.APIOrder;
+import pl.fryciarnia.order.DbOrder;
+import pl.fryciarnia.order.OrderController;
 import pl.fryciarnia.order.OrderStatus;
 import pl.fryciarnia.recipe.DbRecipe;
 import pl.fryciarnia.stock.DbStock;
@@ -12,6 +16,7 @@ import pl.fryciarnia.user.DbUser;
 import pl.fryciarnia.user.UserType;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -116,4 +121,42 @@ public class OrdersController
         return dbOrders;
     return null;
   }
+
+  public static List<AdpOrdersAdpOrderMealDbHolding> getAdpOrdersAdpOrderMealDbHolding (JdbcTemplate jdbcTemplate, List<DbOrders> ordersList)
+  {
+    ArrayList<AdpOrdersAdpOrderMealDbHolding> adpOrdersMeals = new ArrayList<>();
+
+    ordersList.forEach(orders -> {
+      AdpOrdersAdpOrderMealDbHolding adp = new AdpOrdersAdpOrderMealDbHolding();
+      adp.setDbHolding(HoldingController.getHoldingByUUID(jdbcTemplate, orders.getHolding()));
+      adp.setDbOrders(orders);
+      List<DbOrder> lst = OrderController.getOrderByOrders(jdbcTemplate, orders);
+      lst.forEach(order -> {
+        DbMeal dbMeal = MealController.getMealByUUID(jdbcTemplate, order.getMeal());
+        AdpOrderMeal adpOrderMeal = new AdpOrderMeal();
+        adpOrderMeal.setDbOrder(order);
+        adpOrderMeal.setDbMeal(dbMeal);
+        adp.getAdpOrderMeals().add(adpOrderMeal);
+      });
+      adpOrdersMeals.add(adp);
+    });
+
+    return adpOrdersMeals;
+  }
+  
+  public static Float getPriceByDbOrders (JdbcTemplate jdbcTemplate, DbOrders dbOrders)
+  {
+    ArrayList<DbOrders> dbOrdersList = new ArrayList<>();
+    dbOrdersList.add(dbOrders);
+    List<AdpOrdersAdpOrderMealDbHolding> adpOrdersAdpOrderMealDbHoldings = getAdpOrdersAdpOrderMealDbHolding(jdbcTemplate, dbOrdersList);
+    AdpOrdersAdpOrderMealDbHolding adpOrdersAdpOrderMealDbHolding 
+        = adpOrdersAdpOrderMealDbHoldings.get(0);
+
+    /* finally, calculate price */
+    return adpOrdersAdpOrderMealDbHolding.getAdpOrderMeals()
+        .stream()
+        .map((b) -> b.getDbMeal().getPrice() * Float.valueOf(b.getDbOrder().getQuantity()))
+        .reduce(0.0f, (a, b) -> a + b);
+  }
+
 }

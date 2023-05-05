@@ -9,12 +9,13 @@ import java.util.*;
 
 /**
  * This is a packet sent to REST end point from client
- * that describes entire order
+ * that describes entire order => that is DbOrders with [dbOrder...]
  */
 @Data
 public class APIOrder
 {
   private String holdingUUID;
+  private String orderUUID;
   private List<APIOrderedMeal> orderedMeals;
 
   @SneakyThrows

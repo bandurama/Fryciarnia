@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import pl.fryciarnia.order.DbOrder;
 import pl.fryciarnia.order.OrderController;
+import pl.fryciarnia.order.OrderStatus;
 import pl.fryciarnia.orders.DbOrders;
 import pl.fryciarnia.orders.OrdersController;
 import pl.fryciarnia.utils.APIDatagram;
@@ -26,6 +27,7 @@ public class PayPalMapping
   @Autowired
   private PayPalService payPalService;
 
+  public static final float __max_diff_tolerance = 0.1F;
 
   @SneakyThrows
   @PostMapping("/api/paypal/{id}/{order}")
@@ -38,16 +40,29 @@ public class PayPalMapping
       return apiDatagram.fail("ISE");
 
     String trDetailsJSON = payPalService.getTransactionDetails(id);
-    Map<String, Object> m = (new ObjectMapper()).readValue(trDetailsJSON, Map.class);
+    FsdPaypalTransaction fsdPaypalTransaction
+        = FsdPaypalTransaction.fromJSON(trDetailsJSON);
 
-    if (!m.containsKey("status") || !m.containsKey("id"))
-      return apiDatagram.fail("SERV");
-
-    if (!m.get("id").toString().equals(dbOrders.getUuid()))
-      return apiDatagram.fail("SEC");
-
-    if (!m.get("status").equals("COMPLETED"))
+    if (!fsdPaypalTransaction.getStatus().equals("COMPLETED"))
       return apiDatagram.fail("NOPAY");
+
+    /* Confirm price is right */
+    float price =  OrdersController.getPriceByDbOrders(jdbcTemplate, dbOrders);
+
+    /**
+     * WARN: Sharp float compilations aren't great ideas
+     *       so we check the difference with certain tolerance;
+     */
+
+    float priceDiff = Math.abs(price - fsdPaypalTransaction.getAmount());
+
+    if (priceDiff > __max_diff_tolerance)
+      return apiDatagram.fail("NOPAY");
+
+    /* mark order as PAID */
+    dbOrders.setOrderStatus(OrderStatus.PAID);
+    if (!OrdersController.updateOrders(jdbcTemplate, dbOrders))
+      return apiDatagram.fail("SERVERR");
 
     return apiDatagram.success();
   }

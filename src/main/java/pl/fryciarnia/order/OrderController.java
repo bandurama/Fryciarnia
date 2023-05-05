@@ -87,7 +87,7 @@ public class OrderController
     return true;
   }
 
-  public static boolean beginNewOrderFromAPIOrder (JdbcTemplate jdbcTemplate, APIOrder apiOrder, DbUser dbUser)
+  public static DbOrders beginNewOrderFromAPIOrder (JdbcTemplate jdbcTemplate, APIOrder apiOrder, DbUser dbUser)
   {
     /**
      * FIRST: Remove quants from stock,
@@ -96,16 +96,16 @@ public class OrderController
      */
 
     if (!StockController.updateStockWithAPIOrder(jdbcTemplate, apiOrder))
-      return false;
+      return null;
 
     DbOrders dbOrders = OrdersController.newDbOrdersFromAPIOrder(jdbcTemplate, apiOrder, dbUser);
     if (dbOrders == null)
-      return false;
+      return null;
 
     if (!createDbOrderSetFromAPIOrder(jdbcTemplate, apiOrder, dbOrders))
-      return false; /* WARN: At this point this should prob delete dbOrders instance */
+      return null; /* WARN: At this point this should prob delete dbOrders instance */
 
-    return true;
+    return dbOrders;
   }
 
 

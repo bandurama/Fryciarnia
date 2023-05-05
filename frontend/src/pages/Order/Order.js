@@ -15,7 +15,6 @@ export default function Order ()
 	const [prices, setPrices] = useState({});
 	const [totalPrice, setTotalPrice] = useState(0);
 
-
 	/**
 	 * Most vital element
 	 * @param e
