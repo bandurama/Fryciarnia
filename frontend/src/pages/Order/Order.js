@@ -48,6 +48,7 @@ export default function Order ()
 				if (resp.ok)
 				{
 					console.log(resp.data);
+					window.location.href = `/payment/${resp.data.uuid}/`;
 				}
 				else
 				{

@@ -12,6 +12,8 @@ import Meal from "./pages/Meal";
 import Admin from "./pages/Admin/Admin";
 import Manager from "./pages/Manager/Manager";
 import Order from "./pages/Order/Order";
+import PayPal from "./components/PayPal";
+import Ticket from "./pages/Ticket";
 import Payment from "./pages/Payment";
 
 function App() {
@@ -31,7 +33,8 @@ function App() {
 				<Route path="/manager/:option" Component={Manager} />
 				<Route path="/profile/history" Component={History} />
 				<Route path="/order/:holding" Component={Order} />
-				<Route path="/payment" Component={Payment} />
+				<Route path="/payment/:order" Component={Payment} />
+				<Route path="/ticket/:order" Component={Ticket} />
 			</Routes>
 		</div>
 	);

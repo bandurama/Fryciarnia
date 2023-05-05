@@ -5,8 +5,8 @@ DELETE FROM DbHolding;
 DELETE FROM DbRecipe;
 DELETE FROM DbIngridient;
 DELETE FROM DbMeal;
-DELETE FROM DbOrders;
 DELETE FROM DbOrder;
+DELETE FROM DbOrders;
 DELETE FROM DbUser;
 
 

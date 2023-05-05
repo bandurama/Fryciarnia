@@ -63,8 +63,9 @@ public class OrdersController
               dbOrders.getCtime(),
               dbOrders.getOwner(),
               dbOrders.getHolding(),
-              dbOrders.getOrderStatus(),
-              dbOrders.getIsTakeout()
+              dbOrders.getOrderStatus().ordinal(),
+              dbOrders.getIsTakeout(),
+              dbOrders.getUuid()
           );
     }
     catch (Exception e)

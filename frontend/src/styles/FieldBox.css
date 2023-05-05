@@ -1,0 +1,21 @@
+
+.fieldBox
+{
+	margin-top: 200px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.fieldBox > div
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 100px;
+	box-sizing: border-box;
+	margin-bottom: 100px;
+	border-radius: 50px;
+	box-shadow: 4px 6px 14px 0px #969696;
+}
