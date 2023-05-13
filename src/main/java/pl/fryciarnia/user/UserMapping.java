@@ -203,11 +203,11 @@ public class UserMapping
         /* confirm user exists */
         DbUser realUser = UserController.getDbUserByMail(jdbcTemplate, wu.getMail());
         if (realUser == null)
-            return apiDatagram.fail("User with this mail does not exists!");
+            return apiDatagram.fail("Użytkownik o podanym adresie e-mail nie istnieje.");
 
         /* confirm credentials */
         if (realUser.getPassword().equals(wu.getPassword()) == false)
-            return apiDatagram.fail("Wrong password for this user");
+            return apiDatagram.fail("Niepoprawne hasło.");
 
         /* crate session for user */
         Timestamp expiration = new Timestamp(System.currentTimeMillis() + (1000L * 3600));

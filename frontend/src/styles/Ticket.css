@@ -1,0 +1,50 @@
+
+.numbox
+{
+	text-align: center;
+	width: 191px;
+	height: 191px;
+	background-color: #4ae87a;
+	padding: 50px;
+	box-sizing: border-box;
+	font-size: 80px;
+	border-radius: 25px;
+	color: #ffffff;
+	box-shadow: 6px 4px 16px 0px #c4c4c4;
+	font-weight: bold;
+	font-family: 'Alfa Slab One';
+}
+
+.ntitle
+{
+	text-align: center;
+	font-family: 'Arial';
+	font-size: 42px;
+	margin-bottom: 60px;
+}
+.stitle
+{
+	text-align: center;
+	font-family: 'Arial';
+	font-size: 18px;
+	margin-top: 60px;
+	color: #303030;
+}
+
+.vButton
+{
+	margin-top: 40px;
+	background-color: #fc5246;
+	outline: none;
+	border: 0px;
+	padding: 10px 50px;
+	box-sizing: border-box;
+	border-radius: 25px;
+	font-weight: bold;
+	font-family: 'Open Sans';
+	font-size: 16px;
+	margin-right: 20px;
+	color: white;
+	cursor: pointer;
+	transition: background-color 1s;
+}
