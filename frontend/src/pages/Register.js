@@ -42,7 +42,7 @@ export default function Register() {
 
 		const _get = acquireGetParams();
 
-		if (Object.keys(_get).includes("holding"))
+		if (_get != null && Object.keys(_get).includes("holding"))
 		{ /* Registering new cook */
 			_datagram.type = "Kitchen";
 			_datagram.name = _get.holding;

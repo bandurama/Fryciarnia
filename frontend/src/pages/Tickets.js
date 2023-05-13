@@ -1,8 +1,58 @@
 
 import '../styles/Tickets.css'
+import {useEffect, useState} from "react";
 
 export default function Tickets ()
 {
+
+	const [pending, setPending] = useState([]);
+	const [finished, setFinished] = useState([]);
+
+	const updateData = function ()
+	{
+		fetch(`http://bandurama.ddns.net:2023/api/tickets`, {
+			method: 'POST',
+			body: JSON.stringify({}),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp =>
+			{
+				if (!resp.ok)
+					return;
+
+				/* convert to fake timestamp */
+				for (let d of resp.data)
+				{
+					const _coprimes = [3600, 60, 1];
+					d.ctime = d.ctime.split(' ').at(3).split(':').map((n, i) => n * _coprimes[i]).join('');
+				}
+
+				const data = resp.data.sort((a, b) => a.ctime - b.ctime);
+
+				const pend = [];
+				const fins = [];
+
+				for (let order of data)
+				{
+					if (order.orderStatus == 'PAID')
+						pend.push(order);
+					else if (order.orderStatus == 'READY')
+						fins.push(order);
+
+					setFinished(fins);
+					setPending(pend);
+				}
+
+			});
+	}
+
+	useEffect(() => {
+		setInterval(() => {
+			updateData();
+		}, 500);
+	}, []);
+
 	return (
 		<>
 			<div className="ticket-wrapper">
@@ -11,18 +61,11 @@ export default function Tickets ()
 						OCZEKUJĄCE
 					</div>
 					<div className="ticket-area">
-						<div className="ticket">
-							2
-						</div>
-						<div className="ticket">
-							29
-						</div>
-						<div className="ticket">
-							2
-						</div>
-						<div className="ticket">
-							29
-						</div>
+						{pending.map((p) =>
+							<div className="ticket" key={p.uuid}>
+								{p.ticket}
+							</div>
+						)}
 					</div>
 				</div>
 				<div className="ticket-right-pane">
@@ -30,12 +73,11 @@ export default function Tickets ()
 						GOTOWE
 					</div>
 					<div className="ticket-area">
-						<div className="ticket ticket-ready">
-							2
-						</div>
-						<div className="ticket ticket-ready">
-							29
-						</div>
+						{finished.map((p) =>
+							<div className="ticket ticket-ready" key={p.uuid}>
+								{p.ticket}
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

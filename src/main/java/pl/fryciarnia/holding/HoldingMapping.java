@@ -52,10 +52,11 @@ public class HoldingMapping
   {
     APIDatagram apiDatagram = new APIDatagram();
     List<DbUser> allUsers = UserController.fetchAll(jdbcTemplate);
+    List<DbHolding> dbHoldings = HoldingController.fetchAll(jdbcTemplate);
 
     apiDatagram.setData(allUsers
         .stream()
-        .filter(user -> user.getType() == UserType.Manager)
+        .filter(user -> user.getType() == UserType.Manager && !dbHoldings.stream().anyMatch(h -> h.getManager().equals(user.getUuid())))
         .toList());
 
     return apiDatagram.success();

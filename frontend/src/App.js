@@ -41,3 +41,7 @@ function App() {
 }
 
 export default App;
+
+/**
+ * PayPal Debugier: >Y6)E$ac
+ */

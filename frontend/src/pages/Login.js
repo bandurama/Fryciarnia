@@ -1,10 +1,13 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import TopNav from "../components/TopNav";
 
 import '../styles/Forms.css'
 
-export default function Login() {
-	useEffect(() => {
+export default function Login()
+{
+
+	useEffect(() =>
+	{
 		document.title = 'Zaloguj się - Fryciarnia'
 	}, []);
 
@@ -20,7 +23,9 @@ export default function Login() {
 			{
 				Admin: '/admin/holding',
 				Web: '/',
-				Manager: '/manager/stock'
+				Manager: '/manager/stock',
+				Display: '/tickets',
+				Terminal: '/order/0'
 			};
 
 
@@ -50,6 +55,10 @@ export default function Login() {
 					else
 						throw new Error("Login router not implemented for user type: " + resp.data.type);
 				}
+				else
+				{
+					alert(resp.msg);
+				}
 			})
 	}
 
@@ -62,15 +71,15 @@ export default function Login() {
 						Zaloguj się
 					</div>
 					<div className="formrow">
-						<input type="text" placeholder="E-Mail" id="tbx-mail"/>
+						<input type="text" placeholder="E-Mail" id="tbx-mail" onKeyDown={(e) => {if (e.key == 'Enter') { eventLoginUser(e) } }}/>
 					</div>
 					<div className="formrow">
-						<input type="password" placeholder="Hasło" id="tbx-passwd"/>
+						<input type="password" placeholder="Hasło" id="tbx-passwd" onKeyDown={(e) => {if (e.key == 'Enter') { eventLoginUser(e) } }}/>
 					</div>
 					<div className="formrow">
 						<button onClick={eventLoginUser}>ZALOGUJ</button>
 					</div>
-					<div className="formrow">
+					<div className="formrow" style={{marginTop: '0px'}}>
 						<img src="./icons/google.png" onClick={googleLoginTrigger}/>
 					</div>
 					<div className="formrow">

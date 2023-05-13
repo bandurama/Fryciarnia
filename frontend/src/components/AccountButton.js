@@ -13,8 +13,10 @@ export default function AccountButton ()
 		})
 			.then((response) => response.json())
 			.then(resp => {
-				console.log(resp);
+				console.log('ttl logger', resp);
 				setIsLoggedIn(resp.ok);
+				if (resp.data.type === 'Terminal' && window.location.pathname === '/')
+					window.location.href = '/order/0';
 			}
 		)
 	}, []);

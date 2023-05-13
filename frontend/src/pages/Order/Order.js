@@ -14,6 +14,7 @@ export default function Order ()
 	const [selected, setSelected] = useState({});
 	const [prices, setPrices] = useState({});
 	const [totalPrice, setTotalPrice] = useState(0);
+	const [actualHolding, setActualHolding] = useState(null);
 
 	/**
 	 * Most vital element
@@ -23,7 +24,7 @@ export default function Order ()
 	{
 		const datagram =
 		{
-			holdingUUID: holding,
+			holdingUUID: actualHolding,
 			orderedMeals: []
 		};
 
@@ -64,19 +65,46 @@ export default function Order ()
 		 */
 		const _GET = acquireGetParams();
 
-		if (Object.keys(_GET).includes("select"))
+		if (_GET != null && Object.keys(_GET).includes("select"))
 		{
 			const sl = selected;
 			sl[_GET.select] = 1;
 			setSelected(sl);
 		}
 
+
 		/**
 		 * THEN: Fetch available menu from server
 		 */
+
+		if (holding != 0)
+		{ /* value known by client */
+			setActualHolding(holding);
+			fetchHoldingMenu(holding);
+			return;
+		}
+
+		/* or, most-likely stationary terminal */
+		fetch('http://bandurama.ddns.net:2023/api/worker/holding', {
+			method: 'POST',
+			body: JSON.stringify({}),
+			credentials: 'include'
+		})
+			.then((response) => response.json())
+			.then(resp =>
+			{
+				setActualHolding(resp.data.uuid);
+				fetchHoldingMenu(resp.data.uuid);
+			});
+
+	}, []);
+
+
+	const fetchHoldingMenu = function (uuid)
+	{
 		fetch('http://bandurama.ddns.net:2023/api/menu', {
 			method: 'POST',
-			body: JSON.stringify(holding == 'all' ? {} : { uuid: holding }),
+			body: JSON.stringify(holding == 'all' ? {} : { uuid: uuid }),
 			credentials: 'include'
 		})
 			.then((response) => response.json())
@@ -97,12 +125,11 @@ export default function Order ()
 					throw new Error(resp.msg);
 				}
 			});
-
-	}, []);
+	}
 
 	return (
 		<>
-			<TopNav useAccountButton={true} />
+			<TopNav useAccountButton={false} />
 			<div className="wrapper">
 				<div className="OrderWrapper">
 					<div className="meals">

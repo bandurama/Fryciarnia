@@ -125,4 +125,25 @@ public class WorkerMapping
     return apiDatagram.success();
   }
 
+  @PostMapping("/api/worker/holding")
+  @ResponseBody
+  public String APIDbWorkerHolding (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+  {
+    APIDatagram apiDatagram = new APIDatagram();
+    DbUser dbUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
+    if (dbUser == null)
+      return apiDatagram.fail("NOSES");
+
+    DbWorker dbWorker = WorkerController.getWorkerByUser(jdbcTemplate, dbUser);
+    if (dbWorker == null)
+      return apiDatagram.fail("NOWRK");
+
+    DbHolding dbHolding = HoldingController.getHoldingByUUID(jdbcTemplate, dbWorker.getHolding());
+    if (dbHolding == null)
+      return apiDatagram.fail("NOHLD");
+
+    apiDatagram.setData(dbHolding);
+    return apiDatagram.success();
+  }
+
 }

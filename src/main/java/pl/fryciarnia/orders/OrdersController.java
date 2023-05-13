@@ -2,6 +2,7 @@ package pl.fryciarnia.orders;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.fryciarnia.holding.DbHolding;
 import pl.fryciarnia.holding.HoldingController;
 import pl.fryciarnia.ingridient.DbIngridient;
 import pl.fryciarnia.meal.DbMeal;
@@ -111,6 +112,15 @@ public class OrdersController
       return null;
 
     return dbOrders;
+  }
+
+  public static List<DbOrders> getOrdersByHolding (JdbcTemplate jdbcTemplate, DbHolding dbHolding)
+  {
+    List<DbOrders> dbOrdersList = fetchAll(jdbcTemplate);
+    return dbOrdersList
+        .stream()
+        .filter(order -> order.getHolding().equals(dbHolding.getUuid()))
+        .toList();
   }
 
   public static DbOrders getOrdersByUUID (JdbcTemplate jdbcTemplate, String uuid)

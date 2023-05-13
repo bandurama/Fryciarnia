@@ -132,3 +132,10 @@ body
 	font-family: 'Arial';
 }
 
+.warn
+{
+	margin-top: 20px;
+	color: #f74539;
+	font-weight: bold;
+	margin-bottom: 0px !important;
+}
