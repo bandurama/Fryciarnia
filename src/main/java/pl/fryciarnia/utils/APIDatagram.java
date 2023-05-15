@@ -1,6 +1,7 @@
 package pl.fryciarnia.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.Data;
 
 /**
@@ -18,7 +19,9 @@ public class APIDatagram
   @Override
   public String toString()
   {
-    return (new Gson()).toJson(this);
+    Gson g = new GsonBuilder().setDateFormat("dd-MM-yyyy HH:mm").create();
+
+    return (g.toJson(this));
   }
 
   public String fail (String cause)

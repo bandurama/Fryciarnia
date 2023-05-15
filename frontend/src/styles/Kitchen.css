@@ -1,0 +1,128 @@
+
+.k-upper-bar
+{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	border-bottom: 4px solid #808080;
+}
+
+.k-upper-bar > .k-stock
+{
+	display: flex;
+	align-items: center;
+}
+
+.k-btn
+{
+	padding: 10px;
+	box-sizing: border-box;
+	color: #e6e6e6;
+}
+
+.k-btn div
+{
+	text-align: center;
+	font-family: Arial;
+	font-size: 14px;
+}
+
+.k-btn img
+{
+	width: 70px;
+	height: 70px;
+}
+
+.k-card
+{
+	width: 350px;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.k-card button
+{
+	cursor: pointer;
+}
+
+.k-card div
+{
+	font-family: Arial;
+}
+
+.k-card > .k-title
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 20px;
+	box-sizing: border-box;
+	background-color: #d13b3b;
+}
+
+.k-card > .k-title > .k-ticket
+{
+	width: 50px;
+	height: 50px;
+	background-color: #781212;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: Arial;
+	font-size: 26px;
+	font-weight: bold;
+}
+
+.k-card .k-info div
+{
+	color: white;
+}
+
+.k-card .k-hour
+{
+	font-weight: bold;
+}
+
+.k-card > .k-items
+{
+	background-color: #cf952b;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.k-card > .k-items > .k-item
+{
+
+}
+
+.k-card .k-ctl > button
+{
+	border: 0px;
+	background-color: white;
+	padding: 10px;
+	box-sizing: border-box;
+	font-family: Arial;
+	font-weight: bold;
+	font-size: 14px;
+
+}
+
+.k-contents
+{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.k-ctl
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.k-ctl img
+{
+	width: 35px;
+}

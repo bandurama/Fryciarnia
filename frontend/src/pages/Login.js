@@ -25,7 +25,8 @@ export default function Login()
 				Web: '/',
 				Manager: '/manager/stock',
 				Display: '/tickets',
-				Terminal: '/order/0'
+				Terminal: '/order/0',
+				Kitchen: '/kitchen'
 			};
 
 

@@ -52,7 +52,7 @@ public class OrdersController
   {
     return jdbcTemplate.query
         (
-            "SELECT * FROM DbOrders",
+            "SELECT * FROM DbOrders ORDER BY CTIME DESC",
             BeanPropertyRowMapper.newInstance(DbOrders.class)
         );
   }

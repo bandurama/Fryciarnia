@@ -7,7 +7,9 @@ import lombok.SneakyThrows;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import pl.fryciarnia.meal.DbMeal;
 import pl.fryciarnia.order.OrderStatus;
+import pl.fryciarnia.user.DbUser;
 
 import java.util.Map;
 
@@ -32,8 +34,6 @@ public class DbOrders
   @SneakyThrows
   public static DbOrders fromJSON (String json)
   {
-    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-
-    return (gson.fromJson(json, DbOrders.class));
+    return (new Gson()).fromJson(json, DbOrders.class);
   }
 }
