@@ -12,9 +12,9 @@ import Meal from "./pages/Meal";
 import Admin from "./pages/Admin/Admin";
 import Manager from "./pages/Manager/Manager";
 import Order from "./pages/Order/Order";
-import PayPal from "./components/PayPal";
 import Ticket from "./pages/Ticket";
 import Payment from "./pages/Payment";
+import Kitchen from "./pages/Kitchen/Kitchen";
 
 function App() {
 	return (
@@ -35,6 +35,7 @@ function App() {
 				<Route path="/order/:holding" Component={Order} />
 				<Route path="/payment/:order" Component={Payment} />
 				<Route path="/ticket/:order" Component={Ticket} />
+				<Route path="/kitchen" Component={Kitchen} />
 			</Routes>
 		</div>
 	);

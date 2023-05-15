@@ -88,6 +88,7 @@ export default function OrdersTable ()
 					<td style={{textAlign: 'left'}}>{n.adpOrderMeals.reduce((a, b) => a + b.dbMeal.price * b.dbOrder.quantity, 0).toFixed(2)} zł</td>
 					<td>{n.dbOrders.orderStatus}</td>
 					{/*<td>{n.dbOrders.isTakeout ? 'na miejscu' : 'na wynos'}</td>*/}
+					<td>{n.dbOrders.ticket}</td>
 					<td>
 						<img
 							src={!droppedDown.includes(i) ? '/icons/down.png' : '/icons/up.png'}
@@ -132,6 +133,7 @@ export default function OrdersTable ()
 					<th style={{textAlign: 'right'}}>Restauracja</th>
 					<th style={{textAlign: 'left'}}>Koszt</th>
 					<th>Status</th>
+					<th>Numerek</th>
 					<th>Operacje</th>
 				</tr>
 				</thead>

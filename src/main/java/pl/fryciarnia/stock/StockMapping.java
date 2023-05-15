@@ -48,6 +48,7 @@ public class StockMapping
     else if (sessionUser.getType().equals(UserType.Kitchen))
     {
       DbWorker dbWorker = WorkerController.getWorkerByUser(jdbcTemplate, sessionUser);
+      dbHolding = HoldingController.getHoldingByUUID(jdbcTemplate, dbWorker.getHolding());
     }
     else
       return apiDatagram.fail("Internal server error");

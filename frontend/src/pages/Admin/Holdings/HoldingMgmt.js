@@ -8,10 +8,10 @@ export default function HoldingMgmt ()
 	const [editting, setEditting] = useState(null);
 	const [listOfManagers, setListOfManagers] = useState([]);
 
-	const fetchAllManagers = function ( callback )
+	const fetchAllManagers = function ( showAll, callback )
 	{
 
-		fetch('http://bandurama.ddns.net:2023/api/holding/managers', {
+		fetch(`http://bandurama.ddns.net:2023/api/holding/managers/${showAll}`, {
 			method: 'POST',
 			body: JSON.stringify({}),
 			credentials: 'include'
@@ -37,14 +37,17 @@ export default function HoldingMgmt ()
 							are used in both cases (editing and
 							insertion).
 		 */
-		fetchAllManagers(() => {
+		const _get = acquireGetParams();
+		const uuid = _get != null && Object.keys(_get).includes("uuid")
+			? _get.uuid
+			: null;
+
+		fetchAllManagers(uuid != null ? 0 : 1, () => {
 			/* THEN: proceed with modes */
-			const _get = acquireGetParams();
-			if (_get != null)
-				if (Object.keys(_get).includes('uuid'))
+			if (uuid != null)
 				{ /* also fetch */
-					setEditting(_get.uuid);
-					fillInUserInfo(_get.uuid);
+					setEditting(uuid);
+					fillInUserInfo(uuid);
 				}
 		});
 
@@ -132,14 +135,13 @@ export default function HoldingMgmt ()
 
 	}
 
-
 	return (
 		<>
 			<div className="container">
 				<div className="py-4 text-center">
 					<h2>Zarządzanie listą franczyz</h2>
 				</div>
-				<form id="holding">
+				<div id="holding">
 					<div className="row g-3">
 						<div className="col-sm-10">
 							<h4 className="mb-3">Dodaj do listy franczyz</h4>
@@ -175,7 +177,7 @@ export default function HoldingMgmt ()
 							</div>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 		</>
 	)

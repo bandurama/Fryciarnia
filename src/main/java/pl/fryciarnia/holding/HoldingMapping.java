@@ -46,18 +46,31 @@ public class HoldingMapping
     return apiDatagram.success();
   }
 
-  @PostMapping("/api/holding/managers")
+  @PostMapping("/api/holding/managers/{showAll}")
   @ResponseBody
-  public String APIDbHoldingManagers (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+  public String APIDbHoldingManagers (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess, @PathVariable("showAll") Integer showAll)
   {
     APIDatagram apiDatagram = new APIDatagram();
     List<DbUser> allUsers = UserController.fetchAll(jdbcTemplate);
     List<DbHolding> dbHoldings = HoldingController.fetchAll(jdbcTemplate);
 
-    apiDatagram.setData(allUsers
-        .stream()
-        .filter(user -> user.getType() == UserType.Manager && !dbHoldings.stream().anyMatch(h -> h.getManager().equals(user.getUuid())))
-        .toList());
+    /**
+     * HOTFIX: Make this smarter
+     */
+    if (showAll != 0)
+    {
+      apiDatagram.setData(allUsers
+          .stream()
+          .filter(user -> user.getType() == UserType.Manager && !dbHoldings.stream().anyMatch(h -> h.getManager().equals(user.getUuid())))
+          .toList());
+    }
+    else
+    {
+      apiDatagram.setData(allUsers
+          .stream()
+          .filter(user -> user.getType() == UserType.Manager)
+          .toList());
+    }
 
     return apiDatagram.success();
   }
@@ -128,6 +141,16 @@ public class HoldingMapping
 
     /* update data */
     DbHolding dbHolding = DbHolding.fromJSON(body);
+
+    /**
+     * WARN: Confirm that this particular manager
+     *       doesn't heave any more holdings
+     *       assigned to 'em
+     */
+    List<DbHolding> dbHoldingList = HoldingController.fetchAll(jdbcTemplate);
+    if (dbHoldingList.stream().anyMatch(holding -> holding.getManager().equals(dbHolding.getManager()) && !holding.getUuid().equals(dbHolding.getUuid())))
+      return apiDatagram.fail("Nie można być managerem wielu lokacji jednocześnie!");
+
     if (!HoldingController.updateHolding(jdbcTemplate, dbHolding))
       return apiDatagram.fail("Internal server error");
 
