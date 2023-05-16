@@ -13,7 +13,7 @@ import Admin from "./pages/Admin/Admin";
 import Manager from "./pages/Manager/Manager";
 import Order from "./pages/Order/Order";
 import Ticket from "./pages/Ticket";
-import Payment from "./pages/Payment";
+import Payment from "./pages/Payment/Payment";
 import Kitchen from "./pages/Kitchen/Kitchen";
 
 function App() {

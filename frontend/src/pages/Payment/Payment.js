@@ -1,7 +1,7 @@
-import PayPal from "../components/PayPal";
-import TopNav from "../components/TopNav";
-import Footer from "../components/Footer";
-import FieldBox from "../components/FieldBox";
+import PayPal from "../../components/PayPal";
+import TopNav from "../../components/TopNav";
+import Footer from "../../components/Footer";
+import FieldBox from "../../components/FieldBox";
 
 export default function Payment ()
 {

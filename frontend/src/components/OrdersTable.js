@@ -97,6 +97,7 @@ export default function OrdersTable ()
 								? droppedDown.filter((a) => a != i)
 								: [...droppedDown, i])}
 							title="rozwiń"
+							style={{marginRight: 10}}
 						/>
 					</td>
 				</tr>

@@ -47,6 +47,9 @@ export default function PayPal ()
 										],
 									});
 								}}
+								onCancel = { () => { alert("Dupa")
+									}
+								}
 								onApprove={(data, actions) => {
 									return actions.order.capture().then((details) => {
 										const name = details.payer.name.given_name;
