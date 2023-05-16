@@ -8,6 +8,10 @@ export default function Tickets ()
 	const [pending, setPending] = useState([]);
 	const [finished, setFinished] = useState([]);
 
+	useEffect(() => {
+		window.document.title = "Ekran Kolejki - Fryciarnia"
+	}, [])
+
 	const updateData = function ()
 	{
 		fetch(`http://bandurama.ddns.net:2023/api/tickets`, {
@@ -18,6 +22,7 @@ export default function Tickets ()
 			.then((response) => response.json())
 			.then(resp =>
 			{
+				// console.log(resp);
 				if (!resp.ok)
 					return;
 
@@ -25,7 +30,7 @@ export default function Tickets ()
 				for (let d of resp.data)
 				{
 					const _coprimes = [3600, 60, 1];
-					d.ctime = d.ctime.split(' ').at(3).split(':').map((n, i) => n * _coprimes[i]).join('');
+					d.ctime = d.ctime.split(' ').at(1).split(':').map((n, i) => n * _coprimes[i]).join('');
 				}
 
 				const data = resp.data.sort((a, b) => a.ctime - b.ctime);
@@ -39,10 +44,9 @@ export default function Tickets ()
 						pend.push(order);
 					else if (order.orderStatus == 'READY')
 						fins.push(order);
-
-					setFinished(fins);
-					setPending(pend);
 				}
+				setFinished(fins);
+				setPending(pend);
 
 			});
 	}

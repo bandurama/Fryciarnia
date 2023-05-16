@@ -28,6 +28,21 @@ public class KitchenMapping
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
+
+  @PostMapping("/api/kitchen/ready/{uuid}")
+  @ResponseBody
+  public String APIKitchenReady (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess, @PathVariable("uuid") String uuid)
+  {
+    return KitchenController.perfOrdersStatusSet(jdbcTemplate, uuid, OrderStatus.READY);
+  }
+
+  @PostMapping("/api/kitchen/done/{uuid}")
+  @ResponseBody
+  public String APIKitchenTaken (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess, @PathVariable("uuid") String uuid)
+  {
+    return KitchenController.perfOrdersStatusSet(jdbcTemplate, uuid, OrderStatus.DONE);
+  }
+
   @PostMapping("/api/kitchen/orders")
   @ResponseBody
   public String APIKitchenOrders (HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)

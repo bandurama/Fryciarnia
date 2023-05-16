@@ -34,7 +34,6 @@ export default function Kitchen ()
 
 	const updateOrders = function ()
 	{
-
 		fetch('http://bandurama.ddns.net:2023/api/kitchen/orders', {
 			method: 'POST',
 			body: JSON.stringify({}),
@@ -57,12 +56,14 @@ export default function Kitchen ()
 	const performGeneralDataUpdate = function ()
 	{
 		setInterval(() => {
+			console.log('clock');
 			updateStockList();
 			updateOrders();
-		}, 1000);
+		}, 3000);
 	}
 
 	useEffect(() => {
+		window.document.title = "Kuchnia - Fryciarnia";
 		document.body.style = "background-color: #212121";
 		performGeneralDataUpdate(); /* onMountError ahead */
 	}, []);
@@ -102,7 +103,7 @@ export default function Kitchen ()
 				</div>
 			</div>
 			<div className="k-contents">
-				{orderList.sort((a, b) => a.adpOrdersAdpOrderMealDbHolding.dbOrders.orderStatus.length - b.adpOrdersAdpOrderMealDbHolding.dbOrders.orderStatus.length ).map((n) => <KCard dl={doneList} sdl={setDoneList} data={n} key={n.adpOrdersAdpOrderMealDbHolding.dbOrders.uuid} />)}
+				{orderList.sort((a, b) => a.adpOrdersAdpOrderMealDbHolding.dbOrders.orderStatus.length - b.adpOrdersAdpOrderMealDbHolding.dbOrders.orderStatus.length ).map((n) => <KCard ua={updateOrders} dl={doneList} sdl={setDoneList} data={n} key={n.adpOrdersAdpOrderMealDbHolding.dbOrders.uuid} />)}
 			</div>
 		</>
 	)

@@ -35,16 +35,65 @@ export default function OrdersTable ()
 		reloadList();
 	}, []);
 
+	const RenderCtlBox = function ({ dbOrders })
+	{
+		if (window.location.pathname === '/profile/history')
+			return <></>;
+
+		return (
+			<>
+				{dbOrders.orderStatus == 'PAYING' && <img
+					src={"/icons/payment.png"}
+					className="tableIcon dropdown"
+					title="Oznacz jako zapłacone"
+					style={{marginRight: 10}}
+					onClick={(e) => {
+						fetch(`http://bandurama.ddns.net:2023/api/orders/paid/${dbOrders.uuid}`, {
+							method: 'POST',
+							body: JSON.stringify({}),
+							credentials: 'include'
+						})
+							.then((response) => response.json())
+							.then(resp =>
+							{
+								if (!resp.ok)
+									alert(resp.msg);
+								else
+									window.location.reload();
+							});
+					}}
+				/>}
+				{['PAYING', 'PAID'].includes(dbOrders.orderStatus) && <img
+					src={"/icons/cancel.png"}
+					className="tableIcon dropdown"
+					title="Oznacz jako anulowane"
+					style={{marginRight: 10}}
+					onClick={(e) => {
+						fetch(`http://bandurama.ddns.net:2023/api/orders/fail/${dbOrders.uuid}`, {
+							method: 'POST',
+							body: JSON.stringify({}),
+							credentials: 'include'
+						})
+							.then((response) => response.json())
+							.then(resp =>
+							{
+								if (!resp.ok)
+									alert(resp.msg);
+								else
+									window.location.reload();
+							});
+					}}
+				/>}
+			</>
+		);
+	}
+
 	const RenderTableRow = function ({ n, i, subkey })
 	{
 		const renderDroppedDown = function (n, i)
 		{
-			console.log(droppedDown);
 			if (!droppedDown.includes(i))
-				return (
-					<>
-					</>
-				)
+				return <></>
 
 			const RenderDroppedDownRow = function ({ m })
 			{
@@ -99,6 +148,7 @@ export default function OrdersTable ()
 							title="rozwiń"
 							style={{marginRight: 10}}
 						/>
+						<RenderCtlBox dbOrders={n.dbOrders}/>
 					</td>
 				</tr>
 				{renderDroppedDown(n, i)}

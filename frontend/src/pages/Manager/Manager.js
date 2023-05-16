@@ -2,9 +2,13 @@ import Management from "../../utils/Management";
 import Stock from "./Stock/Stock";
 import Workers from "./Workers/Workers";
 import Orders from "../AdminManager/Orders";
+import {useEffect} from "react";
 
 export default function Manager ()
 {
+	useEffect(() => {
+		window.document.title = "Panel Managera - Fryciarnia";
+	}, []);
 
 	const views =
 	{
