@@ -7,24 +7,26 @@ export default function Main() {
 	useEffect(() => {
 		document.title = 'Strona Główna - Fryciarnia';
 		fetchHoldings();
+		setInterval(() => {
+			setActiveSlide((activeSlide) => (activeSlide + 1) % __slide_count);
+		}, 5000);
 	}, []);
 
 	const [activeSlide, setActiveSlide] = useState(0);
 	const [holdingList, setHoldingList] = useState([]);
 	const holdingSelectBox = useRef();
-	const __slide_count = 5;
+	const __slide_count = 7;
 
 	const slideBack = function (e)
 	{
 		setActiveSlide(activeSlide == 0
 			? __slide_count
-			: activeSlide - 1);
+			: activeSlide - 1 );
 	}
 
 	const slideForward = function (e)
 	{
-		setActiveSlide((activeSlide + 1) % (__slide_count + 1));
-		console.log('forw', e);
+		setActiveSlide((activeSlide + 1) % (__slide_count));
 	}
 
 	const fetchHoldings = function ()

@@ -32,6 +32,7 @@ export default function Meal ({ props })
 							adpIngs[e.dbIngridient.uuid] = e;
 					resp.data['adpRecipeIngridient'] = Object.entries(adpIngs).map((n) => n.at(1));
 					setMyInfo(resp.data);
+					document.title = `${resp.data.dbMeal.name} - Fryciarnia`;
 				}
 				else
 				{
@@ -66,7 +67,7 @@ export default function Meal ({ props })
 			<TopNav useAccountButton={true} />
 
 			<div className="slides">
-				{ myInfo && <img src={myInfo.dbMeal.image} style={{width: 800}}/> }
+				{ myInfo && <img src={myInfo.dbMeal.icon} style={{width: 800}}/> }
 			</div>
 			<div className="sub-menu" onClick={(e) => window.location = `/menu/${holding}` }>
 				<img src="/icons/back.png"/>

@@ -32,7 +32,7 @@ export default function PayPal ()
 				payAmount && (
 					<>
 						<div style={{textAlign: 'center', marginBottom: 50}}>
-							<h2>Dokonaj płatności na kwotę {payAmount}zł</h2>
+							<h2 style={{fontFamily: 'Arial'}}>Dokonaj płatności na kwotę {payAmount}zł</h2>
 						</div>
 						<PayPalScriptProvider options={{ currency: "PLN", "client-id": "ASowtrUmfhsw3PMyd--LgnwrHR6GChuRQxH9OJZQuQ9iVxTy7h2efY6LWGZAn2SBOxKw-j2KLXg3rMJk" }}>
 							<PayPalButtons

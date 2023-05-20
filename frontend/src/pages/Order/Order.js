@@ -1,10 +1,11 @@
 import TopNav from "../../components/TopNav";
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {acquireGetParams} from "../../utils/Gets";
 import '../../styles/Order.css'
 import OrderItem from "./OrderItem";
 import Footer from "../../components/Footer";
+import OrderTakeoutBox from "./OrderTakeoutBox";
 
 export default function Order ()
 {
@@ -16,11 +17,13 @@ export default function Order ()
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [actualHolding, setActualHolding] = useState(null);
 
+	const [displayTakoutBox, setDisplayTakeoutBox] = useState(false);
+
 	/**
 	 * Most vital element
 	 * @param e
 	 */
-	const performOrder = function (e)
+	const performOrder = function (isTakeout)
 	{
 		const datagram =
 		{
@@ -37,7 +40,7 @@ export default function Order ()
 				});
 
 		console.log(datagram);
-		fetch('http://bandurama.ddns.net:2023/api/order', {
+		fetch(`http://bandurama.ddns.net:2023/api/order/${isTakeout ? 1 : 0}`, {
 			method: 'POST',
 			body: JSON.stringify(datagram),
 			credentials: 'include'
@@ -52,6 +55,10 @@ export default function Order ()
 				}
 				else
 				{
+					if (resp.msg == 'NOEXE')
+					{ /* stany magazynowe lub siła wyższa */
+						window.location.href = '/error/NO_ORDER';
+					}
 					throw new Error(resp.msg);
 				}
 			});
@@ -59,7 +66,6 @@ export default function Order ()
 	}
 
 	useEffect(() => {
-
 		/**
 		 * FIRST: Destructure _GET params
 		 */
@@ -127,6 +133,19 @@ export default function Order ()
 			});
 	}
 
+	const evtDisableTakeoutBox = function ()
+	{
+		setDisplayTakeoutBox(false);
+	}
+
+	const countCost = function ()
+	{
+		return Object
+			.keys(selected)
+			.reduce((a, key) => a + prices[key] * selected[key], 0)
+			.toFixed(2);
+	}
+
 	return (
 		<>
 			<TopNav useAccountButton={false} />
@@ -136,11 +155,12 @@ export default function Order ()
 						{mealList.map((meal) => <OrderItem meal={meal} key={meal.uuid} selected={selected} setSelected={setSelected} />)}
 					</div>
 					<div className="summary">
-						<button onClick={performOrder}>ZAPŁAĆ {Object.keys(selected).reduce((a, key) => a + prices[key] * selected[key], 0).toFixed(2)} ZŁ</button>
+						<button onClick={(e) => parseInt(countCost()) > 0 && setDisplayTakeoutBox(true)}>ZAPŁAĆ {countCost()} ZŁ</button>
 					</div>
 				</div>
 			</div>
 			<Footer/>
+			{displayTakoutBox && <OrderTakeoutBox performOrder={performOrder} disabler={(e) => setDisplayTakeoutBox(false)} />}
 		</>
 	)
 }

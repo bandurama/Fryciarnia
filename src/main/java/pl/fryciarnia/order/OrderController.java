@@ -59,6 +59,9 @@ public class OrderController
 
   public static boolean canExecuteOrder (JdbcTemplate jdbcTemplate, APIOrder order)
   {
+    if (order.getOrderedMeals().size() == 0)
+      return false;
+
     DbHolding dbHolding = HoldingController.getHoldingByUUID(jdbcTemplate, order.getHoldingUUID());
     List<DbStock> dbStockList = StockController.getStockByHolding(jdbcTemplate, dbHolding);
     /* HACK: convert to HashMap for faster look up times */
@@ -87,7 +90,7 @@ public class OrderController
     return true;
   }
 
-  public static DbOrders beginNewOrderFromAPIOrder (JdbcTemplate jdbcTemplate, APIOrder apiOrder, DbUser dbUser)
+  public static DbOrders beginNewOrderFromAPIOrder (JdbcTemplate jdbcTemplate, APIOrder apiOrder, DbUser dbUser, Boolean isTakeout)
   {
     /**
      * FIRST: Remove quants from stock,
@@ -98,7 +101,7 @@ public class OrderController
     if (!StockController.updateStockWithAPIOrder(jdbcTemplate, apiOrder))
       return null;
 
-    DbOrders dbOrders = OrdersController.newDbOrdersFromAPIOrder(jdbcTemplate, apiOrder, dbUser);
+    DbOrders dbOrders = OrdersController.newDbOrdersFromAPIOrder(jdbcTemplate, apiOrder, dbUser, isTakeout);
     if (dbOrders == null)
       return null;
 

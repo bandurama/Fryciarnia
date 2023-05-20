@@ -20,3 +20,20 @@
 {
 	cursor: pointer;
 }
+
+#card-history
+{
+}
+
+#card-history > .title
+{
+	color: black!important;
+}
+
+#card-history > .descr
+{
+	width: 80%;
+	text-align: center;
+	margin-top: 20px;
+	font-size: 1.1vw;
+}

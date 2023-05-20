@@ -22,9 +22,9 @@ public class OrderMapping
   private JdbcTemplate jdbcTemplate;
 
 
-  @PostMapping("/api/order")
+  @PostMapping("/api/order/{isTakeout}")
   @ResponseBody
-  public String APIDbOrdersOrder (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
+  public String APIDbOrdersOrder (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess, @PathVariable("isTakeout") String isTakeout)
   {
     APIDatagram apiDatagram = new APIDatagram();
     DbUser dbUser = UserController.getDbUserBySessionToken(jdbcTemplate, frySess);
@@ -52,7 +52,7 @@ public class OrderMapping
      * All clear, prepare order and begin
      * awaiting the payment
      */
-    DbOrders dbOrders = OrderController.beginNewOrderFromAPIOrder(jdbcTemplate, apiOrder, dbUser);
+    DbOrders dbOrders = OrderController.beginNewOrderFromAPIOrder(jdbcTemplate, apiOrder, dbUser, isTakeout.equals("1"));
     if (dbOrders == null)
       return apiDatagram.fail("ERR");
 

@@ -7,6 +7,16 @@ export default function OrdersTable ()
 {
 	const [list, setList] = useState([]);
 
+
+	const __status_translator =
+	{
+		PAYING: ['💸', 'Zamówienie w trakcie płatności.'],
+		PAID: ['🍲', 'Zamówienie w trakcie przygotowywania.'],
+		FAILED: ['❌', 'Zamówienie anulowane.'],
+		READY: ['🔥', 'Zamówienie gotowe do odbioru.'],
+		DONE: ['✅', 'Zamówienie odebrane.']
+	}
+
 	const reloadList = function ()
 	{
 		fetch('http://bandurama.ddns.net:2023/api/orders/list', {

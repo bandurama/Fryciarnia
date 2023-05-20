@@ -300,12 +300,12 @@ export default function MealMgmt ()
 								</div>
 
 								<div className="col-sm-6">
-									<label htmlFor="image" className="form-label">Baner na stronie</label>
+									<label htmlFor="image" className="form-label">Ikonka w katalogu</label>
 									<input type="text" className="form-control" name="image" placeholder="" required/>
 								</div>
 
 								<div className="col-sm-6">
-									<label htmlFor="icon" className="form-label">Ikonka</label>
+									<label htmlFor="icon" className="form-label">Ikonka w menu</label>
 									<input type="text" className="form-control" name="icon" placeholder="" required/>
 								</div>
 

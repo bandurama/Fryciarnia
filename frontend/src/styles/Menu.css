@@ -14,14 +14,14 @@
 {
 	width: 25vw;
 	height: 25vw;
-	background-size: 100%;
+	background-size: 120%;
 	background-position: center center;
 	transition: background-size 0.5s ease;
 }
 
 .menu-item-image:hover
 {
-	background-size: 110%;
+	background-size: 150%;
 }
 
 .menu-item-title

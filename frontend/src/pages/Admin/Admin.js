@@ -27,7 +27,6 @@ export default function ()
 	views['ingridientsmgmt'] = (<IngridientMgmt/>);
 
 	views['orders'] = (<Orders/>);
-	// views['ordersmgmt'] = (<OrderMgmt/>)
 
 	views['users'] = (<Users/>);
 	views['usersmgmt'] = (<UserMgmt/>);
@@ -80,8 +79,7 @@ export default function ()
 			title: "Zamówienia",
 			routes:
 			[
-				{ name: "Wyświetl zamówienia", href: "/admin/orders" },
-				{ name: "Zarządzanie", href: "/admin/ordersmgmt" }
+				{ name: "Wyświetl zamówienia", href: "/admin/orders" }
 			]
 		},
 		{

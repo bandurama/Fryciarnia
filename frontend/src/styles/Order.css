@@ -64,7 +64,7 @@
 
 .OrderWrapper > div > div > .icon > img
 {
-	width: 200px;
+	width: 220px;
 	height: 160px;
 }
 
@@ -105,4 +105,55 @@
 .OrderWrapper > div > div > .ctl .sub
 {
 	background-color: #ffbc00;
+}
+
+
+.takeout-box
+{
+	position: fixed;
+	width: 350px;
+	height: 180px;
+	background-color: white;
+	z-index: 99999;
+	left: calc((100vw - 350px) / 2);
+	top: calc((100vh - 180px) / 2);
+	border-radius: 25px;
+	box-shadow: 4px 6px 14px 0px #969696;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	font-family: 'Arial';
+}
+
+.takeout-item:hover
+{
+	opacity: 1.0;
+}
+
+.takeout-item
+{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	cursor: pointer;
+	opacity: 0.7;
+}
+
+.takeout-box img
+{
+	margin-bottom: 20px;
+	width: 70px;
+	height: 70px;
+}
+
+.takeout-shade
+{
+	width: 100vw;
+	height: 100vh;
+	background-color: black;
+	opacity: 0.3;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3333;
 }

@@ -5,7 +5,6 @@ import Dashboard from "./pages/Dashboard";
 import GAuth from "./pages/GAuth";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile/Profile";
-import History from "./pages/Profile/History";
 import Tickets from "./pages/Tickets";
 import Menu from "./pages/Menu";
 import Meal from "./pages/Meal";

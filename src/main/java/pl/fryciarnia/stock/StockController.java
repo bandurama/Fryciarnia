@@ -6,6 +6,7 @@ import pl.fryciarnia.holding.DbHolding;
 import pl.fryciarnia.holding.HoldingController;
 import pl.fryciarnia.ingridient.DbIngridient;
 import pl.fryciarnia.ingridient.IngridientController;
+import pl.fryciarnia.ingridient.IngridientMapping;
 import pl.fryciarnia.meal.DbMeal;
 import pl.fryciarnia.meal.MealController;
 import pl.fryciarnia.order.APIOrder;
@@ -124,6 +125,23 @@ public class StockController
         dbStock.setQuantity(dbStock.getQuantity() - recipe.getQuantity() * apiOrderedMeal.getQuantity());
         StockController.updateStock(jdbcTemplate, dbStock);
       }
+    }
+    return true;
+  }
+
+  public static boolean createStockListForExistingHolding (JdbcTemplate jdbcTemplate, DbHolding dbHolding)
+  {
+    List<DbIngridient> dbIngridientList = IngridientController.fetchAll(jdbcTemplate);
+    for (DbIngridient dbIngridient : dbIngridientList)
+    {
+      /* create stock entry for this ingridient in this particullar holding */
+      DbStock dbStock = new DbStock();
+      dbStock.setUuid(UUID.randomUUID().toString());
+      dbStock.setIngridient(dbIngridient.getUuid());
+      dbStock.setHolding(dbHolding.getUuid());
+      dbStock.setQuantity(0.0f);
+      if (!insertStock(jdbcTemplate, dbStock))
+        return false;
     }
     return true;
   }

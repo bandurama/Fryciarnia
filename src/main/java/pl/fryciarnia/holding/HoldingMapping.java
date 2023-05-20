@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import pl.fryciarnia.session.DbSession;
 import pl.fryciarnia.session.SessionController;
+import pl.fryciarnia.stock.DbStock;
+import pl.fryciarnia.stock.StockController;
 import pl.fryciarnia.user.DbUser;
 import pl.fryciarnia.user.UserController;
 import pl.fryciarnia.user.UserType;
@@ -182,6 +184,10 @@ public class HoldingMapping
 
     if (!errorLevel)
       return apiDatagram.fail("Internal server error regarding workers registration");
+
+    /* assing all ingridients to the holding's kitchen */
+    if (!StockController.createStockListForExistingHolding(jdbcTemplate, dbHolding))
+      return apiDatagram.fail("Failed to create new stock list");
 
     apiDatagram.setData(dbHolding);
     return apiDatagram.success();

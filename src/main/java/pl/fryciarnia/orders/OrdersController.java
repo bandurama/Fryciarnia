@@ -97,13 +97,13 @@ public class OrdersController
     return true;
   }
 
-  public static DbOrders newDbOrdersFromAPIOrder (JdbcTemplate jdbcTemplate, APIOrder apiOrder, DbUser dbUser)
+  public static DbOrders newDbOrdersFromAPIOrder (JdbcTemplate jdbcTemplate, APIOrder apiOrder, DbUser dbUser, Boolean isTakeout)
   {
     DbOrders dbOrders = new DbOrders();
     dbOrders.setUuid(UUID.randomUUID().toString());
     dbOrders.setOwner(dbUser.getUuid());
     dbOrders.setHolding(apiOrder.getHoldingUUID());
-    dbOrders.setIsTakeout(dbUser.getType().equals(UserType.Web));
+    dbOrders.setIsTakeout(isTakeout);
     dbOrders.setOrderStatus(OrderStatus.PAYING);
     dbOrders.setTicket(0 /* TODO: Create Ticket Controller */);
     dbOrders.setCtime(new Timestamp(System.currentTimeMillis()));
@@ -138,7 +138,7 @@ public class OrdersController
 
     ordersList.forEach(orders -> {
       AdpOrdersAdpOrderMealDbHolding adp = new AdpOrdersAdpOrderMealDbHolding();
-      adp.setDbHolding(HoldingController.getHoldingByUUID(jdbcTemplate, orders.getHolding()));
+      adp.setDbHolding(HoldingController.getHoldingByUUID(jdbcTemplate, orders.getHolding())); /* <------- say WHAT LMAO, orders can be null sometimes, somehow, how?!?!??!?! */
       adp.setDbOrders(orders);
       List<DbOrder> lst = OrderController.getOrderByOrders(jdbcTemplate, orders);
       lst.forEach(order -> {

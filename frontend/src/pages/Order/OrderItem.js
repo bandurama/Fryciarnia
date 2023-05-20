@@ -22,7 +22,7 @@ export default function OrderItem ({ meal, selected, setSelected })
 	return (
 		<div>
 			<div className="icon">
-				<img alt={""} src={meal.image} />
+				<img alt={""} src={meal.icon} />
 			</div>
 			<div className="name">
 				{meal.name}

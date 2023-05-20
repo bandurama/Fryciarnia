@@ -33,6 +33,7 @@ export default function Menu ()
 	}
 
 	useEffect(() => {
+		document.title = `Katalog - Fryciarnia`;
 		fetchMenu();
 	}, []);
 
@@ -45,7 +46,7 @@ export default function Menu ()
 
 		return (
 			<div className="menu-item" onClick={evtClick}>
-				<div className="menu-item-image" style={{backgroundImage: `url("${meal.icon}")`}}></div>
+				<div className="menu-item-image" style={{backgroundImage: `url("${meal.image}")`}}></div>
 				<div className="menu-item-title">
 					{meal.name}
 				</div>

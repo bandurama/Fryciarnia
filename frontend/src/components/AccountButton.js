@@ -15,7 +15,7 @@ export default function AccountButton ()
 			.then(resp => {
 				console.log('ttl logger', resp);
 				setIsLoggedIn(resp.ok);
-				if (resp.data.type === 'Terminal' && window.location.pathname === '/')
+				if (resp.ok && resp.data.type === 'Terminal' && window.location.pathname === '/')
 					window.location.href = '/order/0';
 			}
 		)

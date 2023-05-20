@@ -6,9 +6,9 @@ export default function Footer ()
 		<>
 			<div className="bottom-nav">
 				<a href="/menu/all">NASZE MENU</a>
-				<a href="#">WSZYSTKIE LOKALE</a>
+				<a href="http://bandurama.ddns.net:2023/red/locations" target="_blank">WSZYSTKIE LOKALE</a>
 				<a href="#">ALERGENY</a>
-				<a href="#">HISTORIA FRYCIARNI</a>
+				<a href="/history">HISTORIA FRYCIARNI</a>
 				<a href="#">PŚK</a>
 				<a href="#">FRANCZYZA</a>
 			</div>
