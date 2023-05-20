@@ -106,6 +106,8 @@ export default function OrdersTable ()
 							<td style={{textAlign: 'left'}}><i>{(m.dbMeal.price * m.dbOrder.quantity).toFixed(2)} zł</i></td>
 							<td></td>
 							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 					</>
 				)
@@ -121,9 +123,11 @@ export default function OrdersTable ()
 						<th style={{textAlign: 'left'}}>Cena</th>
 						<th></th>
 						<th></th>
+						<th></th>
+						<th></th>
 					</tr>
 					<tr>
-						<th colSpan={6}>&nbsp;</th>
+						<th colSpan={8}>&nbsp;</th>
 					</tr>
 				</>
 			)
@@ -135,9 +139,9 @@ export default function OrdersTable ()
 					<td>{n.dbOrders.ctime}</td>
 					<td style={{textAlign: 'right'}}>{n.dbHolding.localization}</td>
 					<td style={{textAlign: 'left'}}>{n.adpOrderMeals.reduce((a, b) => a + b.dbMeal.price * b.dbOrder.quantity, 0).toFixed(2)} zł</td>
-					<td>{n.dbOrders.orderStatus}</td>
-					{/*<td>{n.dbOrders.isTakeout ? 'na miejscu' : 'na wynos'}</td>*/}
-					<td>{n.dbOrders.ticket}</td>
+					<td><div title={__status_translator[n.dbOrders.orderStatus][1]}>{__status_translator[n.dbOrders.orderStatus][0]}</div></td>
+					<td>{n.dbOrders.ticket != 0 && n.dbOrders.ticket}</td>
+					<td>{n.dbOrders.isTakeout && <img src="/icons/takeout_black.png" style={{width: 26, height: 26}}/> }</td>
 					<td>
 						<img
 							src={!droppedDown.includes(i) ? '/icons/down.png' : '/icons/up.png'}
@@ -185,6 +189,7 @@ export default function OrdersTable ()
 					<th style={{textAlign: 'left'}}>Koszt</th>
 					<th>Status</th>
 					<th>Numerek</th>
+					<th>Na wynos</th>
 					<th>Operacje</th>
 				</tr>
 				</thead>

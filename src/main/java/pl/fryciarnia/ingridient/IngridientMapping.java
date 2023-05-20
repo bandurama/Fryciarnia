@@ -70,7 +70,7 @@ public class IngridientMapping
       return apiDatagram.fail("Session error");
 
     if (!IngridientController.insertIngridient(jdbcTemplate, dbIngridient))
-      return apiDatagram.fail("Internal Server Error");
+      return apiDatagram.fail("Internal Server ErrorPage");
 
     apiDatagram.setData(dbIngridient);
     return apiDatagram.success();

@@ -47,7 +47,9 @@ export default function PayPal ()
 										],
 									});
 								}}
-								onCancel = { () => { alert("Dupa")
+								onCancel = { () =>
+									{
+										window.location.href = "/error/NO_PAY"
 									}
 								}
 								onApprove={(data, actions) => {

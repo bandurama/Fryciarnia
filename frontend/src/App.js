@@ -15,6 +15,9 @@ import Order from "./pages/Order/Order";
 import Ticket from "./pages/Ticket";
 import Payment from "./pages/Payment/Payment";
 import Kitchen from "./pages/Kitchen/Kitchen";
+import ErrorPage from "./pages/ErrorPage";
+import History from "./pages/History";
+import ProfileHistory from "./pages/Profile/ProfileHistory";
 
 function App() {
 	return (
@@ -31,11 +34,13 @@ function App() {
 				<Route path="/meal/:holding/:meal" Component={Meal} />
 				<Route path="/admin/:option" Component={Admin} />
 				<Route path="/manager/:option" Component={Manager} />
-				<Route path="/profile/history" Component={History} />
+				<Route path="/profile/history" Component={ProfileHistory} />
 				<Route path="/order/:holding" Component={Order} />
 				<Route path="/payment/:order" Component={Payment} />
+				<Route path="/error/:code" Component={ErrorPage} />
 				<Route path="/ticket/:order" Component={Ticket} />
 				<Route path="/kitchen" Component={Kitchen} />
+				<Route path="/history" Component={History} />
 			</Routes>
 		</div>
 	);

@@ -3,7 +3,7 @@ import TopNav from "../../components/TopNav";
 import '../../styles/History.css';
 import OrdersTable from "../../components/OrdersTable";
 
-export default function History()
+export default function ProfileHistory()
 {
 	return (
 		<>
