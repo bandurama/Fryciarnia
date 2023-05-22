@@ -36,9 +36,6 @@ public class MealMapping
   public String APIDbMealInfo (@RequestBody String body, HttpServletResponse httpServletResponse, @CookieValue(value = "fry_sess", defaultValue = "nil") String frySess)
   {
     /**
-     * TODO: Create adapter and combine this data
-     *       with DbRecipe in order to create
-     *       dependency list for the meal
      *
      * HACK: Create this adapter in RecipeController
      *       cause it does matches syntactic style

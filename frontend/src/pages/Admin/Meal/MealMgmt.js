@@ -296,7 +296,7 @@ export default function MealMgmt ()
 
 								<div className="col-sm-4">
 									<label htmlFor="price" className="form-label">Cena</label>
-									<input type="number" className="form-control" name="price" placeholder="" required/>
+									<input type="number" step="0.01" className="form-control" name="price" placeholder="" required/>
 								</div>
 
 								<div className="col-sm-6">

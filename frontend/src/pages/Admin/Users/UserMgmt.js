@@ -117,12 +117,12 @@ export default function UserMgmt ()
 							<div className="row g-4">
 								<div className="col-sm-6">
 									<label htmlFor="firstName" className="form-label">Imię</label>
-									<input type="text" className="form-control" name="name" placeholder="" required/>
+									<input type="text" className="form-control" name="name" placeholder=""/>
 								</div>
 
 								<div className="col-sm-6">
 									<label htmlFor="lastName" className="form-label">Nazwisko</label>
-									<input type="text" className="form-control" name="surname" placeholder="" required/>
+									<input type="text" className="form-control" name="surname" placeholder=""/>
 								</div>
 
 

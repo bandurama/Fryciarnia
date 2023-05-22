@@ -84,7 +84,7 @@ export default function Ingridients ()
 													&#xE254;
 												</i>
 											</a>
-											<a href="#" className="delete" title="Usuń użytkownika" data-toggle="tooltip" onClick={(e) => eventRemove(item.uuid)}>
+											<a href="#" className="delete" title="Usuń składnik" data-toggle="tooltip" onClick={(e) => eventRemove(item.uuid)}>
 												<i className="material-icons">
 													&#xE872;
 												</i>

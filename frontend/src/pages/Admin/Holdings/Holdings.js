@@ -80,12 +80,12 @@ export default function Holding ()
 										<td>{item.localization}</td>
 										<td>{item.manager}</td>
 										<td>
-											<a href={`/admin/holdingmgmt?uuid=${item.uuid}`} className="edit" title="Edytuj użytkownika" data-toggle="tooltip" >
+											<a href={`/admin/holdingmgmt?uuid=${item.uuid}`} className="edit" title="Edytuj franczyzę" data-toggle="tooltip" >
 												<i className="material-icons">
 													&#xE254;
 												</i>
 											</a>
-											<a href="#" className="delete" title="Usuń użytkownika" data-toggle="tooltip" onClick={(e) => eventRemove(item.uuid)}>
+											<a href="#" className="delete" title="Usuń franczyzę" data-toggle="tooltip" onClick={(e) => eventRemove(item.uuid)}>
 												<i className="material-icons">
 													&#xE872;
 												</i>
