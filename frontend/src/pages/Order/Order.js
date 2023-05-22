@@ -39,7 +39,6 @@ export default function Order ()
 					quantity: selected[mealUUID]
 				});
 
-		console.log(datagram);
 		fetch(`http://bandurama.ddns.net:2023/api/order/${isTakeout ? 1 : 0}`, {
 			method: 'POST',
 			body: JSON.stringify(datagram),

@@ -45,6 +45,8 @@ export default function IngridientMgmt ()
 		const datagram = serializeForm("ingridient");
 		datagram['uuid'] = editting;
 		console.log(datagram);
+		console.log(JSON.stringify(datagram));
+		return;
 
 		fetch('http://bandurama.ddns.net:2023/api/ingridient/edit', {
 			method: 'POST',
@@ -103,7 +105,7 @@ export default function IngridientMgmt ()
 				<div className="py-4 text-center">
 					<h2>Zarządzanie listą składników</h2>
 				</div>
-				<form id="ingridient">
+				<div id="ingridient">
 					<div className="row g-4">
 						<div className="col-sm-10">
 							<h4 className="mb-3">Dodaj do listy składników</h4>
@@ -131,7 +133,7 @@ export default function IngridientMgmt ()
 							</div>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 		</>
 	)

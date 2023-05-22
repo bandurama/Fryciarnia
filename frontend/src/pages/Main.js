@@ -19,8 +19,8 @@ export default function Main() {
 
 	const slideBack = function (e)
 	{
-		setActiveSlide(activeSlide == 0
-			? __slide_count
+		setActiveSlide(activeSlide <= 0
+			? __slide_count - 1
 			: activeSlide - 1 );
 	}
 
