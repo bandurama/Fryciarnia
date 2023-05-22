@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class RecipeMappingTest
+public class WorkerMappingTest
 {
   @Autowired
   private MockMvc mockMvc;
@@ -38,10 +38,10 @@ public class RecipeMappingTest
   @SneakyThrows
   @Test
   @Order(2)
-  void testAPIDbRecipeList ()
+  void testAPIDbWorkerList ()
   {
-    String req = "{\"uuid\":\"5deccbfa-55a0-470f-8218-4f38c070a556\"}";
-    mockMvc.perform(post("/api/recipe/list").content(req))
+    Cookie cookie = new Cookie("fry_sess", "men_debug");
+    mockMvc.perform(post("/api/worker/list").cookie(cookie))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(f ->
@@ -49,7 +49,8 @@ public class RecipeMappingTest
           JSONObject jsonObject = new JSONObject(f.getResponse().getContentAsString());
           assert (jsonObject.has("ok"));
           assert (jsonObject.getBoolean("ok"));
-          assert (jsonObject.getJSONArray("data").length() == 5);
+          assert (jsonObject.getJSONObject("data").getJSONArray("hardware").length() == 2);
+          assert (jsonObject.getJSONObject("data").getJSONArray("people").length() == 1);
         })
         .andReturn();
   }
@@ -57,13 +58,14 @@ public class RecipeMappingTest
   @SneakyThrows
   @Test
   @Order(3)
-  void testAPIDbRecipeInsert ()
+  void testAPIDbWorkerCookEdit ()
   {
-    Cookie cookie = new Cookie("fry_sess", "admin_debug");
-    String req = "{\"step\":\"20\",\"ingridient\":\"5bc6c186-5a73-4b5c-92ac-76079922ff8e\",\"quantity\":\"100\",\"instruction\":\"Pokeczupić\",\"meal\":\"dc081f3b-80df-42dd-8576-20cc43d5004f\",\"uuid\":\"\"}";
-    mockMvc.perform(post("/api/recipe/insert").content(req).cookie(cookie))
+    Cookie cookie = new Cookie("fry_sess", "men_debug");
+    String req = "{\"uuid\":\"65e753c6-3e63-4d8f-9772-a6dbf592b586\",\"surname\":\"Kuchciński\"}";
+    mockMvc.perform(post("/api/worker/cook/edit").cookie(cookie).content(req))
         .andDo(print())
         .andExpect(status().isOk())
+        .andExpect(content().string("{\"data\":{\"uuid\":\"7cea5b2a-9b20-4525-ab68-2a4e982e1255\",\"worker\":\"65e753c6-3e63-4d8f-9772-a6dbf592b586\",\"holding\":\"81a9b91b-35a7-4c20-8833-c1fd35a979b3\",\"salary\":1500.0,\"isHardware\":false},\"ok\":true}"))
         .andExpect(f ->
         {
           JSONObject jsonObject = new JSONObject(f.getResponse().getContentAsString());
@@ -76,20 +78,26 @@ public class RecipeMappingTest
   @SneakyThrows
   @Test
   @Order(4)
-  void testAPIDbRecipeRemove ()
+  void testAPIDbWorkerHire ()
   {
-    Cookie cookie = new Cookie("fry_sess", "admin_debug");
-    String req = "{\"uuid\":\"63b4f999-b084-43bf-b533-077812dcd372\"}";
-
-    mockMvc.perform(post("/api/recipe/remove").content(req).cookie(cookie))
+    Cookie cookie = new Cookie("fry_sess", "men_debug");
+    mockMvc.perform(post("/api/worker/hire").cookie(cookie))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(f ->
-        {
-          JSONObject jsonObject = new JSONObject(f.getResponse().getContentAsString());
-          assert (jsonObject.has("ok"));
-          assert (jsonObject.getBoolean("ok"));
-        })
+        .andExpect(content().string("{\"data\":\"http://bandurama.ddns.net/register?holding\\u003d81a9b91b-35a7-4c20-8833-c1fd35a979b3\",\"ok\":true}"))
+        .andReturn();
+  }
+
+  @SneakyThrows
+  @Test
+  @Order(5)
+  void testAPIDbWorkerHolding ()
+  {
+    Cookie cookie = new Cookie("fry_sess", "kitchen_debug");
+    mockMvc.perform(post("/api/worker/holding").cookie(cookie))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().string("{\"data\":{\"uuid\":\"81a9b91b-35a7-4c20-8833-c1fd35a979b3\",\"localization\":\"Kielce, Galeria Echo, Świętokrzyska 20\",\"manager\":\"66e4243a-cfef-4614-b15d-a5b14412220d\"},\"ok\":true}"))
         .andReturn();
   }
 

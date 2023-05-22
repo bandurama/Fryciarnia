@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class RecipeMappingTest
+public class StockMappingTest
 {
   @Autowired
   private MockMvc mockMvc;
@@ -38,10 +38,10 @@ public class RecipeMappingTest
   @SneakyThrows
   @Test
   @Order(2)
-  void testAPIDbRecipeList ()
+  void testAPIDbStockList ()
   {
-    String req = "{\"uuid\":\"5deccbfa-55a0-470f-8218-4f38c070a556\"}";
-    mockMvc.perform(post("/api/recipe/list").content(req))
+    Cookie cookie = new Cookie("fry_sess", "men_debug");
+    mockMvc.perform(post("/api/stock/list").cookie(cookie))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(f ->
@@ -49,19 +49,20 @@ public class RecipeMappingTest
           JSONObject jsonObject = new JSONObject(f.getResponse().getContentAsString());
           assert (jsonObject.has("ok"));
           assert (jsonObject.getBoolean("ok"));
-          assert (jsonObject.getJSONArray("data").length() == 5);
+          assert (jsonObject.getJSONArray("data").length() == 18);
         })
         .andReturn();
   }
+
 
   @SneakyThrows
   @Test
   @Order(3)
-  void testAPIDbRecipeInsert ()
+  void testAPIDbStockQuantityEdit ()
   {
-    Cookie cookie = new Cookie("fry_sess", "admin_debug");
-    String req = "{\"step\":\"20\",\"ingridient\":\"5bc6c186-5a73-4b5c-92ac-76079922ff8e\",\"quantity\":\"100\",\"instruction\":\"Pokeczupić\",\"meal\":\"dc081f3b-80df-42dd-8576-20cc43d5004f\",\"uuid\":\"\"}";
-    mockMvc.perform(post("/api/recipe/insert").content(req).cookie(cookie))
+    Cookie cookie = new Cookie("fry_sess", "men_debug");
+    String req = "{\"uuid\": \"3ff43d48-02a6-4dcc-86f6-a577c749f5b1\", \"quantity\": \"5.0\"}";
+    mockMvc.perform(post("/api/stock/quantity/edit").cookie(cookie).content(req))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(f ->
@@ -72,25 +73,4 @@ public class RecipeMappingTest
         })
         .andReturn();
   }
-
-  @SneakyThrows
-  @Test
-  @Order(4)
-  void testAPIDbRecipeRemove ()
-  {
-    Cookie cookie = new Cookie("fry_sess", "admin_debug");
-    String req = "{\"uuid\":\"63b4f999-b084-43bf-b533-077812dcd372\"}";
-
-    mockMvc.perform(post("/api/recipe/remove").content(req).cookie(cookie))
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(f ->
-        {
-          JSONObject jsonObject = new JSONObject(f.getResponse().getContentAsString());
-          assert (jsonObject.has("ok"));
-          assert (jsonObject.getBoolean("ok"));
-        })
-        .andReturn();
-  }
-
 }
