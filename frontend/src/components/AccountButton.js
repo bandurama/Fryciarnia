@@ -13,7 +13,7 @@ export default function AccountButton ()
 		})
 			.then((response) => response.json())
 			.then(resp => {
-				console.log('ttl logger', resp);
+				console.log('ping', resp);
 				setIsLoggedIn(resp.ok);
 				if (resp.ok && resp.data.type === 'Terminal' && window.location.pathname === '/')
 					window.location.href = '/order/0';

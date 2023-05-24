@@ -21,9 +21,15 @@ public class DbUser
     private String password;
     private UserType type;
 
-    @SneakyThrows
     public static DbUser fromJSON (String json)
     {
-        return (new Gson()).fromJson(json, DbUser.class);
+        try
+        {
+            return (new Gson()).fromJson(json, DbUser.class);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 }

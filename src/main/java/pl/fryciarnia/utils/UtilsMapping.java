@@ -7,6 +7,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import pl.fryciarnia.holding.DbHolding;
 import pl.fryciarnia.holding.HoldingController;
 
+import java.text.Normalizer;
 import java.util.List;
 
 @CrossOrigin(allowCredentials = "true", origins = "http://bandurama.ddns.net")
@@ -25,7 +26,11 @@ public class UtilsMapping
     StringBuilder stringBuilder = new StringBuilder("https://www.google.com/maps/dir");
 
     for (DbHolding dbHolding : dbHoldingList)
-      stringBuilder.append(String.format("/%s", dbHolding.getLocalization()));
+    {
+      String normalized = Normalizer.normalize(dbHolding.getLocalization(), Normalizer.Form.NFD);
+      String result = normalized.replaceAll("[^A-Za-z0-9 ]", "");
+      stringBuilder.append(String.format("/%s", result));
+    }
 
     redirectView.setUrl(stringBuilder.toString());
     return redirectView;

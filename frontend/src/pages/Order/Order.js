@@ -19,6 +19,20 @@ export default function Order ()
 
 	const [displayTakoutBox, setDisplayTakeoutBox] = useState(false);
 
+	const checkIfSignedIn = function ()
+	{
+			fetch('http://bandurama.ddns.net:2023/api/user/ping', {
+				method: 'POST',
+				body: JSON.stringify({}),
+				credentials: 'include'
+			})
+				.then((response) => response.json())
+				.then(resp => {
+						if (!resp.ok)
+							window.location.href = '/login';
+					}
+				);
+	}
 	/**
 	 * Most vital element
 	 * @param e
@@ -68,6 +82,7 @@ export default function Order ()
 		/**
 		 * FIRST: Destructure _GET params
 		 */
+		checkIfSignedIn();
 		const _GET = acquireGetParams();
 
 		if (_GET != null && Object.keys(_GET).includes("select"))

@@ -65,7 +65,7 @@ export default function Main() {
 				<div className="card" id="card-menu">
 					<div className="title">Miłość w cenie</div>
 					<div className="sub-title">niewiarygodne smaki</div>
-					<button>ZAPOZNAJ SIĘ Z NASZĄ OFERTĄ</button>
+					<button onClick={(e) => window.location.href = `/menu/all` }>ZAPOZNAJ SIĘ Z NASZĄ OFERTĄ</button>
 				</div>
 				<div className="card" id="card-apps">
 					<div className="title">

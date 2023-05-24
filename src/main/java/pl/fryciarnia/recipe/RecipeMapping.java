@@ -63,6 +63,9 @@ public class RecipeMapping
       return apiDatagram.fail("Invalid session");
 
     DbRecipe dbRecipe = DbRecipe.fromJSON(body);
+    if (dbRecipe == null)
+      return apiDatagram.fail("Błędne dane");
+
     dbRecipe.setUuid(UUID.randomUUID().toString());
     if (!RecipeController.insertRecipe(jdbcTemplate, dbRecipe))
       return apiDatagram.fail("Internal server error");

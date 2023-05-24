@@ -45,8 +45,6 @@ export default function IngridientMgmt ()
 		const datagram = serializeForm("ingridient");
 		datagram['uuid'] = editting;
 		console.log(datagram);
-		console.log(JSON.stringify(datagram));
-		return;
 
 		fetch('http://bandurama.ddns.net:2023/api/ingridient/edit', {
 			method: 'POST',
@@ -112,11 +110,11 @@ export default function IngridientMgmt ()
 							<div className="row g-3">
 									<div className="col-sm-6">
 										<label htmlFor="name" className="form-label">Nazwa</label>
-										<input type="text" className="form-control" name="name" placeholder="" required/>
+										<input type="text" className="form-control" name="name" placeholder="" required autoComplete="false"/>
 									</div>
 									<div className="col-sm-6">
 										<label htmlFor="icon" className="form-label">Zdjęcie</label>
-										<input type="text" className="form-control" name="icon" placeholder="" required/>
+										<input type="text" className="form-control" name="icon" placeholder="" required autoComplete="false"/>
 									</div>
 								<hr className="mt-5" />
 
@@ -127,7 +125,7 @@ export default function IngridientMgmt ()
 												? <button className="w-20 btn btn-warning btn-lg mr-3" onClick={eventEdit}>Edycja</button>
 												: <button className="w-20 btn btn-success btn-lg mr-3" onClick={eventInsert}>Dodaj</button>
 										}
-										<button className="w-20 btn btn-danger btn-lg" style={{marginLeft: 15}}>Anuluj</button>
+										<button className="w-20 btn btn-danger btn-lg" style={{marginLeft: 15}} onClick={(e) => window.location.href = '/admin/ingridients'}>Anuluj</button>
 									</div>
 								</div>
 							</div>

@@ -148,7 +148,7 @@ export default function HoldingMgmt ()
 							<div className="row g-4">
 								<div className="col-sm-5">
 									<label htmlFor="localization" className="form-label">Lokalizacja</label>
-									<input type="text" className="form-control" name="localization" placeholder="" required/>
+									<input type="text" className="form-control" name="localization" placeholder="" required autoComplete="false"/>
 								</div>
 
 								<div className="col-sm-4">
@@ -171,7 +171,7 @@ export default function HoldingMgmt ()
 												? <button className="w-20 btn btn-warning btn-lg" onClick={eventEdit}>Edycja</button>
 												: <button className="w-20 btn btn-success btn-lg" onClick={eventInsert}>Dodaj</button>
 										}
-										<button className="w-20 btn btn-danger btn-lg" style={{marginLeft: 15}}>Anuluj</button>
+										<button className="w-20 btn btn-danger btn-lg" style={{marginLeft: 15}} onClick={(e) => window.location.href = '/admin/holding'}>Anuluj</button>
 									</div>
 								</div>
 							</div>

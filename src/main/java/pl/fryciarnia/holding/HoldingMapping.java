@@ -37,12 +37,13 @@ public class HoldingMapping
     holdings.forEach(holding ->
     {
       DbUser manager = UserController.getDbUserByUUID(jdbcTemplate, holding.getManager());
-      holding.setManager
-      (
-          String.format("%s %s",
-            manager.getName(),
-            manager.getSurname())
-      );
+      if (manager != null)
+				holding.setManager
+				(
+						String.format("%s %s",
+							manager.getName(),
+							manager.getSurname())
+				);
     });
     apiDatagram.setData(holdings);
     return apiDatagram.success();
@@ -173,6 +174,16 @@ public class HoldingMapping
     /* insert data */
     DbHolding dbHolding = DbHolding.fromJSON(body);
     dbHolding.setUuid(UUID.randomUUID().toString());
+
+    if (dbHolding.getManager() == null || dbHolding.getManager().equals(""))
+      return apiDatagram.fail("Nie podano managera");
+
+    DbUser manager = UserController.getDbUserByUUID(jdbcTemplate, dbHolding.getManager());
+    if (manager == null)
+      return apiDatagram.fail("Podany manager nie istnieje");
+
+    if (dbHolding.getLocalization() == null || dbHolding.getLocalization().equals(""))
+      return apiDatagram.fail("Nie podano nazwy");
 
     if (!HoldingController.insertHolding(jdbcTemplate, dbHolding))
       return apiDatagram.fail("Internal server error");

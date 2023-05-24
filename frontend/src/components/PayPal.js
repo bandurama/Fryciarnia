@@ -7,7 +7,6 @@ export default function PayPal ()
 	const { order } = useParams();
 	const [payAmount, setPayAmount] = useState(null);
 
-
 	useEffect(() => {
 		fetch(`http://bandurama.ddns.net:2023/api/orders/info/${order}`, {
 			method: 'POST',
@@ -47,9 +46,21 @@ export default function PayPal ()
 										],
 									});
 								}}
-								onCancel = { () =>
+								onCancel = {() =>
 									{
-										window.location.href = "/error/NO_PAY"
+										fetch(`http://bandurama.ddns.net:2023/api/orders/fail/${order}`, {
+											method: 'POST',
+											body: JSON.stringify({}),
+											credentials: 'include'
+										})
+											.then((response) => response.json())
+											.then(resp => {
+												console.log(resp);
+												if (resp.ok)
+												{
+													window.location.href = "/error/NO_PAY"
+												}
+											})
 									}
 								}
 								onApprove={(data, actions) => {

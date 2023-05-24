@@ -24,7 +24,7 @@ export default function Manager ()
 			routes:
 			[
 				{ name: "Stany magazynowe", href: "/manager/stock" },
-				{ name: "Sprzedaż", href: "/manager/stats" },
+				// { name: "Sprzedaż", href: "/manager/stats" },
 			]
 		},
 		{

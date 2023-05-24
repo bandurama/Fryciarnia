@@ -9,7 +9,7 @@ export default function Footer ()
 				<a href="http://bandurama.ddns.net:2023/red/locations" target="_blank">WSZYSTKIE LOKALE</a>
 				<a href="#">ALERGENY</a>
 				<a href="/history">HISTORIA FRYCIARNI</a>
-				<a href="#">PŚK</a>
+				<a href="https://weaii.tu.kielce.pl/">PŚK</a>
 				<a href="#">FRANCZYZA</a>
 			</div>
 			<div className="footer">

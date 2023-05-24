@@ -88,6 +88,8 @@ public class MealMapping
   {
     APIDatagram apiDatagram = new APIDatagram();
     DbMeal dbMeal = DbMeal.fromJSON(body);
+    if (dbMeal == null)
+      return apiDatagram.fail("Błędne dane");
     dbMeal.setUuid(UUID.randomUUID().toString());
 
     if (!MealController.insertMeal(jdbcTemplate, dbMeal))
@@ -104,6 +106,8 @@ public class MealMapping
   {
     APIDatagram apiDatagram = new APIDatagram();
     DbMeal newMeal = DbMeal.fromJSON(body);
+    if (newMeal == null)
+      return apiDatagram.fail("Błędne dane");
 //    System.out.println(newMeal);
 
     if (!MealController.updateMeal(jdbcTemplate, newMeal))

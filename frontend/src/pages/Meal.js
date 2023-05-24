@@ -7,6 +7,7 @@ import '../styles/Meal.css'
 export default function Meal ({ props })
 {
 	const { holding, meal } = useParams();
+	console.log(holding);
 
 	const [myInfo, setMyInfo] = useState(null);
 
@@ -79,7 +80,8 @@ export default function Meal ({ props })
 						Zamów online i odbierz w restauracji
 					</div>
 					{ myInfo && !myInfo.dbMeal.isListed && <button>TOWAR NIEDOSTĘPNY</button> }
-					{ myInfo && myInfo.dbMeal.isListed && <button onClick={ (e) => window.location.href = `/order/${holding}?select=${myInfo.dbMeal.uuid}` }>ZAMÓW ONLINE</button> }
+					{ myInfo && myInfo.dbMeal.isListed && holding !== 'all' && <button onClick={ (e) => window.location.href = `/order/${holding}?select=${myInfo.dbMeal.uuid}` }>ZAMÓW ONLINE</button> }
+					{ myInfo && myInfo.dbMeal.isListed && holding === 'all' && <button onClick={ (e) => window.location.href = `/#card-search` }>POSZUKAJ LOKALU</button> }
 				</div>
 				<div className="card">
 					<div className="price">

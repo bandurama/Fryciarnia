@@ -1,6 +1,7 @@
 package pl.fryciarnia.meal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import lombok.Data;
 import lombok.SneakyThrows;
 import pl.fryciarnia.ingridient.DbIngridient;
@@ -21,19 +22,15 @@ public class DbMeal
   private String icon;
   private Boolean isListed;
 
-  @SneakyThrows
   public static DbMeal fromJSON (String json)
   {
-    DbMeal self = new DbMeal();
-    Map<String, Object> m = (new ObjectMapper()).readValue(json, Map.class);
-
-    self.setUuid((String) m.get("uuid"));
-    self.setName((String) m.get("name"));
-    self.setPrice(Float.parseFloat((String) m.get("price")));
-    self.setImage((String) m.get("image"));
-    self.setIcon((String) m.get("icon"));
-    self.setIsListed((Boolean) m.get("isListed"));
-
-    return self;
+    try
+    {
+      return (new Gson()).fromJson(json, DbMeal.class);
+    }
+    catch (Exception e)
+    {
+      return null;
+    }
   }
 }
