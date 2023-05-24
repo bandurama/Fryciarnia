@@ -239,7 +239,7 @@ export default function MealMgmt ()
 									<td>{item.dbRecipe.quantity}</td>
 									<td>{item.dbRecipe.instruction}</td>
 									<td>
-										<a className="edit" title="Usuń krok" data-toggle="tooltip" onClick={(e) => onRemoveStep(item.dbRecipe.uuid)} >
+										<a className="edit" title="Usuń krok" style={{cursor: "pointer"}} data-toggle="tooltip" onClick={(e) => onRemoveStep(item.dbRecipe.uuid)} >
 											<i className="material-icons">
 												&#xE872;
 											</i>
@@ -262,7 +262,7 @@ export default function MealMgmt ()
 							<td><input type="number" className="form-control" placeholder="Ilość" name="quantity" value={tbxQuantity} onChange={(e) => setTbxQuantity(e.target.value) }/></td>
 							<td><input type="text" className="form-control" placeholder="Instrukcja" name="instruction" value={tbxInstruction} onChange={(e) => setTbxInstruction(e.target.value) } /></td>
 							<td>
-								<a className="edit" title="Dodaj krok" data-toggle="tooltip" onClick={onInsertNewStep}>
+								<a className="edit" title="Dodaj krok" style={{cursor: "pointer"}} data-toggle="tooltip" onClick={onInsertNewStep}>
 									<i className="material-icons">
 										add
 									</i>
@@ -291,22 +291,22 @@ export default function MealMgmt ()
 							<div className="row g-4">
 								<div className="col-sm-6">
 									<label htmlFor="name" className="form-label">Nazwa</label>
-									<input type="text" className="form-control" name="name" placeholder="" required/>
+									<input type="text" className="form-control" name="name" placeholder="" required autoComplete="false"/>
 								</div>
 
 								<div className="col-sm-4">
 									<label htmlFor="price" className="form-label">Cena</label>
-									<input type="number" step="0.01" className="form-control" name="price" placeholder="" required/>
+									<input type="number" step="0.01" className="form-control" name="price" placeholder="" required autoComplete="false"/>
 								</div>
 
 								<div className="col-sm-6">
 									<label htmlFor="image" className="form-label">Ikonka w katalogu</label>
-									<input type="text" className="form-control" name="image" placeholder="" required/>
+									<input type="text" className="form-control" name="image" placeholder="" required autoComplete="false"/>
 								</div>
 
 								<div className="col-sm-6">
 									<label htmlFor="icon" className="form-label">Ikonka w menu</label>
-									<input type="text" className="form-control" name="icon" placeholder="" required/>
+									<input type="text" className="form-control" name="icon" placeholder="" required autoComplete="false"/>
 								</div>
 
 								<div className="form-check">

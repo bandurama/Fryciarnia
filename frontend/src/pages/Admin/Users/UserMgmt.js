@@ -117,18 +117,18 @@ export default function UserMgmt ()
 							<div className="row g-4">
 								<div className="col-sm-6">
 									<label htmlFor="firstName" className="form-label">Imię</label>
-									<input type="text" className="form-control" name="name" placeholder=""/>
+									<input type="text" className="form-control" name="name" placeholder="" autoComplete="false"/>
 								</div>
 
 								<div className="col-sm-6">
 									<label htmlFor="lastName" className="form-label">Nazwisko</label>
-									<input type="text" className="form-control" name="surname" placeholder=""/>
+									<input type="text" className="form-control" name="surname" placeholder="" autoComplete="false"/>
 								</div>
 
 
 								<div className="col-sm-6">
 									<label htmlFor="firstName" className="form-label">Mail</label>
-									<input type="text" className="form-control" name="mail" placeholder="" required/>
+									<input type="text" className="form-control" name="mail" placeholder="" required autoComplete={false}/>
 								</div>
 
 								<div className="col-sm-6">
@@ -136,9 +136,6 @@ export default function UserMgmt ()
 									<select className="form-select" name="type" required value={userType} onChange={(e) => setUserType(e.target.value)} disabled={editting != null}>
 										<option value="" disabled selected>Wybierz</option>
 										<option value="Manager">Menedżer</option>
-										<option value="Kitchen">Kucharz</option>
-										<option value="Display">Wyświetlacz w restauracji</option>
-										<option value="Terminal">Terminal w restauracji</option>
 										<option value="Web">Zwykły użytkownik</option>
 									</select>
 								</div>

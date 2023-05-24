@@ -35,7 +35,7 @@ public class HoldingController
 	{
 			return jdbcTemplate.query
 			(
-				"SELECT * FROM DBHOLDING",
+				"SELECT * FROM DBHOLDING ORDER BY LOCALIZATION",
 				BeanPropertyRowMapper.newInstance(DbHolding.class)
 			);
 	}
