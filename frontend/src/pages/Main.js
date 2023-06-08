@@ -8,7 +8,8 @@ export default function Main() {
 		document.title = 'Strona Główna - Fryciarnia';
 		fetchHoldings();
 		setInterval(() => {
-			setActiveSlide((activeSlide) => (activeSlide + 1) % __slide_count);
+			// setActiveSlide((activeSlide) => (activeSlide + 1) % __slide_count);
+			slideForward(null);
 		}, 5000);
 	}, []);
 
@@ -26,7 +27,11 @@ export default function Main() {
 
 	const slideForward = function (e)
 	{
-		setActiveSlide((activeSlide + 1) % (__slide_count));
+		const nextSlide = (activeSlide + 1) % __slide_count;
+		// const nextPreload = (nextSlide + 1) % __slide_count;
+		setActiveSlide(nextSlide);
+		// const pImg = new Image();
+		// pImg.src = `./slides/slide${nextPreload}.avif`;
 	}
 
 	const fetchHoldings = function ()
@@ -54,7 +59,10 @@ export default function Main() {
 		<>
 			<TopNav useAccountButton={true} />
 			<div className="slides">
-				<img src={`./slides/slide${activeSlide}.avif`}/>
+				<picture>
+					<source srcSet={`./slides/slide${activeSlide}.avif`} type="image/avif"/>
+					<img src={`./slides/slide${activeSlide}.webp`} type="image/webp"/>
+				</picture>
 				<button>POKAŻ WIĘCEJ</button>
 			</div>
 			<div className="slides-controller">

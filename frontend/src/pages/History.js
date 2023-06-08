@@ -23,9 +23,9 @@ export default function History ()
 						Nasza fryciarnia oferuje przyjazną atmosferę i niezapomniane doznania kulinarne dla miłośników tego klasycznego dania.
 					</div>
 				</div>
-				<div className="card" style={{backgroundImage: 'url(history0.avif)'}}>
+				<div className="card" style={{backgroundImage: 'url(history0.webp)'}}>
 				</div>
-				<div className="card" id="card-search" style={{backgroundImage: 'url(history1.avif)'}}>
+				<div className="card" id="card-search" style={{backgroundImage: 'url(history1.webp)'}}>
 				</div>
 				<div className="card" id="card-history">
 					<div className="title">Historia</div>
@@ -51,9 +51,9 @@ export default function History ()
 						naszych kucharzy możemy dostarczać naszym klientom niezapomniane doznania kulinarne.
 					</div>
 				</div>
-				<div className="card" style={{backgroundImage: 'url(history3.avif)'}}>
+				<div className="card" style={{backgroundImage: 'url(history3.webp)'}}>
 				</div>
-				<div className="card" id="card-search" style={{backgroundImage: 'url(history4.avif)'}}>
+				<div className="card" id="card-search" style={{backgroundImage: 'url(history4.webp)'}}>
 				</div>
 				<div className="card" id="card-history">
 					<div className="title">Przyjazna atmosfera</div>
