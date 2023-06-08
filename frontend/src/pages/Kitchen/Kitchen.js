@@ -93,7 +93,7 @@ export default function Kitchen ()
 
 					<div className="k-btn" style={{cursor: "pointer"}} onClick={evtLogout}>
 						<div>
-							<img src="/icons/logout.png" />
+							<img src="/icons/logout.png" alt="logout" />
 						</div>
 						<div >
 							Wyloguj

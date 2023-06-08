@@ -1,13 +1,16 @@
 import TopNav from "../../components/TopNav";
 import '../../styles/Forms.css'
 import {useEffect, useState} from "react";
+import PopupMessasgeBox from "../../components/PopupMessasgeBox";
 
 export default function Profile ()
 {
 
-	useEffect(() => {
-		document.title = 'Mój Profil - Fryciarnia'
+	const [isShwon, setShown] = useState(false)
 
+	useEffect(() =>
+	{
+		document.title = 'Mój Profil - Fryciarnia'
 
 		fetch('http://bandurama.ddns.net:2023/api/user/info', {
 			method: 'POST',
@@ -116,6 +119,11 @@ export default function Profile ()
 		</>
 	)
 
+	const evtRemoveUserAccount = function ( e )
+	{
+		setShown(true);
+	}
+
 	const dispSettings = () => (
 		<>
 			<div className="formtitle">
@@ -135,7 +143,7 @@ export default function Profile ()
 			</div>
 			<div className="formrow">
 				Możesz też
-				<a href="../Register">
+				<a href="#" onClick={evtRemoveUserAccount}>
 					usunąć
 				</a>
 				&nbsp;swoje konto
@@ -168,6 +176,35 @@ export default function Profile ()
 					{displayOptions[mainDisplay]()}
 				</div>
 			</div>
+			<PopupMessasgeBox
+				isShown={isShwon}
+				setShown={setShown}
+				messesage="Czy na pewno chcesz usunąć swoje konto?"
+				onOk={(e) =>
+				{
+					setShown(false);
+					fetch('http://bandurama.ddns.net:2023/api/user/remove',
+					{
+						method: 'POST',
+						body: JSON.stringify({}),
+						credentials: 'include'
+					})
+						.then((response) => response.json())
+						.then(resp =>
+						{
+							console.log(resp);
+							if (resp.ok)
+							{ /* udało się usunąć użytkownika */
+								window.location.href = '/';
+							}
+							else
+							{
+								alert(`Error: ${resp.msg}`);
+							}
+						})
+				}}
+				onCancel={(e) => setShown(false)}
+			/>
 		</>
 	)
 }

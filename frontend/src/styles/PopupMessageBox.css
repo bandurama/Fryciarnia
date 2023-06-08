@@ -1,0 +1,35 @@
+
+.PopupMessageBox
+{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.PopupMessageBox > .MsgBox
+{
+    background-color: white;
+    border-radius: 25px;
+    padding: 50px;
+    box-sizing: border-box;
+    font-family: 'Arial';
+    font-size: 20px;
+    text-align: center;
+}
+.PopupMessageBox > .MsgBox button
+{
+    margin-top: 20px;
+    margin-left: 0px;
+    font-family: 'Arial';
+    font-size: 30px;
+    background-color: white;
+    border: 0px;
+    cursor: pointer;
+}

@@ -169,7 +169,7 @@ body
 
 #card-menu
 {
-	background-image: url("../../public/main3.jpg");
+	background-image: url("../../public/main3.avif");
 	background-size: 100%;
 	background-position: center center;
 	transition: background-size 0.5s ease;
@@ -182,7 +182,7 @@ body
 
 #card-team
 {
-	background-image: url("../../public/main2.jpg");
+	background-image: url("../../public/main2.avif");
 	background-size: 100%;
 	background-position: center center;
 	transition: background-size 0.5s ease;

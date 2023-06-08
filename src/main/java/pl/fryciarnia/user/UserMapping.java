@@ -306,12 +306,17 @@ public class UserMapping
         if (user == null)
             return apiDatagram.fail("No session");
 
-        DbUser userToRemove = UserController.getDbUserByUUID(jdbcTemplate, uuid);
+        /**
+         * Depends on who and how called this endpoint
+         */
+        DbUser userToRemove = uuid != null
+            ? UserController.getDbUserByUUID(jdbcTemplate, uuid)
+            : user;
 
         if (userToRemove == null)
             return apiDatagram.fail("No user");
 
-        if (!userToRemove.getUuid().equals(uuid))
+        if (userToRemove != user && !userToRemove.getUuid().equals(uuid))
         {   /* one user tries to delete other one */
             if (!(user.getType().equals(UserType.Manager) && (userToRemove.getType().equals(UserType.Kitchen) || userToRemove.getType().equals(UserType.Display) || userToRemove.getType().equals(UserType.Terminal))))
             {    /* it's not manager trying to remove one of its deps */

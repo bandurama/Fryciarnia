@@ -93,7 +93,7 @@ CREATE TABLE DbOrders (
     isTakeout NUMBER,
     CONSTRAINT DbOrders_pk PRIMARY KEY(uuid),
     CONSTRAINT DbOrders_DbHolding_fk FOREIGN KEY (holding) REFERENCES DbHolding(uuid),
-    CONSTRAINT DbOrders_DbUser_fk FOREIGN KEY (owner) REFERENCES DbUser(uuid)
+    CONSTRAINT DbOrders_DbUser_fk FOREIGN KEY (owner) REFERENCES DbUser(uuid) ON DELETE CASCADE
 );
 
 CREATE TABLE DbOrder (

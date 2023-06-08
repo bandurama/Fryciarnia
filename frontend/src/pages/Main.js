@@ -54,7 +54,7 @@ export default function Main() {
 		<>
 			<TopNav useAccountButton={true} />
 			<div className="slides">
-				<img src={`./slides/slide${activeSlide}.png`}/>
+				<img src={`./slides/slide${activeSlide}.avif`}/>
 				<button>POKAŻ WIĘCEJ</button>
 			</div>
 			<div className="slides-controller">

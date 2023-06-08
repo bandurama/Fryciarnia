@@ -168,7 +168,7 @@ export default function HoldingMgmt ()
 									<div className="col text-center">
 										{
 											editting != null
-												? <button className="w-20 btn btn-warning btn-lg" onClick={eventEdit}>Edycja</button>
+												? <button className="w-20 btn btn-warning btn-lg" onClick={eventEdit}>Zapisz</button>
 												: <button className="w-20 btn btn-success btn-lg" onClick={eventInsert}>Dodaj</button>
 										}
 										<button className="w-20 btn btn-danger btn-lg" style={{marginLeft: 15}} onClick={(e) => window.location.href = '/admin/holding'}>Anuluj</button>
