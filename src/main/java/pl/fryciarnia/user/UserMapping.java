@@ -75,6 +75,11 @@ public class UserMapping
         if (wu.getType().equals(UserType.Admin))
 					return apiDatagram.fail("Nie można utworzyć takiego konta");
 
+        /* look for existing names */
+        DbUser dbUser = UserController.getDbUserByMail(jdbcTemplate, wu.getMail());
+        if (dbUser != null)
+            return apiDatagram.fail("Użytkownik już istnieje");
+
         /* if all checks succeed, create new instance of DbUser in DB */
 				if (!UserController.insertUser(jdbcTemplate, wu))
 						return apiDatagram.fail("Błędne dane");

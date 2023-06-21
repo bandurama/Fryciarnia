@@ -61,6 +61,10 @@ export default function Register() {
 						? '/profile'
 						: '/kitchen'
 				}
+				else
+				{
+					alert(resp.msg)
+				}
 		})
 	}
 
