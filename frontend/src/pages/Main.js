@@ -28,10 +28,7 @@ export default function Main() {
 	const slideForward = function (e)
 	{
 		const nextSlide = (activeSlide + 1) % __slide_count;
-		// const nextPreload = (nextSlide + 1) % __slide_count;
 		setActiveSlide(nextSlide);
-		// const pImg = new Image();
-		// pImg.src = `./slides/slide${nextPreload}.avif`;
 	}
 
 	const fetchHoldings = function ()
